@@ -1,5 +1,9 @@
 "use client";
 
+// Vercel Speed Insights and Analytics
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react"
+
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaFileAlt, FaChartLine, FaMagic } from "react-icons/fa";
@@ -8,6 +12,8 @@ import Navbar from "@/components/Navbar";
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SpeedInsights />
+      <Analytics />
       <Navbar />
       <main className="flex-grow flex flex-col items-center justify-center bg-gradient-to-br from-blue-600 to-purple-700 text-white p-8">
         <motion.div
