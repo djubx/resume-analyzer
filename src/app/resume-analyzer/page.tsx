@@ -5,16 +5,21 @@ import ResumeUploader from "@/components/ResumeUploader";
 import ResumeAnalysis from "@/components/ResumeAnalysis";
 import Navbar from "@/components/Navbar";
 
-export default function ResumeAnalyzer() {
-  const [analysisResult, setAnalysisResult] = useState(null);
-  const [error, setError] = useState(null);
+interface AnalysisResult {
+  issues: any[]; // or a more specific type if you know the structure
+  // ... other properties
+}
 
-  const handleAnalysisComplete = (result) => {
+export default function ResumeAnalyzer() {
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleAnalysisComplete = (result: AnalysisResult) => {
     setAnalysisResult(result);
     setError(null);
   };
 
-  const handleError = (errorMessage) => {
+  const handleError = (errorMessage: string) => {
     setError(errorMessage);
     setAnalysisResult(null);
   };
