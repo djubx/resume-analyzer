@@ -9,11 +9,11 @@ interface ResumeUploaderProps {
 
 export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
 
   const uploadToSanity = async (file: File) => {
-    setIsLoading(true);
+    setIsUploading(true);
     setUploadStatus(null);
     try {
       // Upload file to Sanity
@@ -45,7 +45,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
         setUploadStatus("Error uploading resume. Please try again.");
       }
     } finally {
-      setIsLoading(false);
+      setIsUploading(false);
     }
   };
 
@@ -84,7 +84,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
     e.preventDefault();
     if (!file) return;
 
-    setIsLoading(true);
+    setIsUploading(true);
     const formData = new FormData();
     formData.append("resume", file);
 
@@ -104,7 +104,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
     } catch (error) {
       onError("An unexpected error occurred");
     } finally {
-      setIsLoading(false);
+      setIsUploading(false);
     }
   };
 
@@ -128,10 +128,10 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
       {uploadStatus && <p className={`mt-2 text-sm ${uploadStatus.includes("Error") || uploadStatus.includes("Unable") ? "text-red-500" : "text-green-500"}`}>{uploadStatus}</p>}
       <button
         type="submit"
-        disabled={!file || isLoading}
+        disabled={!file || isUploading}
         className="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 transition duration-300"
       >
-        {isLoading ? "Analyzing..." : "Analyze Resume"}
+        {isUploading ? "Uploading..." : "Analyze Resume"}
       </button>
     </form>
   );

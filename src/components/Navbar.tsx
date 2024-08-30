@@ -17,6 +17,7 @@ export default function Navbar() {
           <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
             <NavLink href="/">Home</NavLink>
             <NavLink href="/resume-analyzer">Analyze</NavLink>
+            <NavLink href="/ats-score">ATS Score</NavLink>
             <NavLink href="/about">About</NavLink>
             <NavLink href="/contact">Contact</NavLink>
           </div>
@@ -35,6 +36,7 @@ export default function Navbar() {
           <div className="pt-2 pb-3 space-y-1">
             <MobileNavLink href="/">Home</MobileNavLink>
             <MobileNavLink href="/resume-analyzer">Analyze</MobileNavLink>
+            <MobileNavLink href="/ats-score">ATS Score</MobileNavLink>
             <MobileNavLink href="/about">About</MobileNavLink>
             <MobileNavLink href="/contact">Contact</MobileNavLink>
           </div>
