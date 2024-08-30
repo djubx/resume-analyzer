@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import pdfParse from 'pdf-parse/lib/pdf-parse.js';
 
 // Initialize the Gemini API client
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
@@ -18,8 +19,14 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Read the file content
-    const fileContent = await file.text();
+    // Read the file content as ArrayBuffer
+    const arrayBuffer = await file.arrayBuffer();
+    // Convert ArrayBuffer to Buffer
+    const buffer = Buffer.from(arrayBuffer);
+    
+    // Parse PDF content
+    const pdfData = await pdfParse(buffer);
+    const fileContent = pdfData.text;
 
     // Use Gemini API to analyze the resume
     const model = genAI.getGenerativeModel({
