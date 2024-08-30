@@ -18,6 +18,7 @@ export default function Navbar() {
             <NavLink href="/">Home</NavLink>
             <NavLink href="/resume-analyzer">Analyze</NavLink>
             <NavLink href="/ats-score">ATS Score</NavLink>
+            <NavLink href="/resume-checklist">Checklist</NavLink>
             <NavLink href="/about">About</NavLink>
             <NavLink href="/contact">Contact</NavLink>
           </div>
@@ -37,6 +38,7 @@ export default function Navbar() {
             <MobileNavLink href="/">Home</MobileNavLink>
             <MobileNavLink href="/resume-analyzer">Analyze</MobileNavLink>
             <MobileNavLink href="/ats-score">ATS Score</MobileNavLink>
+            <MobileNavLink href="/resume-checklist">Checklist</MobileNavLink>
             <MobileNavLink href="/about">About</MobileNavLink>
             <MobileNavLink href="/contact">Contact</MobileNavLink>
           </div>
