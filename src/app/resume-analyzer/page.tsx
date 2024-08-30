@@ -4,9 +4,14 @@ import { useState } from "react";
 import ResumeUploader from "@/components/ResumeUploader";
 import ResumeAnalysis from "@/components/ResumeAnalysis";
 import Navbar from "@/components/Navbar";
+import Cookies from 'js-cookie';
 
 interface AnalysisResult {
-  issues: any[]; // or a more specific type if you know the structure
+  issues: Array<{
+    type: string;
+    description: string;
+    suggestion: string;
+  }>;
   // ... other properties
 }
 
@@ -17,6 +22,13 @@ export default function ResumeAnalyzer() {
   const handleAnalysisComplete = (result: AnalysisResult) => {
     setAnalysisResult(result);
     setError(null);
+
+    // Create an array of feedback items
+    const personalizedFeedback = result.issues.map(issue => ({
+      text: issue.suggestion,
+      checked: false
+    }));
+    Cookies.set('personalizedFeedback', JSON.stringify(personalizedFeedback), { expires: 30 });
   };
 
   const handleError = (errorMessage: string) => {
