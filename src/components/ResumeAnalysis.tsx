@@ -19,13 +19,13 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
       {result.issues.map((issue, index) => (
         <div key={index} className="mb-4 p-4 bg-white rounded-lg shadow">
           <div className="flex items-center mb-2">
-            <FaExclamationTriangle className="text-yellow-500 mr-2" />
+            <FaExclamationTriangle className="text-yellow-500 mr-2 w-5 h-5" />
             <h3 className="font-bold text-lg">{issue.type}</h3>
           </div>
           <p className="text-red-500 mb-2">{issue.description}</p>
           <div className="flex items-center">
-            <FaCheckCircle className="text-green-500 mr-2" />
-            <p className="text-green-600">Suggestion: {issue.suggestion}</p>
+            <FaCheckCircle className="text-green-500 mr-2 w-3 h-3 flex-shrink-0" />
+            <p className="text-green-600 flex-grow">Suggestion: {issue.suggestion}</p>
           </div>
         </div>
       ))}
