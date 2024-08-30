@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import pdfParse from 'pdf-parse/lib/pdf-parse.js';
+import pdfParse from "pdf-parse";
 
 // Initialize the Gemini API client
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
