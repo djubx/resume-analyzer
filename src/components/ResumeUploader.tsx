@@ -81,13 +81,13 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
     setStatus("Extracting text from PDF...");
     try {
       const pdfText = await extractTextFromPDF(file, "clean");
-      
+
       setStatus("Uploading resume...");
       const analysisResult = await analyzeResume(pdfText ?? "");
-      
+
       setStatus("Fetching...");
       await uploadToSanity(file, pdfText ?? "", analysisResult);
-      
+
       onAnalysisComplete(analysisResult);
     } catch (error) {
       console.error('Error processing file:', error);
@@ -120,7 +120,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
 
   return (
     <div className="mb-8">
-      <div 
+      <div
         className="flex items-center justify-center w-full"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
