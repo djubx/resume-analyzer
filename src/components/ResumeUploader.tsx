@@ -7,9 +7,10 @@ import { motion, AnimatePresence } from "framer-motion";
 interface ResumeUploaderProps {
   onAnalysisComplete: (result: any) => void;
   onError: (error: string) => void;
+  onNewUpload: () => void; // Add this line
 }
 
-export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUploaderProps) {
+export default function ResumeUploader({ onAnalysisComplete, onError, onNewUpload }: ResumeUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
@@ -57,6 +58,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
     if (e.target.files) {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
+      onNewUpload(); // Call this when a new file is selected
       console.log("Resume file:", selectedFile, "Size:", formatFileSize(selectedFile.size));
       await handleFileProcessing(selectedFile);
     }
@@ -73,6 +75,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
       setFile(droppedFile);
+      onNewUpload(); // Call this when a new file is dropped
       console.log("Resume file (dropped):", droppedFile, "Size:", formatFileSize(droppedFile.size));
       await handleFileProcessing(droppedFile);
     }
