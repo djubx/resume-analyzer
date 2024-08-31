@@ -26,5 +26,54 @@ export default {
       title: 'Uploaded At',
       type: 'datetime',
     },
+    {
+      name: 'extractedText',
+      title: 'Extracted Text',
+      type: 'text',
+      description: 'The extracted text content from the PDF resume',
+    },
+    {
+      name: 'analysisResult',
+      title: 'Analysis Result',
+      type: 'object',
+      description: 'The result of the resume analysis',
+      fields: [
+        {
+          name: 'issues',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'type', type: 'string' },
+                { name: 'description', type: 'string' },
+                { name: 'suggestion', type: 'string' },
+              ],
+              preview: {
+                select: {
+                  title: 'type',
+                  subtitle: 'description'
+                }
+              }
+            },
+          ],
+          options: {
+            sortable: true
+          }
+        },
+        {
+          name: 'strengths',
+          type: 'array',
+          of: [{ type: 'string' }],
+          options: {
+            sortable: true
+          }
+        },
+        {
+          name: 'overallScore',
+          type: 'number',
+        },
+      ],
+    },
   ],
 }
