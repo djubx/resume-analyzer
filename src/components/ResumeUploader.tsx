@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
 import { client } from "@/sanity/lib/client";
+import extractTextFromPDF from "pdf-parser-client-side";
 
 interface ResumeUploaderProps {
   onAnalysisComplete: (result: any) => void;
@@ -9,17 +10,14 @@ interface ResumeUploaderProps {
 
 export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
 
-  const uploadToSanity = async (file: File) => {
-    setIsUploading(true);
-    setUploadStatus(null);
+  const uploadToSanity = async (file: File, pdfText: string, analysisResult: any) => {
+    setStatus("Fetching results...");
     try {
-      // Upload file to Sanity
       const fileAsset = await client.assets.upload('file', file);
 
-      // Create a new document with the file reference and formatted size
       const doc = await client.create({
         _type: 'resume',
         title: file.name,
@@ -32,20 +30,18 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
         },
         formattedFileSize: formatFileSize(file.size),
         uploadedAt: new Date().toISOString(),
+        extractedText: pdfText,
+        analysisResult: analysisResult,
       });
 
       console.log('Resume uploaded to Sanity:', doc);
-      setUploadStatus(`Resume uploaded successfully (${formatFileSize(file.size)})`);
+      setStatus(`Resume analysis successful`);
       return doc;
     } catch (error: any) {
       console.error('Error uploading to Sanity:', error);
-      if (error.message.includes("Insufficient permissions")) {
-        setUploadStatus("Unable to upload resume due to permission issues. Please contact support.");
-      } else {
-        setUploadStatus("Error uploading resume. Please try again.");
-      }
-    } finally {
-      setIsUploading(false);
+      throw new Error(error.message.includes("Insufficient permissions")
+        ? "Unable to upload resume due to permission issues. Please contact support."
+        : "Error uploading resume. Please try again.");
     }
   };
 
@@ -60,7 +56,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
       console.log("Resume file:", selectedFile, "Size:", formatFileSize(selectedFile.size));
-      await uploadToSanity(selectedFile);
+      await handleFileProcessing(selectedFile);
     }
   };
 
@@ -76,40 +72,54 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
       const droppedFile = e.dataTransfer.files[0];
       setFile(droppedFile);
       console.log("Resume file (dropped):", droppedFile, "Size:", formatFileSize(droppedFile.size));
-      await uploadToSanity(droppedFile);
+      await handleFileProcessing(droppedFile);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!file) return;
+  const handleFileProcessing = async (file: File) => {
+    setIsProcessing(true);
+    setStatus("Extracting text from PDF...");
+    try {
+      const pdfText = await extractTextFromPDF(file, "clean");
+      
+      setStatus("Uploading resume...");
+      const analysisResult = await analyzeResume(pdfText ?? "");
+      
+      setStatus("Fetching...");
+      await uploadToSanity(file, pdfText ?? "", analysisResult);
+      
+      onAnalysisComplete(analysisResult);
+    } catch (error) {
+      console.error('Error processing file:', error);
+      onError(error instanceof Error ? error.message : "Error processing resume. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append("resume", file);
-
+  const analyzeResume = async (pdfText: string): Promise<any> => {
     try {
       const response = await fetch("/api/analyze-resume", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ resumeText: pdfText }),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        onAnalysisComplete(result);
-      } else {
+      if (!response.ok) {
         const errorData = await response.json();
-        onError(errorData.error || "Error analyzing resume");
+        throw new Error(errorData.error || "Error analyzing resume");
       }
+
+      return await response.json();
     } catch (error) {
-      onError("An unexpected error occurred");
-    } finally {
-      setIsUploading(false);
+      throw error;
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-8">
+    <div className="mb-8">
       <div 
         className="flex items-center justify-center w-full"
         onDragOver={handleDragOver}
@@ -125,14 +135,8 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
         </label>
       </div>
       {file && <p className="mt-2 text-sm text-blue-500">{file.name} ({formatFileSize(file.size)})</p>}
-      {uploadStatus && <p className={`mt-2 text-sm ${uploadStatus.includes("Error") || uploadStatus.includes("Unable") ? "text-red-500" : "text-green-500"}`}>{uploadStatus}</p>}
-      <button
-        type="submit"
-        disabled={!file || isUploading}
-        className="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 transition duration-300"
-      >
-        {isUploading ? "Uploading..." : "Analyze Resume"}
-      </button>
-    </form>
+      {status && <p className={`mt-2 text-sm ${status.includes("Error") || status.includes("Unable") ? "text-red-500" : "text-green-500"}`}>{status}</p>}
+      {isProcessing && <p className="mt-2 text-sm text-blue-500">Processing resume...</p>}
+    </div>
   );
 }
