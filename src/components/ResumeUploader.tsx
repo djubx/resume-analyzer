@@ -143,7 +143,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
       {file && <p className="mt-2 text-sm text-blue-500">{file.name} ({formatFileSize(file.size)})</p>}
       {status && <p className={`mt-2 text-sm ${status.includes("Error") || status.includes("Unable") ? "text-red-500" : "text-green-500"}`}>{status}</p>}
       {isProcessing && <p className="mt-2 text-sm text-blue-500">Processing resume...</p>}
-      
+
       <AnimatePresence>
         {showAnimation && (
           <motion.div
