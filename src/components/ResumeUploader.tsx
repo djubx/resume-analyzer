@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { FaUpload } from "react-icons/fa";
+import { FaUpload, FaCheckCircle } from "react-icons/fa";
 import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ResumeUploaderProps {
   onAnalysisComplete: (result: any) => void;
@@ -12,6 +13,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   const uploadToSanity = async (file: File, pdfText: string, analysisResult: any) => {
     setStatus("Fetching results...");
@@ -88,7 +90,11 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
       setStatus("Fetching...");
       await uploadToSanity(file, pdfText ?? "", analysisResult);
 
-      onAnalysisComplete(analysisResult);
+      setShowAnimation(true);
+      setTimeout(() => {
+        setShowAnimation(false);
+        onAnalysisComplete(analysisResult);
+      }, 1000); // Show animation for 1 seconds
     } catch (error) {
       console.error('Error processing file:', error);
       onError(error instanceof Error ? error.message : "Error processing resume. Please try again.");
@@ -119,7 +125,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
   };
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 relative">
       <div
         className="flex items-center justify-center w-full"
         onDragOver={handleDragOver}
@@ -137,6 +143,33 @@ export default function ResumeUploader({ onAnalysisComplete, onError }: ResumeUp
       {file && <p className="mt-2 text-sm text-blue-500">{file.name} ({formatFileSize(file.size)})</p>}
       {status && <p className={`mt-2 text-sm ${status.includes("Error") || status.includes("Unable") ? "text-red-500" : "text-green-500"}`}>{status}</p>}
       {isProcessing && <p className="mt-2 text-sm text-blue-500">Processing resume...</p>}
+      
+      <AnimatePresence>
+        {showAnimation && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white bg-opacity-90"
+          >
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              className="text-green-500 text-6xl"
+            >
+              <FaCheckCircle />
+            </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mt-4 text-xl font-bold text-green-600"
+            >
+              Analysis Complete!
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
