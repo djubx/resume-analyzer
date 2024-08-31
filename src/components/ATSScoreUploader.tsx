@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
-import * as pdfjsLib from 'pdfjs-dist';
-
-// Ensure the worker is available
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 interface ATSScoreUploaderProps {
   onParsedData: (data: any) => void;
@@ -16,25 +12,16 @@ export default function ATSScoreUploader({ onParsedData }: ATSScoreUploaderProps
   const parseResume = async (file: File) => {
     setIsUploading(true);
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-      let fullText = '';
-
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        const pageText = textContent.items.map((item: any) => item.str).join(' ');
-        fullText += pageText + ' ';
-      }
-
+      const text = await file.text();
+      
       // Simple parsing logic (you can expand this based on your needs)
       const parsedData = {
-        name: extractName(fullText),
-        email: extractEmail(fullText),
-        phone: extractPhone(fullText),
-        skills: extractSkills(fullText),
-        education: extractEducation(fullText),
-        experience: extractExperience(fullText),
+        name: extractName(text),
+        email: extractEmail(text),
+        phone: extractPhone(text),
+        skills: extractSkills(text),
+        education: extractEducation(text),
+        experience: extractExperience(text),
       };
 
       onParsedData(parsedData);
