@@ -2,13 +2,13 @@ import { FaExclamationTriangle, FaCheckCircle, FaStar, FaClipboardList } from "r
 import Link from 'next/link';
 
 interface AnalysisResult {
-  issues: Array<{
+  issues?: Array<{
     type: string;
     description: string;
     suggestion: string;
   }>;
-  strengths: string[];
-  overallScore: number;
+  strengths?: string[];
+  overallScore?: number;
 }
 
 interface ResumeAnalysisProps {
@@ -16,6 +16,10 @@ interface ResumeAnalysisProps {
 }
 
 export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
+  if (!result) {
+    return <div>No analysis result available.</div>;
+  }
+
   return (
     <div className="w-full">
       <h2 className="text-2xl font-bold mb-4 text-blue-600">Analysis Results</h2>
@@ -24,7 +28,7 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         <h3 className="text-xl font-semibold mb-2 text-green-600 flex items-center">
           <FaStar className="mr-2" /> Strengths
         </h3>
-        {result.strengths.length > 0 ? (
+        {result.strengths && result.strengths.length > 0 ? (
           <ul className="list-disc pl-5">
             {result.strengths.map((strength, index) => (
               <li key={index} className="text-green-700 mb-1">{strength}</li>
@@ -38,23 +42,27 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
       <h3 className="text-xl font-semibold mb-2 text-yellow-600 flex items-center">
         <FaExclamationTriangle className="mr-2" /> Areas for Improvement
       </h3>
-      {result.issues.map((issue, index) => (
-        <div key={index} className="mb-4 p-4 bg-white rounded-lg shadow">
-          <div className="flex items-center mb-2">
-            <FaExclamationTriangle className="text-yellow-500 mr-2 w-5 h-5" />
-            <h4 className="font-bold text-lg">{issue.type}</h4>
+      {result.issues && result.issues.length > 0 ? (
+        result.issues.map((issue, index) => (
+          <div key={index} className="mb-4 p-4 bg-white rounded-lg shadow">
+            <div className="flex items-center mb-2">
+              <FaExclamationTriangle className="text-yellow-500 mr-2 w-5 h-5" />
+              <h4 className="font-bold text-lg">{issue.type}</h4>
+            </div>
+            <p className="text-red-500 mb-2">{issue.description}</p>
+            <div className="flex items-center">
+              <FaCheckCircle className="text-green-500 mr-2 w-3 h-3 flex-shrink-0" />
+              <p className="text-green-600 flex-grow">Suggestion: {issue.suggestion}</p>
+            </div>
           </div>
-          <p className="text-red-500 mb-2">{issue.description}</p>
-          <div className="flex items-center">
-            <FaCheckCircle className="text-green-500 mr-2 w-3 h-3 flex-shrink-0" />
-            <p className="text-green-600 flex-grow">Suggestion: {issue.suggestion}</p>
-          </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p className="text-gray-600 italic">No specific areas for improvement identified.</p>
+      )}
 
       <div className="mt-6 p-4 bg-blue-100 rounded-lg">
         <h3 className="text-xl font-semibold mb-2 text-blue-800">Overall Score</h3>
-        <p className="text-4xl font-bold text-blue-600 mb-2">{result.overallScore}/100</p>
+        <p className="text-4xl font-bold text-blue-600 mb-2">{result.overallScore ?? 'N/A'}/100</p>
         <Link href="/resume-checklist" className="inline-flex items-center text-blue-600 hover:text-blue-800">
           <FaClipboardList className="mr-2" />
           Go to Resume Checklist

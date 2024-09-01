@@ -8,7 +8,7 @@ import md5 from "md5";
 interface ResumeUploaderProps {
   onAnalysisComplete: (result: any) => void;
   onError: (error: string) => void;
-  onNewUpload: () => void; // Add this line
+  onNewUpload: () => void;
 }
 
 export default function ResumeUploader({ onAnalysisComplete, onError, onNewUpload }: ResumeUploaderProps) {
@@ -35,7 +35,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
   };
 
   const checkExistingAnalysis = async (fileHash: string) => {
-    const query = `*[_type == "resume" && fileHash == $fileHash][0]`;
+    const query = `*[_type == "resume" && fileHash == $fileHash] | order(_createdAt desc)[0]`;
     const params = { fileHash };
     const existingDoc = await client.fetch(query, params);
     return existingDoc;
@@ -84,7 +84,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
     if (e.target.files) {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
-      onNewUpload(); // Call this when a new file is selected
+      onNewUpload();
       console.log("Resume file:", selectedFile, "Size:", formatFileSize(selectedFile.size));
       await handleFileProcessing(selectedFile);
     }
@@ -101,27 +101,29 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
       setFile(droppedFile);
-      onNewUpload(); // Call this when a new file is dropped
+      onNewUpload();
       console.log("Resume file (dropped):", droppedFile, "Size:", formatFileSize(droppedFile.size));
       await handleFileProcessing(droppedFile);
     }
   };
 
-  const handleFileProcessing = async (file: File) => {
+  const handleFileProcessing = async (file: File, forceReanalyze: boolean = false) => {
     setIsProcessing(true);
     setStatus("Calculating file hash...");
     try {
       const fileHash = await calculateFileHash(file);
       
-      const existingAnalysis = await checkExistingAnalysis(fileHash);
-      if (existingAnalysis) {
-        setStatus("Fix the suggestions earlier and reupload...");
-        setShowAnimation(true);
-        setTimeout(() => {
-          setShowAnimation(false);
-          onAnalysisComplete(existingAnalysis.analysisResult);
-        }, 1000);
-        return;
+      if (!forceReanalyze) {
+        const existingAnalysis = await checkExistingAnalysis(fileHash);
+        if (existingAnalysis) {
+          setStatus("Fix the suggestions earlier and reupload...");
+          setShowAnimation(true);
+          setTimeout(() => {
+            setShowAnimation(false);
+            onAnalysisComplete(existingAnalysis.analysisResult);
+          }, 1000);
+          return;
+        }
       }
 
       setStatus("Extracting text from PDF...");
@@ -185,8 +187,26 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
         </label>
       </div>
       {file && <p className="mt-2 text-sm text-blue-500">{file.name} ({formatFileSize(file.size)})</p>}
-      {status && <p className={`mt-2 text-sm ${status.includes("Error") || status.includes("Unable") ? "text-red-500" : "text-green-500"}`}>{status}</p>}
-      {isProcessing && <p className="mt-2 text-sm text-blue-500">Processing resume...</p>}
+
+      <div className="mt-2 flex justify-between items-start">
+        <div className="flex flex-col space-y-2">
+          {status && (
+            <p className={`text-sm ${status.includes("Error") || status.includes("Unable") ? "text-red-500" : "text-green-500"}`}>
+              {status}
+            </p>
+          )}
+          {isProcessing && <p className="text-sm text-blue-500">Processing resume...</p>}
+        </div>
+        {file && (
+          <button
+            onClick={() => handleFileProcessing(file, true)}
+            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            disabled={isProcessing}
+          >
+            Force Re-analyze
+          </button>
+        )}
+      </div>
 
       <AnimatePresence>
         {showAnimation && (
