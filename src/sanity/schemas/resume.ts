@@ -11,10 +11,7 @@ export default {
     {
       name: 'file',
       title: 'Resume File',
-      type: 'file',
-      options: {
-        accept: '.pdf'
-      }
+      type: 'file'
     },
     {
       name: 'formattedFileSize',
