@@ -54,7 +54,7 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
 
       <div className="mt-6 p-4 bg-blue-100 rounded-lg">
         <h3 className="text-xl font-semibold mb-2 text-blue-800">Overall Score</h3>
-        <p className="text-3xl font-bold text-blue-600 mb-2">{result.overallScore}/100</p>
+        <p className="text-4xl font-bold text-blue-600 mb-2">{result.overallScore}/100</p>
         <Link href="/resume-checklist" className="inline-flex items-center text-blue-600 hover:text-blue-800">
           <FaClipboardList className="mr-2" />
           Go to Resume Checklist

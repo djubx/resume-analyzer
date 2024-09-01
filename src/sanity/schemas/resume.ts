@@ -75,5 +75,11 @@ export default {
         },
       ],
     },
+    {
+      name: 'fileHash',
+      title: 'File Hash',
+      type: 'string',
+      description: 'MD5 hash of the uploaded file',
+    },
   ],
 }

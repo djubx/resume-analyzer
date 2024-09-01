@@ -3,6 +3,7 @@ import { FaUpload, FaCheckCircle } from "react-icons/fa";
 import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
 import { motion, AnimatePresence } from "framer-motion";
+import md5 from "md5";
 
 interface ResumeUploaderProps {
   onAnalysisComplete: (result: any) => void;
@@ -16,7 +17,31 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
   const [status, setStatus] = useState<string | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
 
-  const uploadToSanity = async (file: File, pdfText: string, analysisResult: any) => {
+  const calculateFileHash = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result;
+        if (typeof result === 'string') {
+          const hash = md5(result);
+          resolve(hash);
+        } else {
+          reject(new Error('Failed to read file'));
+        }
+      };
+      reader.onerror = (e) => reject(e);
+      reader.readAsBinaryString(file);
+    });
+  };
+
+  const checkExistingAnalysis = async (fileHash: string) => {
+    const query = `*[_type == "resume" && fileHash == $fileHash][0]`;
+    const params = { fileHash };
+    const existingDoc = await client.fetch(query, params);
+    return existingDoc;
+  };
+
+  const uploadToSanity = async (file: File, pdfText: string, analysisResult: any, fileHash: string) => {
     setStatus("Fetching results...");
     try {
       const fileAsset = await client.assets.upload('file', file);
@@ -35,6 +60,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
         uploadedAt: new Date().toISOString(),
         extractedText: pdfText,
         analysisResult: analysisResult,
+        fileHash: fileHash,
       });
 
       console.log('Resume uploaded to Sanity:', doc);
@@ -83,21 +109,36 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
 
   const handleFileProcessing = async (file: File) => {
     setIsProcessing(true);
-    setStatus("Extracting text from PDF...");
+    setStatus("Calculating file hash...");
     try {
+      const fileHash = await calculateFileHash(file);
+      
+      const existingAnalysis = await checkExistingAnalysis(fileHash);
+      if (existingAnalysis) {
+        setStatus("Fix the suggestions earlier and reupload...");
+        setShowAnimation(true);
+        setTimeout(() => {
+          setShowAnimation(false);
+          onAnalysisComplete(existingAnalysis.analysisResult);
+        }, 1000);
+        return;
+      }
+
+      setStatus("Extracting text from PDF...");
       const pdfText = await extractTextFromPDF(file, "clean");
 
-      setStatus("Uploading resume...");
+      setStatus("Analyzing resume...");
       const analysisResult = await analyzeResume(pdfText ?? "");
 
-      setStatus("Fetching...");
-      await uploadToSanity(file, pdfText ?? "", analysisResult);
+      setStatus("Uploading resume...");
+      await uploadToSanity(file, pdfText ?? "", analysisResult, fileHash);
+      console.log("Analysis result:", analysisResult, fileHash);
 
       setShowAnimation(true);
       setTimeout(() => {
         setShowAnimation(false);
         onAnalysisComplete(analysisResult);
-      }, 1000); // Show animation for 1 seconds
+      }, 1000);
     } catch (error) {
       console.error('Error processing file:', error);
       onError(error instanceof Error ? error.message : "Error processing resume. Please try again.");
