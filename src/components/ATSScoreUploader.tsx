@@ -1,34 +1,49 @@
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
+import extractTextFromPDF from "pdf-parser-client-side";
 
 interface ATSScoreUploaderProps {
   onParsedData: (data: any) => void;
+  onError: (error: string) => void;
+  onNewUpload: () => void;
 }
 
-export default function ATSScoreUploader({ onParsedData }: ATSScoreUploaderProps) {
+export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }: ATSScoreUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
   const parseResume = async (file: File) => {
     setIsUploading(true);
     try {
-      const text = await file.text();
-      
-      // Simple parsing logic (you can expand this based on your needs)
-      const parsedData = {
-        name: extractName(text),
-        email: extractEmail(text),
-        phone: extractPhone(text),
-        skills: extractSkills(text),
-        education: extractEducation(text),
-        experience: extractExperience(text),
-      };
-
-      onParsedData(parsedData);
+      const pdfText = await extractTextFromPDF(file, "clean");
+      const analysisResult = await analyzeResume(pdfText ?? "");
+      onParsedData(analysisResult);
     } catch (error) {
       console.error('Error parsing resume:', error);
+      onError(error instanceof Error ? error.message : "Error processing resume. Please try again.");
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  const analyzeResume = async (resumeText: string): Promise<any> => {
+    try {
+      const response = await fetch("/api/analyze-resume-ats", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ resumeText }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error analyzing resume");
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -36,6 +51,7 @@ export default function ATSScoreUploader({ onParsedData }: ATSScoreUploaderProps
     if (e.target.files) {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
+      onNewUpload();
       await parseResume(selectedFile);
     }
   };
@@ -51,39 +67,9 @@ export default function ATSScoreUploader({ onParsedData }: ATSScoreUploaderProps
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
       setFile(droppedFile);
+      onNewUpload();
       await parseResume(droppedFile);
     }
-  };
-
-  // Placeholder extraction functions (replace with actual implementations)
-  const extractName = (text: string) => {
-    // Implement name extraction logic
-    return "John Doe";
-  };
-
-  const extractEmail = (text: string) => {
-    // Implement email extraction logic
-    return "john@example.com";
-  };
-
-  const extractPhone = (text: string) => {
-    // Implement phone extraction logic
-    return "123-456-7890";
-  };
-
-  const extractSkills = (text: string) => {
-    // Implement skills extraction logic
-    return ["JavaScript", "React", "Node.js"];
-  };
-
-  const extractEducation = (text: string) => {
-    // Implement education extraction logic
-    return "Bachelor's in Computer Science";
-  };
-
-  const extractExperience = (text: string) => {
-    // Implement experience extraction logic
-    return "5 years of web development";
   };
 
   return (
@@ -91,7 +77,7 @@ export default function ATSScoreUploader({ onParsedData }: ATSScoreUploaderProps
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100"
+        className="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 mb-4"
       >
         <label htmlFor="resume-file" className="flex flex-col items-center justify-center w-full h-full">
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -102,7 +88,8 @@ export default function ATSScoreUploader({ onParsedData }: ATSScoreUploaderProps
           <input id="resume-file" type="file" className="hidden" accept=".pdf" onChange={handleFileChange} />
         </label>
       </div>
-      {isUploading && <p className="mt-4 text-blue-500">Uploading resume...</p>}
+      {isUploading && <p className="mt-4 text-blue-500">Uploading and analyzing resume...</p>}
+      {file && <p className="mt-2 text-sm text-blue-500">{file.name}</p>}
     </div>
   );
 }

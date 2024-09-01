@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const { resumeText } = await req.json();
 
   if (!resumeText) {
-    return NextResponse.json({ error: "No resume text provided" }, { status: 400 });
+    return NextResponse.json({ error: "Only PDF resumes are supported" }, { status: 400 });
   }
 
   try {
