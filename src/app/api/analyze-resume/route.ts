@@ -4,6 +4,12 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 // Initialize the Gemini API client
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
+// Reusable model instance
+const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: { responseMimeType: "application/json" }
+});
+
 export async function POST(req: NextRequest) {
   if (!process.env.GEMINI_API_KEY) {
     console.error("GEMINI_API_KEY is not set");
@@ -18,11 +24,6 @@ export async function POST(req: NextRequest) {
 
   try {
     // Use Gemini API to analyze the resume
-    const model = genAI.getGenerativeModel({
-       model: "gemini-1.5-flash",
-       generationConfig: { responseMimeType: "application/json" }
-    });
-
     const prompt = `Analyze the following resume content and provide feedback in JSON format. Include sections for 'issues' (array of objects with 'type', 'description', and 'suggestion'), 'strengths' (array of strings), and 'overallScore' (number between 0 and 100). Here's the resume content:
 
     ${resumeText}`;
