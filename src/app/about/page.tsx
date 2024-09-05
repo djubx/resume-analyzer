@@ -16,7 +16,7 @@ export default function About() {
         >
           <h1 className="text-5xl font-bold mb-4">About Us</h1>
           <p className="text-xl max-w-2xl mx-auto">
-            Resume Master is dedicated to helping job seekers optimize their resumes using cutting-edge AI technology.
+            Resume Checkers is dedicated to helping job seekers optimize their resumes using cutting-edge AI technology.
           </p>
         </motion.div>
 

@@ -11,7 +11,7 @@ import {schemaTypes} from './src/sanity/schemas'
 
 export default defineConfig({
   name: 'default',
-  title: 'Resume Master',
+  title: 'Resume Checkers',
 
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,

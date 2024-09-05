@@ -5,9 +5,16 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Resume Master",
-  description: "Analyze your resume and get feedback",
-};
+  title: 'Resume Checkers',
+  description: 'AI-powered resume analysis and feedback',
+  keywords: 'resume, analysis, AI, career, job search',
+  openGraph: {
+    title: 'Resume Checkers',
+    description: 'Get AI-powered feedback on your resume',
+    type: 'website',
+    url: 'https://realflutter.com',
+  },
+}
 
 export default function RootLayout({
   children,

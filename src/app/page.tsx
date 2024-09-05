@@ -22,7 +22,7 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl font-bold mb-4">Resume Master</h1>
+          <h1 className="text-5xl font-bold mb-4">Resume Checkers</h1>
           <p className="text-xl">Analyze, Optimize, and Perfect Your Resume</p>
         </motion.div>
 
@@ -35,7 +35,7 @@ export default function Home() {
           {[
             { 
               icon: <FaFileAlt className="text-4xl mb-2" />, 
-              title: "Resume Analyzer", 
+              title: "Resume Checkers", 
               description: "Get detailed insights on your resume",
               link: "/resume-analyzer"
             },
