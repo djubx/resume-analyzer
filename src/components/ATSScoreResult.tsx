@@ -7,15 +7,15 @@ interface ATSScoreResultProps {
 }
 
 const sectionIcons: { [key: string]: JSX.Element } = {
-  contactInformation: <FaUser className="text-blue-500" />,
-  workExperience: <FaBriefcase className="text-green-500" />,
-  education: <FaGraduationCap className="text-yellow-500" />,
-  skills: <FaCogs className="text-purple-500" />,
-  certifications: <FaCertificate className="text-red-500" />,
-  projects: <FaProjectDiagram className="text-indigo-500" />,
-  volunteerExperience: <FaHandsHelping className="text-pink-500" />,
-  professionalAssociations: <FaUsers className="text-teal-500" />,
-  additionalSections: <FaGlobe className="text-orange-500" />,
+  contactInformation: <FaUser className="text-blue-400" />,
+  workExperience: <FaBriefcase className="text-green-400" />,
+  education: <FaGraduationCap className="text-yellow-400" />,
+  skills: <FaCogs className="text-purple-400" />,
+  certifications: <FaCertificate className="text-red-400" />,
+  projects: <FaProjectDiagram className="text-indigo-400" />,
+  volunteerExperience: <FaHandsHelping className="text-pink-400" />,
+  professionalAssociations: <FaUsers className="text-teal-400" />,
+  additionalSections: <FaGlobe className="text-orange-400" />,
 };
 
 const RenderSection = ({ title, content }: { title: string; content: any }) => {
@@ -28,7 +28,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
       return (
         <ul className={`list-disc pl-5 ${depth > 0 ? 'mt-2' : ''}`}>
           {data.map((item, index) => (
-            <li key={index} className="mb-2">{renderContent(item, depth + 1)}</li>
+            <li key={index} className="mb-2 text-gray-300">{renderContent(item, depth + 1)}</li>
           ))}
         </ul>
       );
@@ -37,13 +37,13 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
         <div className={`pl-4 ${depth > 0 ? 'mt-2' : ''}`}>
           {Object.entries(data).map(([key, value]) => (
             <div key={key} className="mb-2">
-              <span className="font-medium text-gray-700">{key}:</span> {renderContent(value, depth + 1)}
+              <span className="font-medium text-blue-300">{key}:</span> {renderContent(value, depth + 1)}
             </div>
           ))}
         </div>
       );
     } else {
-      return <span className="text-gray-800">{data?.toString() || 'Not found'}</span>;
+      return <span className="text-gray-300">{data?.toString() || 'Not found'}</span>;
     }
   };
 
@@ -52,20 +52,20 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="mb-4 border rounded-lg p-4 shadow-md bg-white"
+      className="mb-4 border border-gray-700 rounded-lg p-4 shadow-md bg-gray-800"
     >
       <div
         className="flex items-center cursor-pointer"
         onClick={toggleOpen}
       >
-        {sectionIcons[title] || <FaChevronRight className="mr-2 text-gray-500" />}
-        <h3 className="font-semibold text-lg ml-2">{title}</h3>
+        {sectionIcons[title] || <FaChevronRight className="mr-2 text-gray-400" />}
+        <h3 className="font-semibold text-lg ml-2 text-blue-300">{title}</h3>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
           className="ml-auto"
         >
-          <FaChevronDown className="text-gray-500" />
+          <FaChevronDown className="text-gray-400" />
         </motion.div>
       </div>
       <AnimatePresence>
@@ -87,8 +87,8 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
 
 export default function ATSScoreResult({ parsedData }: ATSScoreResultProps) {
   return (
-    <div className="text-gray-800 bg-gray-100 p-6 rounded-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">ATS Parsed Resume Data</h2>
+    <div className="text-gray-100 bg-gray-900 p-6 rounded-lg">
+      <h2 className="text-3xl font-bold mb-6 text-center text-blue-300">ATS Parsed Resume Data</h2>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
