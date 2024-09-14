@@ -4,6 +4,7 @@ import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
 import { motion, AnimatePresence } from "framer-motion";
 import md5 from "md5";
+import { sanitizeString, sanitizeObject } from '@/utils/sanitize';
 
 interface ResumeUploaderProps {
   onAnalysisComplete: (result: any) => void;
@@ -42,13 +43,17 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
   };
 
   const uploadToSanity = async (file: File, pdfText: string, analysisResult: any, fileHash: string) => {
-    setStatus("Fetching results...");
+    setStatus("Uploading results...");
     try {
       const fileAsset = await client.assets.upload('file', file);
 
+      // Sanitize the pdfText and analysisResult
+      const sanitizedPdfText = sanitizeString(pdfText);
+      const sanitizedAnalysisResult = sanitizeObject(analysisResult);
+
       const doc = await client.create({
         _type: 'resume',
-        title: file.name,
+        title: sanitizeString(file.name),
         file: {
           _type: 'file',
           asset: {
@@ -58,8 +63,8 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
         },
         formattedFileSize: formatFileSize(file.size),
         uploadedAt: new Date().toISOString(),
-        extractedText: pdfText,
-        analysisResult: analysisResult,
+        extractedText: sanitizedPdfText,
+        analysisResult: sanitizedAnalysisResult,
         fileHash: fileHash,
       });
 

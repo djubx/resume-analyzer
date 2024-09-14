@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { FaUpload, FaCheckCircle } from "react-icons/fa";
+import { FaUpload, FaCheckCircle, FaSpinner } from "react-icons/fa";
 import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
 import { motion, AnimatePresence } from "framer-motion";
 import md5 from "md5";
+import { sanitizeString, sanitizeObject } from '@/utils/sanitize';
 
 interface ATSScoreUploaderProps {
   onParsedData: (data: any) => void;
@@ -46,9 +47,13 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
     try {
       const fileAsset = await client.assets.upload('file', file);
 
+      // Sanitize the pdfText and analysisResult
+      const sanitizedPdfText = sanitizeString(pdfText);
+      const sanitizedAnalysisResult = sanitizeObject(analysisResult);
+
       const doc = await client.create({
         _type: 'atsScore',
-        title: file.name,
+        title: sanitizeString(file.name),
         file: {
           _type: 'file',
           asset: {
@@ -58,8 +63,8 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
         },
         formattedFileSize: formatFileSize(file.size),
         uploadedAt: new Date().toISOString(),
-        extractedText: pdfText,
-        analysisResult: analysisResult,
+        extractedText: sanitizedPdfText,
+        analysisResult: sanitizedAnalysisResult,
         fileHash: fileHash,
       });
 
@@ -177,34 +182,36 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        <label htmlFor="resume-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100">
+        <label htmlFor="resume-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-gray-700 hover:bg-gray-600 transition-colors duration-300">
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <FaUpload className="w-10 h-10 mb-3 text-blue-400" />
-            <p className="mb-2 text-sm text-blue-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-            <p className="text-xs text-blue-500">PDF (MAX. 5MB)</p>
+            <FaUpload className="w-10 h-10 mb-3 text-blue-300" />
+            <p className="mb-2 text-sm text-blue-300"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+            <p className="text-xs text-blue-300">PDF (MAX. 5MB)</p>
           </div>
           <input id="resume-file" type="file" className="hidden" accept=".pdf" onChange={handleFileChange} />
         </label>
       </div>
-      {file && <p className="mt-2 text-sm text-blue-500">{file.name} ({formatFileSize(file.size)})</p>}
+      {file && <p className="mt-2 text-sm text-blue-300">{file.name} ({formatFileSize(file.size)})</p>}
 
       <div className="mt-2 flex justify-between items-start">
         <div className="flex flex-col space-y-2">
           {status && (
-            <p className={`text-sm ${status.includes("Error") || status.includes("Unable") ? "text-red-500" : "text-green-500"}`}>
+            <p className={`text-sm ${status.includes("Error") || status.includes("Unable") ? "text-red-400" : "text-green-400"}`}>
               {status}
             </p>
           )}
-          {isUploading && <p className="text-sm text-blue-500">Processing resume...</p>}
+          {isUploading && <p className="text-sm text-blue-300">Processing resume...</p>}
         </div>
         {file && (
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => handleFileProcessing(file, true)}
-            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300 shadow-lg hover:shadow-xl disabled:opacity-50"
             disabled={isUploading}
           >
             Force Re-analyze
-          </button>
+          </motion.button>
         )}
       </div>
 
@@ -214,12 +221,12 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
-            className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white bg-opacity-90"
+            className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-90"
           >
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="text-green-500 text-6xl"
+              className="text-green-400 text-6xl"
             >
               <FaCheckCircle />
             </motion.div>
@@ -227,7 +234,7 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="mt-4 text-xl font-bold text-green-600"
+              className="mt-4 text-xl font-bold text-green-400"
             >
               ATS Analysis Complete!
             </motion.p>
