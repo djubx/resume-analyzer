@@ -3,6 +3,8 @@ export interface ContactInformation {
   phoneNumber: string;
   email: string;
   location: string;
+  linkedin?: string;
+  github?: string;
 }
 
 export interface WorkExperience {
@@ -22,6 +24,7 @@ export interface Education {
 export interface Project {
   name: string;
   description: string;
+  technologies?: string[];
 }
 
 export interface VolunteerExperience {
@@ -57,4 +60,8 @@ export interface StepProps {
   onArrayUpdate: (section: ResumeSection, value: any) => void;
   onArrayItemAdd: (section: ResumeSection, defaultItem: any) => void;
   onArrayItemRemove: (section: ResumeSection, index: number) => void;
+}
+
+export interface TemplateProps {
+    data: ResumeData;
 } 

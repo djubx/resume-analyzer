@@ -1,106 +1,134 @@
 import { ResumeData } from '../types';
 
 export const softwareEngineerData: ResumeData = {
-  // ... existing default data ...
+    contactInformation: {
+        fullName: "John Doe",
+        phoneNumber: "+1 (555) 123-4567",
+        email: "john.doe@email.com",
+        location: "San Francisco, CA",
+        linkedin: "linkedin.com/in/johndoe",
+        github: "github.com/johndoe"
+    },
+    professionalSummary: "Experienced software engineer with a passion for building scalable web applications and solving complex problems.",
+    workExperience: [
+        {
+            jobTitle: "Senior Software Engineer",
+            companyName: "Tech Corp",
+            location: "San Francisco, CA",
+            dates: "2020 - Present",
+            responsibilities: [
+                "Led development of microservices architecture",
+                "Mentored junior developers",
+                "Improved system performance by 40%"
+            ]
+        }
+    ],
+    education: [
+        {
+            degree: "B.S. Computer Science",
+            institution: "University of California",
+            graduationDate: "2019"
+        }
+    ],
+    skills: [
+        "JavaScript",
+        "TypeScript",
+        "React",
+        "Node.js",
+        "AWS"
+    ],
+    certifications: [
+        "AWS Certified Developer",
+        "Google Cloud Professional"
+    ],
+    projects: [
+        {
+            name: "E-commerce Platform",
+            description: "Built a scalable e-commerce platform using microservices",
+            technologies: ["React", "Node.js", "MongoDB"]
+        }
+    ],
+    volunteerExperience: [
+        {
+            organization: "Code for Good",
+            role: "Technical Mentor",
+            description: "Mentored students in web development"
+        }
+    ],
+    professionalAssociations: [
+        "ACM Member",
+        "IEEE Computer Society"
+    ],
+    additionalSections: {
+        languages: ["English", "Spanish"],
+        publications: ["Modern Web Architecture Best Practices"],
+        awards: ["Best Technical Innovation 2022"]
+    }
 };
 
 export const marketingManagerData: ResumeData = {
-  contactInformation: {
-    fullName: 'Sarah Johnson',
-    phoneNumber: '+1 (555) 234-5678',
-    email: 'sarah.johnson@example.com',
-    location: 'San Francisco, CA',
-  },
-  professionalSummary: 'Strategic marketing manager with 8+ years of experience in digital marketing and brand development. Proven track record of developing and executing successful marketing campaigns that increased brand awareness and drove revenue growth. Expert in social media strategy, content marketing, and marketing analytics.',
-  workExperience: [
-    {
-      jobTitle: 'Senior Marketing Manager',
-      companyName: 'Global Brands Co.',
-      location: 'San Francisco, CA',
-      dates: 'Mar 2019 - Present',
-      responsibilities: [
-        'Led digital marketing strategy resulting in 150% increase in online engagement',
-        'Managed $2M annual marketing budget and achieved 25% ROI improvement',
-        'Developed and executed integrated marketing campaigns across multiple channels',
-        'Supervised a team of 6 marketing professionals and 3 external agencies',
-      ],
+    contactInformation: {
+        fullName: 'Sarah Johnson',
+        phoneNumber: '+1 (555) 234-5678',
+        email: 'sarah.johnson@email.com',
+        location: 'New York, NY',
+        linkedin: 'linkedin.com/in/sarahjohnson'
     },
-    {
-      jobTitle: 'Digital Marketing Specialist',
-      companyName: 'Tech Startup Inc.',
-      location: 'Los Angeles, CA',
-      dates: 'Jun 2016 - Feb 2019',
-      responsibilities: [
-        'Increased social media following by 200% through strategic content initiatives',
-        'Implemented SEO strategies resulting in 80% increase in organic traffic',
-        'Created and managed successful email marketing campaigns with 35% open rate',
-      ],
-    },
-  ],
-  education: [
-    {
-      degree: 'Master of Business Administration (MBA)',
-      institution: 'Stanford University',
-      graduationDate: '2016',
-    },
-    {
-      degree: 'Bachelor of Arts in Marketing',
-      institution: 'University of California, Los Angeles',
-      graduationDate: '2014',
-    },
-  ],
-  skills: [
-    'Digital Marketing Strategy',
-    'Brand Development',
-    'Social Media Marketing',
-    'Content Strategy',
-    'SEO/SEM',
-    'Marketing Analytics',
-    'Campaign Management',
-    'Team Leadership',
-    'Budget Management',
-    'Adobe Creative Suite',
-  ],
-  certifications: [
-    'Google Analytics Certified',
-    'HubSpot Inbound Marketing Certified',
-    'Facebook Blueprint Certified',
-  ],
-  projects: [
-    {
-      name: 'Brand Refresh Campaign',
-      description: 'Led complete brand refresh initiative resulting in 40% increase in brand recognition and 25% increase in customer engagement.',
-    },
-    {
-      name: 'E-commerce Launch',
-      description: 'Spearheaded company's e-commerce platform launch, achieving $1M in sales within first quarter through strategic marketing campaigns.',
-    },
-  ],
-  volunteerExperience: [
-    {
-      organization: 'Women in Marketing',
-      role: 'Mentor',
-      description: 'Mentored young female professionals in marketing career development.',
-    },
-  ],
-  professionalAssociations: [
-    'American Marketing Association',
-    'Digital Marketing Institute',
-  ],
-  additionalSections: {
-    languages: [
-      'English (Native)',
-      'French (Professional)',
+    professionalSummary: "Results-driven marketing manager with expertise in digital marketing and brand development.",
+    workExperience: [
+        {
+            jobTitle: "Marketing Manager",
+            companyName: "Brand Solutions Inc.",
+            location: "New York, NY",
+            dates: "2019 - Present",
+            responsibilities: [
+                "Led digital marketing campaigns",
+                "Managed team of 5 marketing specialists",
+                "Increased brand engagement by 60%"
+            ]
+        }
     ],
-    publications: [
-      'The Future of Digital Marketing (Marketing Weekly, 2022)',
-      'Social Media Strategy in Post-Pandemic World (Digital Trends, 2021)',
+    education: [
+        {
+            degree: "B.A. Marketing",
+            institution: "New York University",
+            graduationDate: "2018"
+        }
     ],
-    awards: [
-      'Marketer of the Year 2022 - SF Marketing Excellence Awards',
-      'Best Digital Campaign 2021 - Industry Awards',
+    skills: [
+        "Digital Marketing",
+        "Brand Development",
+        "Social Media Marketing",
+        "Content Strategy",
+        "Analytics"
     ],
-  },
+    certifications: [
+        "Google Analytics Certified",
+        "HubSpot Marketing Professional"
+    ],
+    projects: [
+        {
+            name: "Brand Relaunch Campaign",
+            description: "Successfully led company rebranding initiative",
+            technologies: ["Adobe Creative Suite", "HubSpot", "Google Analytics"]
+        }
+    ],
+    volunteerExperience: [
+        {
+            organization: "Marketing for Non-Profits",
+            role: "Marketing Advisor",
+            description: "Provided marketing guidance to local non-profits"
+        }
+    ],
+    professionalAssociations: [
+        "American Marketing Association",
+        "Digital Marketing Institute"
+    ],
+    additionalSections: {
+        languages: ["English", "French"],
+        publications: ["Digital Marketing Trends 2023"],
+        awards: ["Marketing Excellence Award 2022"]
+    }
 };
 
 export const dataScientistData: ResumeData = {

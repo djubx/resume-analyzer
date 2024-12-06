@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentType, useState } from 'react';
+import { ComponentType, useState, createElement } from 'react';
 import { ResumeData } from '../types';
 import { generatePDF } from '../utils/pdfGenerator';
 
@@ -50,7 +50,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
             >
               <div className="h-40 bg-gray-100 rounded mb-4 overflow-hidden">
                 <div className="transform scale-[0.2] origin-top-left">
-                  <template.component data={data} />
+                  {createElement(template.component, { data })}
                 </div>
               </div>
               <h3 className="text-center font-medium mb-2">{template.name}</h3>
@@ -63,7 +63,8 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
       <div>
         <h2 className="text-xl font-semibold mb-4">Preview & Download</h2>
         <div id="resume-template" className="bg-white rounded-lg shadow-lg">
-          {templates.find(t => t.id === selectedTemplate)?.component({ data })}
+          {templates.find(t => t.id === selectedTemplate)?.component && 
+            createElement(templates.find(t => t.id === selectedTemplate)!.component, { data })}
         </div>
         <div className="flex justify-center mt-6">
           <button
