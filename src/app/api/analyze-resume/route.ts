@@ -6,7 +6,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 // Reusable model instance
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: process.env.GEMINI_MODEL || "",
   generationConfig: { responseMimeType: "application/json" }
 });
 
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    
+
     let analysisResult;
     try {
       console.log("Analysis result:", text);
