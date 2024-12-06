@@ -16,14 +16,14 @@ export default function About() {
         >
           <h1 className="text-5xl font-bold mb-4">About Us</h1>
           <p className="text-xl max-w-2xl mx-auto">
-            Resume Checkers is dedicated to helping job seekers optimize their resumes using cutting-edge AI technology.
+            Resume Checkers is always dedicated to helping job seekers optimize their resumes using cutting-edge AI technology.
           </p>
           <p className="text-lg mt-4">
             <strong>CEO:</strong> Ranju Jha
           </p>
-          <a 
-            href="https://www.linkedin.com/in/ranju-jha-a130a5319/" 
-            target="_blank" 
+          <a
+            href="https://www.linkedin.com/in/ranju-jha-a130a5319/"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-lg text-blue-300 underline mt-2 inline-block"
           >
