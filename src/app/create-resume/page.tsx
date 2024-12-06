@@ -2,17 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-
-import ModernTemplate from './templates/modern/ModernTemplate';
-import ProfessionalTemplate from './templates/professional/ProfessionalTemplate';
-import CreativeTemplate from './templates/creative/CreativeTemplate';
-import CompactTemplate from './templates/compact/CompactTemplate';
-import ExecutiveTemplate from './templates/executive/ExecutiveTemplate';
-import MinimalistTemplate from './templates/minimalist/MinimalistTemplate';
-import TechnicalTemplate from './templates/technical/TechnicalTemplate';
-
 import {
-    TemplateSelection,
     PersonalInfo,
     WorkExperience,
     Education,
@@ -21,111 +11,26 @@ import {
     Summary,
     Review,
 } from './components';
-import { ResumeData, ResumeSection } from './types';
+import { ResumeData } from './types';
 import { defaultResumeData } from './utils/defaultData';
+import { STEPS, templates, emptyResumeData, StepType } from './constants/page-constants';
 
-const STEPS = {
-    TEMPLATE: 1,
-    PERSONAL: 2,
-    EXPERIENCE: 3,
-    EDUCATION: 4,
-    SKILLS: 5,
-    ADDITIONAL: 6,
-    SUMMARY: 7,
-    REVIEW: 8,
-} as const;
-
-type StepType = typeof STEPS[keyof typeof STEPS];
-
-const emptyResumeData: ResumeData = {
-    contactInformation: {
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        location: '',
-    },
-    professionalSummary: '',
-    workExperience: [{
-        jobTitle: '',
-        companyName: '',
-        location: '',
-        dates: '',
-        responsibilities: [''],
-    }],
-    education: [{
-        degree: '',
-        institution: '',
-        graduationDate: '',
-    }],
-    skills: [''],
-    certifications: [''],
-    projects: [{
-        name: '',
-        description: '',
-    }],
-    volunteerExperience: [{
-        organization: '',
-        role: '',
-        description: '',
-    }],
-    professionalAssociations: [''],
-    additionalSections: {
-        languages: [''],
-        publications: [''],
-        awards: [''],
-    },
-};
+const STEP_ORDER: StepType[] = [
+    STEPS.PERSONAL,
+    STEPS.EXPERIENCE,
+    STEPS.EDUCATION,
+    STEPS.SKILLS,
+    STEPS.ADDITIONAL,
+    STEPS.SUMMARY,
+    STEPS.REVIEW,
+    STEPS.TEMPLATE,
+];
 
 export default function CreateResume() {
-    const [currentStep, setCurrentStep] = useState<StepType>(STEPS.TEMPLATE);
+    const [currentStep, setCurrentStep] = useState<StepType>(STEPS.PERSONAL);
     const [selectedTemplate, setSelectedTemplate] = useState('modern');
     const [formData, setFormData] = useState<ResumeData>(emptyResumeData);
     const [useDefaultData, setUseDefaultData] = useState(false);
-
-    const templates = [
-        {
-            id: 'modern',
-            name: 'Modern Clean',
-            description: 'A clean and contemporary design with a focus on readability and visual hierarchy.',
-            component: ModernTemplate
-        },
-        {
-            id: 'professional',
-            name: 'Professional Classic',
-            description: 'A traditional and elegant design perfect for corporate and executive roles.',
-            component: ProfessionalTemplate
-        },
-        {
-            id: 'creative',
-            name: 'Creative Bold',
-            description: 'A vibrant and dynamic design ideal for creative professionals and designers.',
-            component: CreativeTemplate
-        },
-        {
-            id: 'compact',
-            name: 'Compact',
-            description: 'A compact and concise design for a more streamlined resume.',
-            component: CompactTemplate
-        },
-        {
-            id: 'executive',
-            name: 'Executive',
-            description: 'A sophisticated and executive design for high-level professionals.',
-            component: ExecutiveTemplate
-        },
-        {
-            id: 'minimalist',
-            name: 'Minimalist',
-            description: 'A minimalist design with a focus on clarity and simplicity.',
-            component: MinimalistTemplate
-        },
-        {
-            id: 'technical',
-            name: 'Technical',
-            description: 'A technical design with a focus on technical details and expertise.',
-            component: TechnicalTemplate
-        },
-    ];
 
     const handleUpdate = (section: keyof ResumeData, field: string | null, value: any) => {
         setFormData(prev => {
@@ -189,23 +94,34 @@ export default function CreateResume() {
         };
 
         switch (currentStep) {
-            case STEPS.TEMPLATE:
+            case STEPS.PERSONAL:
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-xl font-semibold mb-4">Welcome to Resume Builder</h2>
-                        <p className="text-gray-600">Let's create your professional resume. You can start with sample data or create from scratch.</p>
-                        <div className="flex justify-center">
+                        <div className="flex justify-end mb-4">
                             <button
                                 onClick={toggleDefaultData}
-                                className="text-blue-500 hover:text-blue-600 font-medium"
+                                className="text-blue-500 hover:text-blue-600 font-medium flex items-center gap-2"
                             >
-                                {useDefaultData ? 'Clear Sample Data' : 'Load Sample Data'}
+                                {useDefaultData ? (
+                                    <>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                                        </svg>
+                                        Clear Sample Data
+                                    </>
+                                ) : (
+                                    <>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                                        </svg>
+                                        Load Sample Data
+                                    </>
+                                )}
                             </button>
                         </div>
+                        <PersonalInfo {...commonProps} />
                     </div>
                 );
-            case STEPS.PERSONAL:
-                return <PersonalInfo {...commonProps} />;
             case STEPS.EXPERIENCE:
                 return <WorkExperience {...commonProps} />;
             case STEPS.EDUCATION:
@@ -217,16 +133,43 @@ export default function CreateResume() {
             case STEPS.SUMMARY:
                 return <Summary {...commonProps} />;
             case STEPS.REVIEW:
+                return <Review
+                    data={formData}
+                    selectedTemplate={selectedTemplate}
+                    templates={templates}
+                    onTemplateSelect={setSelectedTemplate}
+                />;
+            case STEPS.TEMPLATE:
                 return (
-                    <Review
-                        data={formData}
-                        selectedTemplate={selectedTemplate}
-                        templates={templates}
-                        onTemplateSelect={setSelectedTemplate}
-                    />
+                    <div className="space-y-6">
+                        <h2 className="text-xl font-semibold mb-4">Choose Your Template</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {templates.map((template) => (
+                                <div
+                                    key={template.id}
+                                    className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                                        selectedTemplate === template.id
+                                            ? 'border-blue-500 bg-blue-50'
+                                            : 'border-gray-200 hover:border-blue-300'
+                                    }`}
+                                    onClick={() => setSelectedTemplate(template.id)}
+                                >
+                                    <div className="h-40 bg-gray-100 rounded mb-4">
+                                        {/* Template preview will go here */}
+                                    </div>
+                                    <h3 className="text-lg font-medium mb-2">{template.name}</h3>
+                                    <p className="text-sm text-gray-600">{template.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 );
         }
     };
+
+    const currentStepIndex = STEP_ORDER.indexOf(currentStep);
+    const isFirstStep = currentStepIndex === 0;
+    const isLastStep = currentStepIndex === STEP_ORDER.length - 1;
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
@@ -234,31 +177,33 @@ export default function CreateResume() {
                 {/* Progress Steps */}
                 <div className="mb-8">
                     <div className="flex justify-between items-center">
-                        {Object.entries(STEPS).map(([key, value]) => (
+                        {STEP_ORDER.map((step, index) => (
                             <div
-                                key={key}
-                                className={`flex items-center ${value === currentStep
+                                key={step}
+                                className={`flex items-center ${STEP_ORDER.indexOf(currentStep) === index
                                     ? 'text-blue-500'
-                                    : value < currentStep
+                                    : STEP_ORDER.indexOf(currentStep) > index
                                         ? 'text-green-500'
                                         : 'text-gray-400'
                                     }`}
                             >
                                 <div
-                                    className={`w-8 h-8 rounded-full flex items-center justify-center ${value === currentStep
-                                        ? 'bg-blue-500 text-white'
-                                        : value < currentStep
-                                            ? 'bg-green-500 text-white'
-                                            : 'bg-gray-200'
-                                        }`}
+                                    className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                        STEP_ORDER.indexOf(currentStep) === index
+                                            ? 'bg-blue-500 text-white'
+                                            : STEP_ORDER.indexOf(currentStep) > index
+                                                ? 'bg-green-500 text-white'
+                                                : 'bg-gray-200'
+                                    }`}
                                 >
-                                    {value}
+                                    {index + 1}
                                 </div>
-                                <span className="ml-2 hidden md:inline">{key}</span>
-                                {value < Object.keys(STEPS).length && (
+                                <span className="ml-2 hidden md:inline">{step}</span>
+                                {index < STEP_ORDER.length - 1 && (
                                     <div
-                                        className={`h-1 w-12 mx-2 ${value < currentStep ? 'bg-green-500' : 'bg-gray-200'
-                                            }`}
+                                        className={`h-1 w-12 mx-2 ${
+                                            STEP_ORDER.indexOf(currentStep) > index ? 'bg-green-500' : 'bg-gray-200'
+                                        }`}
                                     />
                                 )}
                             </div>
@@ -266,34 +211,35 @@ export default function CreateResume() {
                     </div>
                 </div>
 
-                {/* Step Content */}
-                <div className="bg-white rounded-lg shadow-lg p-6">
-                    <motion.div
-                        key={currentStep}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                    >
-                        {renderStepContent()}
-                    </motion.div>
-                </div>
+                {/* Main Content */}
+                <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    {renderStepContent()}
+                </motion.div>
 
                 {/* Navigation Buttons */}
                 <div className="mt-8 flex justify-between">
                     <button
-                        onClick={() => setCurrentStep(prev => Math.max(STEPS.TEMPLATE, prev - 1) as StepType)}
-                        className={`px-4 py-2 rounded ${currentStep === STEPS.TEMPLATE
+                        onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex - 1])}
+                        className={`px-4 py-2 rounded ${isFirstStep
                             ? 'bg-gray-300 cursor-not-allowed'
                             : 'bg-blue-500 text-white hover:bg-blue-600'
                             }`}
+                        disabled={isFirstStep}
                     >
                         Back
                     </button>
                     <button
-                        onClick={() => setCurrentStep(prev => Math.min(STEPS.REVIEW, prev + 1) as StepType)}
+                        onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex + 1])}
                         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        disabled={isLastStep}
                     >
-                        {currentStep === STEPS.REVIEW ? 'Finish' : 'Next'}
+                        {isLastStep ? 'Finish' : 'Next'}
                     </button>
                 </div>
             </div>
