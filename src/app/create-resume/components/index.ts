@@ -1,4 +1,3 @@
-export { default as TemplateSelection } from './TemplateSelection';
 export { default as PersonalInfo } from './PersonalInfo';
 export { default as WorkExperience } from './WorkExperience';
 export { default as Education } from './Education';
