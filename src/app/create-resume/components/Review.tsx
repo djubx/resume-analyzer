@@ -18,15 +18,22 @@ interface ReviewProps {
 
 export default function Review({ data, selectedTemplate, templates, onTemplateSelect }: ReviewProps) {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleDownload = async () => {
+    setError(null);
+    setIsGenerating(true);
+
     try {
-      setIsGenerating(true);
+      // Add a small delay to ensure the UI is updated
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       await generatePDF(
         'resume-template',
         `${data.contactInformation.fullName.toLowerCase().replace(/\s+/g, '-')}-resume.pdf`
       );
     } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to generate PDF');
       console.error('Failed to generate PDF:', error);
     } finally {
       setIsGenerating(false);
@@ -66,12 +73,31 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
           {templates.find(t => t.id === selectedTemplate)?.component && 
             createElement(templates.find(t => t.id === selectedTemplate)!.component, { data })}
         </div>
-        <div className="flex justify-center mt-6">
+        
+        {error && (
+          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600">
+            <p className="font-medium">Error generating PDF</p>
+            <p className="text-sm mt-1">{error}</p>
+            <p className="text-sm mt-2">
+              Please try again. If the problem persists, try using a different browser or clearing your cache.
+            </p>
+          </div>
+        )}
+
+        <div className="flex flex-col items-center gap-4 mt-6">
           <button
             onClick={handleDownload}
             disabled={isGenerating}
-            className={`px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 
-              disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2`}
+            className={`
+              px-6 py-3 rounded-lg font-medium
+              transition-all duration-300
+              flex items-center gap-2
+              ${isGenerating
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5'
+              }
+              text-white
+            `}
           >
             {isGenerating ? (
               <>
@@ -98,9 +124,30 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
                 Generating PDF...
               </>
             ) : (
-              'Download PDF'
+              <>
+                <svg 
+                  className="h-5 w-5" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
+                </svg>
+                Download PDF
+              </>
             )}
           </button>
+          
+          {isGenerating && (
+            <p className="text-sm text-gray-600">
+              This may take a few moments. Please don't close this window.
+            </p>
+          )}
         </div>
       </div>
     </div>
