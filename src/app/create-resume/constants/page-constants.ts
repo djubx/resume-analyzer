@@ -40,14 +40,14 @@ export const ICONS = {
 
 export const STYLES = {
     PAGE: {
-        CONTAINER: "min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12",
-        CONTENT: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+        CONTAINER: "min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-4 sm:py-8 md:py-12 px-2 sm:px-4",
+        CONTENT: "max-w-7xl mx-auto",
     },
     STEP_INDICATOR: {
-        CONTAINER: "flex justify-between items-center relative mb-12 px-4",
+        CONTAINER: "flex justify-between items-center relative mb-8 sm:mb-12 px-2 sm:px-4 overflow-x-auto pb-4 sm:pb-0 hide-scrollbar",
         PROGRESS_BAR: (progress: number) => `absolute h-1 bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out rounded-full -z-10 top-4`,
         ITEM: (isActive: boolean, isCompleted: boolean) => `
-            flex flex-col items-center cursor-pointer
+            flex flex-col items-center cursor-pointer min-w-[80px] sm:min-w-0
             ${isActive ? 'scale-110 transition-transform duration-300' : 'scale-100'}
             hover:scale-105 transition-all duration-300
         `,
@@ -64,7 +64,7 @@ export const STYLES = {
             hover:shadow-md
         `,
         LABEL: (isActive: boolean, isCompleted: boolean) => `
-            mt-2 text-sm font-medium transition-all duration-300
+            mt-2 text-xs sm:text-sm font-medium transition-all duration-300 whitespace-nowrap
             ${isActive 
                 ? 'text-blue-600' 
                 : isCompleted 
@@ -77,23 +77,23 @@ export const STYLES = {
     },
     TEMPLATE_CARD: {
         CONTAINER: (isSelected: boolean) => `
-            border-2 rounded-xl p-6 cursor-pointer transition-all duration-300
+            border-2 rounded-xl p-4 sm:p-6 cursor-pointer transition-all duration-300
             hover:shadow-xl transform hover:-translate-y-1
             ${isSelected 
                 ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-purple-50 shadow-lg' 
                 : 'border-gray-200 hover:border-blue-300 bg-white'
             }
         `,
-        PREVIEW: "h-[600px] bg-white rounded-lg mb-4 overflow-hidden shadow-inner",
+        PREVIEW: "h-[400px] sm:h-[600px] bg-white rounded-lg mb-4 overflow-hidden shadow-inner",
         PREVIEW_WRAPPER: "transform scale-[0.4] origin-top h-[250%] w-[250%] -ml-[75%] -mt-[75%]",
-        TITLE: "text-lg font-semibold mb-2 text-gray-800",
-        DESCRIPTION: "text-sm text-gray-600 line-clamp-2",
-        GRID: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8",
+        TITLE: "text-base sm:text-lg font-semibold mb-2 text-gray-800",
+        DESCRIPTION: "text-xs sm:text-sm text-gray-600 line-clamp-2",
+        GRID: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8",
     },
     NAVIGATION: {
-        CONTAINER: "mt-8 flex justify-between items-center pt-6 border-t border-gray-200",
+        CONTAINER: "mt-6 sm:mt-8 flex justify-between items-center pt-4 sm:pt-6 border-t border-gray-200",
         BUTTON: (isDisabled: boolean) => `
-            px-6 py-3 rounded-lg font-medium transition-all duration-300
+            px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-sm sm:text-base
             ${isDisabled 
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
                 : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg transform hover:-translate-y-0.5'
@@ -102,15 +102,15 @@ export const STYLES = {
     },
     SAMPLE_DATA_BUTTON: `
         text-blue-600 hover:text-purple-600 font-medium flex items-center gap-2 
-        px-4 py-2 rounded-lg transition-all duration-300
+        px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-all duration-300 text-sm sm:text-base
         hover:bg-blue-50 border border-transparent hover:border-blue-200
     `,
     CONTENT_CONTAINER: `
-        bg-white rounded-2xl shadow-lg p-8 mb-8
+        bg-white rounded-2xl shadow-lg p-4 sm:p-8 mb-6 sm:mb-8
         transform transition-all duration-500 ease-out
     `,
     SECTION_TITLE: `
-        text-2xl font-bold mb-6 text-gray-800
+        text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800
         bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text
     `,
 };
