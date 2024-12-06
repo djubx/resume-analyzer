@@ -1,6 +1,8 @@
+'use client';
+
 import Link from "next/link";
 import { useState } from "react";
-import { FaBars, FaTimes, FaHome, FaFileAlt, FaChartBar, FaClipboardList, FaInfoCircle, FaEnvelope } from "react-icons/fa";
+import { FaBars, FaTimes, FaHome, FaFileAlt, FaChartBar, FaClipboardList, FaInfoCircle, FaEnvelope, FaFileSignature } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 export default function Navbar() {
@@ -8,6 +10,7 @@ export default function Navbar() {
 
   const navItems = [
     { href: "/", label: "Home", icon: <FaHome /> },
+    { href: "/create-resume", label: "Create Resume", icon: <FaFileSignature /> },
     { href: "/resume-analyzer", label: "Analyze", icon: <FaFileAlt /> },
     { href: "/ats-score", label: "ATS Score", icon: <FaChartBar /> },
     { href: "/resume-checklist", label: "Checklist", icon: <FaClipboardList /> },
