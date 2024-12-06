@@ -24,6 +24,7 @@ import {
     ICONS,
     STYLES
 } from './constants/page-constants';
+import Navbar from '@/components/Navbar';
 
 export default function CreateResume() {
     const [currentStep, setCurrentStep] = useState<StepType>(STEPS.PERSONAL);
@@ -231,75 +232,78 @@ export default function CreateResume() {
     const isLastStep = currentStepIndex === STEP_ORDER.length - 1;
 
     return (
-        <div className={STYLES.PAGE.CONTAINER}>
-            <div className={STYLES.PAGE.CONTENT}>
-                {/* Progress Steps */}
-                <div className="mb-8">
-                    <div className={STYLES.STEP_INDICATOR.CONTAINER}>
-                        <div 
-                            className={STYLES.STEP_INDICATOR.PROGRESS_BAR(progressWidth)}
-                            style={{ width: `${progressWidth}%` }}
-                        />
-                        {STEP_ORDER.map((step, index) => {
-                            const isActive = currentStepIndex === index;
-                            const isCompleted = currentStepIndex > index;
-                            const isClickable = index <= currentStepIndex + 1;
+        <div className="min-h-screen flex flex-col bg-gray-900">
+            <Navbar />
+            <div className={STYLES.PAGE.CONTAINER}>
+                <div className={STYLES.PAGE.CONTENT}>
+                    {/* Progress Steps */}
+                    <div className="mb-8">
+                        <div className={STYLES.STEP_INDICATOR.CONTAINER}>
+                            <div 
+                                className={STYLES.STEP_INDICATOR.PROGRESS_BAR(progressWidth)}
+                                style={{ width: `${progressWidth}%` }}
+                            />
+                            {STEP_ORDER.map((step, index) => {
+                                const isActive = currentStepIndex === index;
+                                const isCompleted = currentStepIndex > index;
+                                const isClickable = index <= currentStepIndex + 1;
 
-                            return (
-                                <motion.div
-                                    key={step}
-                                    className={`group ${STYLES.STEP_INDICATOR.ITEM(isActive, isCompleted)}`}
-                                    onClick={() => handleStepClick(index)}
-                                    whileHover={isClickable ? { scale: 1.05 } : undefined}
-                                    whileTap={isClickable ? { scale: 0.95 } : undefined}
-                                    style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}
-                                    title={!isClickable ? "Complete previous steps first" : ""}
-                                >
-                                    <motion.div 
-                                        className={STYLES.STEP_INDICATOR.CIRCLE(isActive, isCompleted)}
-                                        whileHover={{ scale: isClickable ? 1.1 : 1 }}
-                                        whileTap={{ scale: isClickable ? 0.95 : 1 }}
+                                return (
+                                    <motion.div
+                                        key={step}
+                                        className={`group ${STYLES.STEP_INDICATOR.ITEM(isActive, isCompleted)}`}
+                                        onClick={() => handleStepClick(index)}
+                                        whileHover={isClickable ? { scale: 1.05 } : undefined}
+                                        whileTap={isClickable ? { scale: 0.95 } : undefined}
+                                        style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}
+                                        title={!isClickable ? "Complete previous steps first" : ""}
                                     >
-                                        {isCompleted ? (
-                                            <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                            </svg>
-                                        ) : (
-                                            index + 1
-                                        )}
+                                        <motion.div 
+                                            className={STYLES.STEP_INDICATOR.CIRCLE(isActive, isCompleted)}
+                                            whileHover={{ scale: isClickable ? 1.1 : 1 }}
+                                            whileTap={{ scale: isClickable ? 0.95 : 1 }}
+                                        >
+                                            {isCompleted ? (
+                                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                            ) : (
+                                                index + 1
+                                            )}
+                                        </motion.div>
+                                        <span className={STYLES.STEP_INDICATOR.LABEL(isActive, isCompleted)}>{step}</span>
                                     </motion.div>
-                                    <span className={STYLES.STEP_INDICATOR.LABEL(isActive, isCompleted)}>{step}</span>
-                                </motion.div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
 
-                {/* Main Content */}
-                <AnimatePresence mode="wait">
-                    {renderStepContent()}
-                </AnimatePresence>
+                    {/* Main Content */}
+                    <AnimatePresence mode="wait">
+                        {renderStepContent()}
+                    </AnimatePresence>
 
-                {/* Navigation Buttons */}
-                <div className={STYLES.NAVIGATION.CONTAINER}>
-                    <motion.button
-                        onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex - 1])}
-                        className={STYLES.NAVIGATION.BUTTON(isFirstStep)}
-                        disabled={isFirstStep}
-                        whileHover={!isFirstStep ? { scale: 1.02 } : undefined}
-                        whileTap={!isFirstStep ? { scale: 0.98 } : undefined}
-                    >
-                        Back
-                    </motion.button>
-                    <motion.button
-                        onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex + 1])}
-                        className={STYLES.NAVIGATION.BUTTON(false)}
-                        disabled={isLastStep}
-                        whileHover={!isLastStep ? { scale: 1.02 } : undefined}
-                        whileTap={!isLastStep ? { scale: 0.98 } : undefined}
-                    >
-                        {isLastStep ? 'Finish' : 'Next'}
-                    </motion.button>
+                    {/* Navigation Buttons */}
+                    <div className={STYLES.NAVIGATION.CONTAINER}>
+                        <motion.button
+                            onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex - 1])}
+                            className={STYLES.NAVIGATION.BUTTON(isFirstStep)}
+                            disabled={isFirstStep}
+                            whileHover={!isFirstStep ? { scale: 1.02 } : undefined}
+                            whileTap={!isFirstStep ? { scale: 0.98 } : undefined}
+                        >
+                            Back
+                        </motion.button>
+                        <motion.button
+                            onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex + 1])}
+                            className={STYLES.NAVIGATION.BUTTON(false)}
+                            disabled={isLastStep}
+                            whileHover={!isLastStep ? { scale: 1.02 } : undefined}
+                            whileTap={!isLastStep ? { scale: 0.98 } : undefined}
+                        >
+                            {isLastStep ? 'Finish' : 'Next'}
+                        </motion.button>
+                    </div>
                 </div>
             </div>
         </div>
