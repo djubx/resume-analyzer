@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     PersonalInfo,
@@ -171,7 +171,7 @@ export default function CreateResume() {
                 case STEPS.REVIEW:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Review & Customize</h2>
+                            <h2 className={STYLES.SECTION_TITLE}>Review & Finalize</h2>
                             <Review
                                 data={formData}
                                 selectedTemplate={selectedTemplate}
@@ -184,7 +184,11 @@ export default function CreateResume() {
                     return (
                         <>
                             <h2 className={STYLES.SECTION_TITLE}>Choose Your Template</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <p className="text-gray-600 mb-8">
+                                Select a template that best represents your professional style. 
+                                Preview how your resume looks with your current data.
+                            </p>
+                            <div className={STYLES.TEMPLATE_CARD.GRID}>
                                 {templates.map((template) => (
                                     <motion.div
                                         key={template.id}
@@ -194,7 +198,9 @@ export default function CreateResume() {
                                         whileTap={{ scale: 0.98 }}
                                     >
                                         <div className={STYLES.TEMPLATE_CARD.PREVIEW}>
-                                            {/* Template preview will go here */}
+                                            <div className={STYLES.TEMPLATE_CARD.PREVIEW_WRAPPER}>
+                                                {createElement(template.component, { data: formData })}
+                                            </div>
                                         </div>
                                         <h3 className={STYLES.TEMPLATE_CARD.TITLE}>{template.name}</h3>
                                         <p className={STYLES.TEMPLATE_CARD.DESCRIPTION}>{template.description}</p>

@@ -14,8 +14,8 @@ export const STEPS = {
     SKILLS: 'SKILLS',
     ADDITIONAL: 'ADDITIONAL',
     SUMMARY: 'SUMMARY',
-    REVIEW: 'REVIEW',
     TEMPLATE: 'TEMPLATE',
+    REVIEW: 'REVIEW',
 } as const;
 
 export type StepType = typeof STEPS[keyof typeof STEPS];
@@ -27,8 +27,8 @@ export const STEP_ORDER: StepType[] = [
     STEPS.SKILLS,
     STEPS.ADDITIONAL,
     STEPS.SUMMARY,
-    STEPS.REVIEW,
     STEPS.TEMPLATE,
+    STEPS.REVIEW,
 ];
 
 export const DEFAULT_TEMPLATE = 'modern';
@@ -84,9 +84,11 @@ export const STYLES = {
                 : 'border-gray-200 hover:border-blue-300 bg-white'
             }
         `,
-        PREVIEW: "h-48 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg mb-4 overflow-hidden",
+        PREVIEW: "h-[600px] bg-white rounded-lg mb-4 overflow-hidden shadow-inner",
+        PREVIEW_WRAPPER: "transform scale-[0.4] origin-top h-[250%] w-[250%] -ml-[75%] -mt-[75%]",
         TITLE: "text-lg font-semibold mb-2 text-gray-800",
         DESCRIPTION: "text-sm text-gray-600 line-clamp-2",
+        GRID: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8",
     },
     NAVIGATION: {
         CONTAINER: "mt-8 flex justify-between items-center pt-6 border-t border-gray-200",
