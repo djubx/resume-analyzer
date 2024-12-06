@@ -39,30 +39,69 @@ export const ICONS = {
 };
 
 export const STYLES = {
+    PAGE: {
+        CONTAINER: "min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12",
+        CONTENT: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    },
     STEP_INDICATOR: {
-        CONTAINER: "flex justify-between items-center",
-        ITEM: (isActive: boolean, isCompleted: boolean) => `flex items-center ${
-            isActive ? 'text-blue-500' : isCompleted ? 'text-green-500' : 'text-gray-400'
+        CONTAINER: "flex justify-between items-center relative mb-12 px-4",
+        PROGRESS_BAR: (progress: number) => `absolute h-1 bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out rounded-full -z-10 top-4`,
+        ITEM: (isActive: boolean, isCompleted: boolean) => `flex flex-col items-center ${
+            isActive ? 'scale-110 transition-transform duration-300' : 'scale-100'
         }`,
-        CIRCLE: (isActive: boolean, isCompleted: boolean) => `w-8 h-8 rounded-full flex items-center justify-center ${
-            isActive ? 'bg-blue-500 text-white' : isCompleted ? 'bg-green-500 text-white' : 'bg-gray-200'
-        }`,
-        CONNECTOR: (isCompleted: boolean) => `h-1 w-12 mx-2 ${isCompleted ? 'bg-green-500' : 'bg-gray-200'}`,
+        CIRCLE: (isActive: boolean, isCompleted: boolean) => `
+            w-8 h-8 rounded-full flex items-center justify-center 
+            transition-all duration-300 ease-out transform
+            ${isActive 
+                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-110' 
+                : isCompleted 
+                    ? 'bg-green-500 text-white' 
+                    : 'bg-gray-200 text-gray-500'
+            }
+            ${isActive ? 'ring-4 ring-blue-100' : ''}
+        `,
+        LABEL: (isActive: boolean) => `
+            mt-2 text-sm font-medium transition-all duration-300
+            ${isActive ? 'text-blue-600' : 'text-gray-500'}
+        `,
+        CONNECTOR: "hidden",
     },
     TEMPLATE_CARD: {
-        CONTAINER: (isSelected: boolean) => `border-2 rounded-lg p-4 cursor-pointer transition-all ${
-            isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-300'
-        }`,
-        PREVIEW: "h-40 bg-gray-100 rounded mb-4",
-        TITLE: "text-lg font-medium mb-2",
-        DESCRIPTION: "text-sm text-gray-600",
+        CONTAINER: (isSelected: boolean) => `
+            border-2 rounded-xl p-6 cursor-pointer transition-all duration-300
+            hover:shadow-xl transform hover:-translate-y-1
+            ${isSelected 
+                ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-purple-50 shadow-lg' 
+                : 'border-gray-200 hover:border-blue-300 bg-white'
+            }
+        `,
+        PREVIEW: "h-48 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg mb-4 overflow-hidden",
+        TITLE: "text-lg font-semibold mb-2 text-gray-800",
+        DESCRIPTION: "text-sm text-gray-600 line-clamp-2",
     },
     NAVIGATION: {
-        BUTTON: (isDisabled: boolean) => `px-4 py-2 rounded ${
-            isDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
-        }`,
+        CONTAINER: "mt-8 flex justify-between items-center pt-6 border-t border-gray-200",
+        BUTTON: (isDisabled: boolean) => `
+            px-6 py-3 rounded-lg font-medium transition-all duration-300
+            ${isDisabled 
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg transform hover:-translate-y-0.5'
+            }
+        `,
     },
-    SAMPLE_DATA_BUTTON: "text-blue-500 hover:text-blue-600 font-medium flex items-center gap-2",
+    SAMPLE_DATA_BUTTON: `
+        text-blue-600 hover:text-purple-600 font-medium flex items-center gap-2 
+        px-4 py-2 rounded-lg transition-all duration-300
+        hover:bg-blue-50 border border-transparent hover:border-blue-200
+    `,
+    CONTENT_CONTAINER: `
+        bg-white rounded-2xl shadow-lg p-8 mb-8
+        transform transition-all duration-500 ease-out
+    `,
+    SECTION_TITLE: `
+        text-2xl font-bold mb-6 text-gray-800
+        bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text
+    `,
 };
 
 export const templates = [

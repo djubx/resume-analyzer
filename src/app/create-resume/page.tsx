@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     PersonalInfo,
     WorkExperience,
@@ -30,6 +30,13 @@ export default function CreateResume() {
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
     const [formData, setFormData] = useState<ResumeData>(emptyResumeData);
     const [useDefaultData, setUseDefaultData] = useState(false);
+    const [progressWidth, setProgressWidth] = useState(0);
+
+    useEffect(() => {
+        const currentIdx = STEP_ORDER.indexOf(currentStep);
+        const progress = (currentIdx / (STEP_ORDER.length - 1)) * 100;
+        setProgressWidth(progress);
+    }, [currentStep]);
 
     const handleUpdate = (section: keyof ResumeData, field: string | null, value: any) => {
         setFormData(prev => {
@@ -92,70 +99,118 @@ export default function CreateResume() {
             onArrayItemRemove: handleArrayItemRemove,
         };
 
-        switch (currentStep) {
-            case STEPS.PERSONAL:
-                return (
-                    <div className="space-y-6">
-                        <div className="flex justify-end mb-4">
-                            <button
-                                onClick={toggleDefaultData}
-                                className={STYLES.SAMPLE_DATA_BUTTON}
-                            >
-                                {useDefaultData ? (
-                                    <>
-                                        <Icon path={ICONS.CLEAR_SAMPLE} />
-                                        Clear Sample Data
-                                    </>
-                                ) : (
-                                    <>
-                                        <Icon path={ICONS.LOAD_SAMPLE} />
-                                        Load Sample Data
-                                    </>
-                                )}
-                            </button>
-                        </div>
-                        <PersonalInfo {...commonProps} />
-                    </div>
-                );
-            case STEPS.EXPERIENCE:
-                return <WorkExperience {...commonProps} />;
-            case STEPS.EDUCATION:
-                return <Education {...commonProps} />;
-            case STEPS.SKILLS:
-                return <Skills {...commonProps} />;
-            case STEPS.ADDITIONAL:
-                return <AdditionalInfo {...commonProps} />;
-            case STEPS.SUMMARY:
-                return <Summary {...commonProps} />;
-            case STEPS.REVIEW:
-                return <Review
-                    data={formData}
-                    selectedTemplate={selectedTemplate}
-                    templates={templates}
-                    onTemplateSelect={setSelectedTemplate}
-                />;
-            case STEPS.TEMPLATE:
-                return (
-                    <div className="space-y-6">
-                        <h2 className="text-xl font-semibold mb-4">Choose Your Template</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {templates.map((template) => (
-                                <div
-                                    key={template.id}
-                                    className={STYLES.TEMPLATE_CARD.CONTAINER(selectedTemplate === template.id)}
-                                    onClick={() => setSelectedTemplate(template.id)}
+        const content = (() => {
+            switch (currentStep) {
+                case STEPS.PERSONAL:
+                    return (
+                        <>
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className={STYLES.SECTION_TITLE}>Personal Information</h2>
+                                <button
+                                    onClick={toggleDefaultData}
+                                    className={STYLES.SAMPLE_DATA_BUTTON}
                                 >
-                                    <div className={STYLES.TEMPLATE_CARD.PREVIEW}>
-                                        {/* Template preview will go here */}
-                                    </div>
-                                    <h3 className={STYLES.TEMPLATE_CARD.TITLE}>{template.name}</h3>
-                                    <p className={STYLES.TEMPLATE_CARD.DESCRIPTION}>{template.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-        }
+                                    {useDefaultData ? (
+                                        <>
+                                            <Icon path={ICONS.CLEAR_SAMPLE} />
+                                            Clear Sample Data
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Icon path={ICONS.LOAD_SAMPLE} />
+                                            Load Sample Data
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                            <PersonalInfo {...commonProps} />
+                        </>
+                    );
+                case STEPS.EXPERIENCE:
+                    return (
+                        <>
+                            <h2 className={STYLES.SECTION_TITLE}>Work Experience</h2>
+                            <WorkExperience {...commonProps} />
+                        </>
+                    );
+                case STEPS.EDUCATION:
+                    return (
+                        <>
+                            <h2 className={STYLES.SECTION_TITLE}>Education</h2>
+                            <Education {...commonProps} />
+                        </>
+                    );
+                case STEPS.SKILLS:
+                    return (
+                        <>
+                            <h2 className={STYLES.SECTION_TITLE}>Skills & Expertise</h2>
+                            <Skills {...commonProps} />
+                        </>
+                    );
+                case STEPS.ADDITIONAL:
+                    return (
+                        <>
+                            <h2 className={STYLES.SECTION_TITLE}>Additional Information</h2>
+                            <AdditionalInfo {...commonProps} />
+                        </>
+                    );
+                case STEPS.SUMMARY:
+                    return (
+                        <>
+                            <h2 className={STYLES.SECTION_TITLE}>Professional Summary</h2>
+                            <Summary {...commonProps} />
+                        </>
+                    );
+                case STEPS.REVIEW:
+                    return (
+                        <>
+                            <h2 className={STYLES.SECTION_TITLE}>Review & Customize</h2>
+                            <Review
+                                data={formData}
+                                selectedTemplate={selectedTemplate}
+                                templates={templates}
+                                onTemplateSelect={setSelectedTemplate}
+                            />
+                        </>
+                    );
+                case STEPS.TEMPLATE:
+                    return (
+                        <>
+                            <h2 className={STYLES.SECTION_TITLE}>Choose Your Template</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {templates.map((template) => (
+                                    <motion.div
+                                        key={template.id}
+                                        className={STYLES.TEMPLATE_CARD.CONTAINER(selectedTemplate === template.id)}
+                                        onClick={() => setSelectedTemplate(template.id)}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        <div className={STYLES.TEMPLATE_CARD.PREVIEW}>
+                                            {/* Template preview will go here */}
+                                        </div>
+                                        <h3 className={STYLES.TEMPLATE_CARD.TITLE}>{template.name}</h3>
+                                        <p className={STYLES.TEMPLATE_CARD.DESCRIPTION}>{template.description}</p>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </>
+                    );
+            }
+        })();
+
+        return (
+            <motion.div
+                key={currentStep}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className={STYLES.CONTENT_CONTAINER}
+            >
+                {content}
+            </motion.div>
+        );
     };
 
     const currentStepIndex = STEP_ORDER.indexOf(currentStep);
@@ -163,11 +218,15 @@ export default function CreateResume() {
     const isLastStep = currentStepIndex === STEP_ORDER.length - 1;
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={STYLES.PAGE.CONTAINER}>
+            <div className={STYLES.PAGE.CONTENT}>
                 {/* Progress Steps */}
                 <div className="mb-8">
                     <div className={STYLES.STEP_INDICATOR.CONTAINER}>
+                        <div 
+                            className={STYLES.STEP_INDICATOR.PROGRESS_BAR(progressWidth)}
+                            style={{ width: `${progressWidth}%` }}
+                        />
                         {STEP_ORDER.map((step, index) => {
                             const isActive = currentStepIndex === index;
                             const isCompleted = currentStepIndex > index;
@@ -176,13 +235,14 @@ export default function CreateResume() {
                                     key={step}
                                     className={STYLES.STEP_INDICATOR.ITEM(isActive, isCompleted)}
                                 >
-                                    <div className={STYLES.STEP_INDICATOR.CIRCLE(isActive, isCompleted)}>
+                                    <motion.div 
+                                        className={STYLES.STEP_INDICATOR.CIRCLE(isActive, isCompleted)}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
                                         {index + 1}
-                                    </div>
-                                    <span className="ml-2 hidden md:inline">{step}</span>
-                                    {index < STEP_ORDER.length - 1 && (
-                                        <div className={STYLES.STEP_INDICATOR.CONNECTOR(isCompleted)} />
-                                    )}
+                                    </motion.div>
+                                    <span className={STYLES.STEP_INDICATOR.LABEL(isActive)}>{step}</span>
                                 </div>
                             );
                         })}
@@ -190,32 +250,30 @@ export default function CreateResume() {
                 </div>
 
                 {/* Main Content */}
-                <motion.div
-                    key={currentStep}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.3 }}
-                >
+                <AnimatePresence mode="wait">
                     {renderStepContent()}
-                </motion.div>
+                </AnimatePresence>
 
                 {/* Navigation Buttons */}
-                <div className="mt-8 flex justify-between">
-                    <button
+                <div className={STYLES.NAVIGATION.CONTAINER}>
+                    <motion.button
                         onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex - 1])}
                         className={STYLES.NAVIGATION.BUTTON(isFirstStep)}
                         disabled={isFirstStep}
+                        whileHover={!isFirstStep ? { scale: 1.02 } : undefined}
+                        whileTap={!isFirstStep ? { scale: 0.98 } : undefined}
                     >
                         Back
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
                         onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex + 1])}
                         className={STYLES.NAVIGATION.BUTTON(false)}
                         disabled={isLastStep}
+                        whileHover={!isLastStep ? { scale: 1.02 } : undefined}
+                        whileTap={!isLastStep ? { scale: 0.98 } : undefined}
                     >
                         {isLastStep ? 'Finish' : 'Next'}
-                    </button>
+                    </motion.button>
                 </div>
             </div>
         </div>
