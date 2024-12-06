@@ -11,24 +11,23 @@ import {
     Summary,
     Review,
 } from './components';
+import { Icon } from './components/Icon';
 import { ResumeData } from './types';
 import { defaultResumeData } from './utils/defaultData';
-import { STEPS, templates, emptyResumeData, StepType } from './constants/page-constants';
-
-const STEP_ORDER: StepType[] = [
-    STEPS.PERSONAL,
-    STEPS.EXPERIENCE,
-    STEPS.EDUCATION,
-    STEPS.SKILLS,
-    STEPS.ADDITIONAL,
-    STEPS.SUMMARY,
-    STEPS.REVIEW,
-    STEPS.TEMPLATE,
-];
+import { 
+    STEPS, 
+    templates, 
+    emptyResumeData, 
+    StepType, 
+    STEP_ORDER,
+    DEFAULT_TEMPLATE,
+    ICONS,
+    STYLES
+} from './constants/page-constants';
 
 export default function CreateResume() {
     const [currentStep, setCurrentStep] = useState<StepType>(STEPS.PERSONAL);
-    const [selectedTemplate, setSelectedTemplate] = useState('modern');
+    const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
     const [formData, setFormData] = useState<ResumeData>(emptyResumeData);
     const [useDefaultData, setUseDefaultData] = useState(false);
 
@@ -100,20 +99,16 @@ export default function CreateResume() {
                         <div className="flex justify-end mb-4">
                             <button
                                 onClick={toggleDefaultData}
-                                className="text-blue-500 hover:text-blue-600 font-medium flex items-center gap-2"
+                                className={STYLES.SAMPLE_DATA_BUTTON}
                             >
                                 {useDefaultData ? (
                                     <>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                                        </svg>
+                                        <Icon path={ICONS.CLEAR_SAMPLE} />
                                         Clear Sample Data
                                     </>
                                 ) : (
                                     <>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                                        </svg>
+                                        <Icon path={ICONS.LOAD_SAMPLE} />
                                         Load Sample Data
                                     </>
                                 )}
@@ -147,18 +142,14 @@ export default function CreateResume() {
                             {templates.map((template) => (
                                 <div
                                     key={template.id}
-                                    className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                                        selectedTemplate === template.id
-                                            ? 'border-blue-500 bg-blue-50'
-                                            : 'border-gray-200 hover:border-blue-300'
-                                    }`}
+                                    className={STYLES.TEMPLATE_CARD.CONTAINER(selectedTemplate === template.id)}
                                     onClick={() => setSelectedTemplate(template.id)}
                                 >
-                                    <div className="h-40 bg-gray-100 rounded mb-4">
+                                    <div className={STYLES.TEMPLATE_CARD.PREVIEW}>
                                         {/* Template preview will go here */}
                                     </div>
-                                    <h3 className="text-lg font-medium mb-2">{template.name}</h3>
-                                    <p className="text-sm text-gray-600">{template.description}</p>
+                                    <h3 className={STYLES.TEMPLATE_CARD.TITLE}>{template.name}</h3>
+                                    <p className={STYLES.TEMPLATE_CARD.DESCRIPTION}>{template.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -176,38 +167,25 @@ export default function CreateResume() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Progress Steps */}
                 <div className="mb-8">
-                    <div className="flex justify-between items-center">
-                        {STEP_ORDER.map((step, index) => (
-                            <div
-                                key={step}
-                                className={`flex items-center ${STEP_ORDER.indexOf(currentStep) === index
-                                    ? 'text-blue-500'
-                                    : STEP_ORDER.indexOf(currentStep) > index
-                                        ? 'text-green-500'
-                                        : 'text-gray-400'
-                                    }`}
-                            >
+                    <div className={STYLES.STEP_INDICATOR.CONTAINER}>
+                        {STEP_ORDER.map((step, index) => {
+                            const isActive = currentStepIndex === index;
+                            const isCompleted = currentStepIndex > index;
+                            return (
                                 <div
-                                    className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                                        STEP_ORDER.indexOf(currentStep) === index
-                                            ? 'bg-blue-500 text-white'
-                                            : STEP_ORDER.indexOf(currentStep) > index
-                                                ? 'bg-green-500 text-white'
-                                                : 'bg-gray-200'
-                                    }`}
+                                    key={step}
+                                    className={STYLES.STEP_INDICATOR.ITEM(isActive, isCompleted)}
                                 >
-                                    {index + 1}
+                                    <div className={STYLES.STEP_INDICATOR.CIRCLE(isActive, isCompleted)}>
+                                        {index + 1}
+                                    </div>
+                                    <span className="ml-2 hidden md:inline">{step}</span>
+                                    {index < STEP_ORDER.length - 1 && (
+                                        <div className={STYLES.STEP_INDICATOR.CONNECTOR(isCompleted)} />
+                                    )}
                                 </div>
-                                <span className="ml-2 hidden md:inline">{step}</span>
-                                {index < STEP_ORDER.length - 1 && (
-                                    <div
-                                        className={`h-1 w-12 mx-2 ${
-                                            STEP_ORDER.indexOf(currentStep) > index ? 'bg-green-500' : 'bg-gray-200'
-                                        }`}
-                                    />
-                                )}
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -226,17 +204,14 @@ export default function CreateResume() {
                 <div className="mt-8 flex justify-between">
                     <button
                         onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex - 1])}
-                        className={`px-4 py-2 rounded ${isFirstStep
-                            ? 'bg-gray-300 cursor-not-allowed'
-                            : 'bg-blue-500 text-white hover:bg-blue-600'
-                            }`}
+                        className={STYLES.NAVIGATION.BUTTON(isFirstStep)}
                         disabled={isFirstStep}
                     >
                         Back
                     </button>
                     <button
                         onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex + 1])}
-                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        className={STYLES.NAVIGATION.BUTTON(false)}
                         disabled={isLastStep}
                     >
                         {isLastStep ? 'Finish' : 'Next'}
