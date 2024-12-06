@@ -75,9 +75,24 @@ export default function CreateResume() {
   const [useDefaultData, setUseDefaultData] = useState(false);
 
   const templates = [
-    { id: 'modern', name: 'Modern', component: ModernTemplate },
-    { id: 'professional', name: 'Professional', component: ProfessionalTemplate },
-    { id: 'creative', name: 'Creative', component: CreativeTemplate },
+    { 
+      id: 'modern', 
+      name: 'Modern Clean',
+      description: 'A clean and contemporary design with a focus on readability and visual hierarchy.',
+      component: ModernTemplate 
+    },
+    { 
+      id: 'professional', 
+      name: 'Professional Classic',
+      description: 'A traditional and elegant design perfect for corporate and executive roles.',
+      component: ProfessionalTemplate 
+    },
+    { 
+      id: 'creative', 
+      name: 'Creative Bold',
+      description: 'A vibrant and dynamic design ideal for creative professionals and designers.',
+      component: CreativeTemplate 
+    },
   ];
 
   const handleUpdate = (section: ResumeSection, field: string, value: any) => {
@@ -129,11 +144,8 @@ export default function CreateResume() {
       case STEPS.TEMPLATE:
         return (
           <div className="space-y-6">
-            <TemplateSelection
-              templates={templates}
-              selectedTemplate={selectedTemplate}
-              onSelect={setSelectedTemplate}
-            />
+            <h2 className="text-xl font-semibold mb-4">Welcome to Resume Builder</h2>
+            <p className="text-gray-600">Let's create your professional resume. You can start with sample data or create from scratch.</p>
             <div className="flex justify-center">
               <button
                 onClick={toggleDefaultData}
@@ -162,6 +174,7 @@ export default function CreateResume() {
             data={formData}
             selectedTemplate={selectedTemplate}
             templates={templates}
+            onTemplateSelect={setSelectedTemplate}
           />
         );
     }

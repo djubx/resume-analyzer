@@ -4,8 +4,8 @@ import { TemplateProps } from '../../types';
 
 export default function CreativeTemplate({ data }: TemplateProps) {
   return (
-    <div className="max-w-[21cm] mx-auto bg-gradient-to-br from-purple-50 to-blue-50 p-8 shadow-lg">
-      {/* Header */}
+    <div className="max-w-[21cm] mx-auto bg-gradient-to-br from-purple-50 to-blue-50 p-8 shadow-lg print:shadow-none">
+      {/* Header with Creative Design */}
       <header className="relative mb-12 pb-4">
         <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full opacity-10"></div>
         <h1 className="text-5xl font-bold text-gray-800 mb-2 relative z-10">{data.contactInformation.fullName}</h1>
@@ -43,7 +43,7 @@ export default function CreativeTemplate({ data }: TemplateProps) {
 
       {/* Two Column Layout */}
       <div className="grid grid-cols-3 gap-8">
-        {/* Left Column */}
+        {/* Left Column - Main Content */}
         <div className="col-span-2">
           {/* Work Experience */}
           <section className="mb-8">
@@ -52,7 +52,7 @@ export default function CreativeTemplate({ data }: TemplateProps) {
             </h2>
             {data.workExperience.map((job, index) => (
               <div key={index} className="mb-6 relative">
-                <div className="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-purple-400 to-blue-500 rounded-full"></div>
+                <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-purple-400 to-blue-500 rounded-full"></div>
                 <div className="ml-6">
                   <h3 className="text-xl font-semibold text-gray-800">{job.jobTitle}</h3>
                   <div className="text-gray-600 mb-2">
@@ -89,24 +89,8 @@ export default function CreativeTemplate({ data }: TemplateProps) {
           )}
         </div>
 
-        {/* Right Column */}
+        {/* Right Column - Skills and Additional Info */}
         <div>
-          {/* Education */}
-          <section className="mb-8">
-            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 mb-4">
-              Education
-            </h2>
-            {data.education.map((edu, index) => (
-              <div key={index} className="mb-4">
-                <h3 className="font-semibold text-gray-800">{edu.degree}</h3>
-                <div className="text-gray-600">
-                  {edu.institution}
-                  <div className="text-sm">{edu.graduationDate}</div>
-                </div>
-              </div>
-            ))}
-          </section>
-
           {/* Skills */}
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 mb-4">
@@ -124,19 +108,21 @@ export default function CreativeTemplate({ data }: TemplateProps) {
             </div>
           </section>
 
-          {/* Languages */}
-          {data.additionalSections.languages.length > 0 && (
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 mb-4">
-                Languages
-              </h2>
-              <div className="space-y-2">
-                {data.additionalSections.languages.map((lang, index) => (
-                  <div key={index} className="text-gray-700">{lang}</div>
-                ))}
+          {/* Education */}
+          <section className="mb-8">
+            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 mb-4">
+              Education
+            </h2>
+            {data.education.map((edu, index) => (
+              <div key={index} className="mb-4">
+                <h3 className="font-semibold text-gray-800">{edu.degree}</h3>
+                <div className="text-gray-600">
+                  {edu.institution}
+                  <div className="text-sm">{edu.graduationDate}</div>
+                </div>
               </div>
-            </section>
-          )}
+            ))}
+          </section>
 
           {/* Certifications */}
           {data.certifications.length > 0 && (
@@ -144,11 +130,45 @@ export default function CreativeTemplate({ data }: TemplateProps) {
               <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 mb-4">
                 Certifications
               </h2>
-              <div className="space-y-2">
+              <ul className="space-y-2">
                 {data.certifications.map((cert, index) => (
-                  <div key={index} className="text-gray-700">{cert}</div>
+                  <li key={index} className="text-gray-700 flex items-start">
+                    <span className="text-purple-500 mr-2">›</span>
+                    {cert}
+                  </li>
                 ))}
-              </div>
+              </ul>
+            </section>
+          )}
+
+          {/* Languages */}
+          {data.additionalSections.languages.length > 0 && (
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 mb-4">
+                Languages
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((lang, index) => (
+                  <li key={index} className="text-gray-700">{lang}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Awards */}
+          {data.additionalSections.awards.length > 0 && (
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 mb-4">
+                Awards
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li key={index} className="text-gray-700 flex items-start">
+                    <span className="text-purple-500 mr-2">›</span>
+                    {award}
+                  </li>
+                ))}
+              </ul>
             </section>
           )}
         </div>
