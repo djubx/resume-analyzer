@@ -16,6 +16,7 @@ import {
   Review,
 } from './components';
 import { ResumeData, ResumeSection } from './types';
+import { defaultResumeData } from './utils/defaultData';
 
 const STEPS = {
   TEMPLATE: 1,
@@ -28,47 +29,50 @@ const STEPS = {
   REVIEW: 8,
 } as const;
 
+const emptyResumeData: ResumeData = {
+  contactInformation: {
+    fullName: '',
+    phoneNumber: '',
+    email: '',
+    location: '',
+  },
+  professionalSummary: '',
+  workExperience: [{
+    jobTitle: '',
+    companyName: '',
+    location: '',
+    dates: '',
+    responsibilities: [''],
+  }],
+  education: [{
+    degree: '',
+    institution: '',
+    graduationDate: '',
+  }],
+  skills: [''],
+  certifications: [''],
+  projects: [{
+    name: '',
+    description: '',
+  }],
+  volunteerExperience: [{
+    organization: '',
+    role: '',
+    description: '',
+  }],
+  professionalAssociations: [''],
+  additionalSections: {
+    languages: [''],
+    publications: [''],
+    awards: [''],
+  },
+};
+
 export default function CreateResume() {
   const [currentStep, setCurrentStep] = useState(STEPS.TEMPLATE);
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
-  const [formData, setFormData] = useState<ResumeData>({
-    contactInformation: {
-      fullName: '',
-      phoneNumber: '',
-      email: '',
-      location: '',
-    },
-    professionalSummary: '',
-    workExperience: [{
-      jobTitle: '',
-      companyName: '',
-      location: '',
-      dates: '',
-      responsibilities: [''],
-    }],
-    education: [{
-      degree: '',
-      institution: '',
-      graduationDate: '',
-    }],
-    skills: [''],
-    certifications: [''],
-    projects: [{
-      name: '',
-      description: '',
-    }],
-    volunteerExperience: [{
-      organization: '',
-      role: '',
-      description: '',
-    }],
-    professionalAssociations: [''],
-    additionalSections: {
-      languages: [''],
-      publications: [''],
-      awards: [''],
-    },
-  });
+  const [formData, setFormData] = useState<ResumeData>(emptyResumeData);
+  const [useDefaultData, setUseDefaultData] = useState(false);
 
   const templates = [
     { id: 'modern', name: 'Modern', component: ModernTemplate },
@@ -107,76 +111,51 @@ export default function CreateResume() {
     }));
   };
 
+  const toggleDefaultData = () => {
+    setFormData(useDefaultData ? emptyResumeData : defaultResumeData);
+    setUseDefaultData(!useDefaultData);
+  };
+
   const renderStepContent = () => {
+    const commonProps = {
+      data: formData,
+      onUpdate: handleUpdate,
+      onArrayUpdate: handleArrayUpdate,
+      onArrayItemAdd: handleArrayItemAdd,
+      onArrayItemRemove: handleArrayItemRemove,
+    };
+
     switch (currentStep) {
       case STEPS.TEMPLATE:
         return (
-          <TemplateSelection
-            templates={templates}
-            selectedTemplate={selectedTemplate}
-            onSelect={setSelectedTemplate}
-          />
+          <div className="space-y-6">
+            <TemplateSelection
+              templates={templates}
+              selectedTemplate={selectedTemplate}
+              onSelect={setSelectedTemplate}
+            />
+            <div className="flex justify-center">
+              <button
+                onClick={toggleDefaultData}
+                className="text-blue-500 hover:text-blue-600 font-medium"
+              >
+                {useDefaultData ? 'Clear Sample Data' : 'Load Sample Data'}
+              </button>
+            </div>
+          </div>
         );
       case STEPS.PERSONAL:
-        return (
-          <PersonalInfo
-            data={formData}
-            onUpdate={handleUpdate}
-            onArrayUpdate={handleArrayUpdate}
-            onArrayItemAdd={handleArrayItemAdd}
-            onArrayItemRemove={handleArrayItemRemove}
-          />
-        );
+        return <PersonalInfo {...commonProps} />;
       case STEPS.EXPERIENCE:
-        return (
-          <WorkExperience
-            data={formData}
-            onUpdate={handleUpdate}
-            onArrayUpdate={handleArrayUpdate}
-            onArrayItemAdd={handleArrayItemAdd}
-            onArrayItemRemove={handleArrayItemRemove}
-          />
-        );
+        return <WorkExperience {...commonProps} />;
       case STEPS.EDUCATION:
-        return (
-          <Education
-            data={formData}
-            onUpdate={handleUpdate}
-            onArrayUpdate={handleArrayUpdate}
-            onArrayItemAdd={handleArrayItemAdd}
-            onArrayItemRemove={handleArrayItemRemove}
-          />
-        );
+        return <Education {...commonProps} />;
       case STEPS.SKILLS:
-        return (
-          <Skills
-            data={formData}
-            onUpdate={handleUpdate}
-            onArrayUpdate={handleArrayUpdate}
-            onArrayItemAdd={handleArrayItemAdd}
-            onArrayItemRemove={handleArrayItemRemove}
-          />
-        );
+        return <Skills {...commonProps} />;
       case STEPS.ADDITIONAL:
-        return (
-          <AdditionalInfo
-            data={formData}
-            onUpdate={handleUpdate}
-            onArrayUpdate={handleArrayUpdate}
-            onArrayItemAdd={handleArrayItemAdd}
-            onArrayItemRemove={handleArrayItemRemove}
-          />
-        );
+        return <AdditionalInfo {...commonProps} />;
       case STEPS.SUMMARY:
-        return (
-          <Summary
-            data={formData}
-            onUpdate={handleUpdate}
-            onArrayUpdate={handleArrayUpdate}
-            onArrayItemAdd={handleArrayItemAdd}
-            onArrayItemRemove={handleArrayItemRemove}
-          />
-        );
+        return <Summary {...commonProps} />;
       case STEPS.REVIEW:
         return (
           <Review
