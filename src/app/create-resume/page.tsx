@@ -90,6 +90,13 @@ export default function CreateResume() {
         setUseDefaultData(!useDefaultData);
     };
 
+    const handleStepClick = (stepIndex: number) => {
+        const currentIdx = STEP_ORDER.indexOf(currentStep);
+        if (stepIndex <= currentIdx + 1) {
+            setCurrentStep(STEP_ORDER[stepIndex]);
+        }
+    };
+
     const renderStepContent = () => {
         const commonProps = {
             data: formData,
@@ -230,20 +237,33 @@ export default function CreateResume() {
                         {STEP_ORDER.map((step, index) => {
                             const isActive = currentStepIndex === index;
                             const isCompleted = currentStepIndex > index;
+                            const isClickable = index <= currentStepIndex + 1;
+
                             return (
-                                <div
+                                <motion.div
                                     key={step}
-                                    className={STYLES.STEP_INDICATOR.ITEM(isActive, isCompleted)}
+                                    className={`group ${STYLES.STEP_INDICATOR.ITEM(isActive, isCompleted)}`}
+                                    onClick={() => handleStepClick(index)}
+                                    whileHover={isClickable ? { scale: 1.05 } : undefined}
+                                    whileTap={isClickable ? { scale: 0.95 } : undefined}
+                                    style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}
+                                    title={!isClickable ? "Complete previous steps first" : ""}
                                 >
                                     <motion.div 
                                         className={STYLES.STEP_INDICATOR.CIRCLE(isActive, isCompleted)}
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.95 }}
+                                        whileHover={{ scale: isClickable ? 1.1 : 1 }}
+                                        whileTap={{ scale: isClickable ? 0.95 : 1 }}
                                     >
-                                        {index + 1}
+                                        {isCompleted ? (
+                                            <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                            </svg>
+                                        ) : (
+                                            index + 1
+                                        )}
                                     </motion.div>
-                                    <span className={STYLES.STEP_INDICATOR.LABEL(isActive)}>{step}</span>
-                                </div>
+                                    <span className={STYLES.STEP_INDICATOR.LABEL(isActive, isCompleted)}>{step}</span>
+                                </motion.div>
                             );
                         })}
                     </div>

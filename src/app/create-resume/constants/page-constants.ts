@@ -46,23 +46,32 @@ export const STYLES = {
     STEP_INDICATOR: {
         CONTAINER: "flex justify-between items-center relative mb-12 px-4",
         PROGRESS_BAR: (progress: number) => `absolute h-1 bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out rounded-full -z-10 top-4`,
-        ITEM: (isActive: boolean, isCompleted: boolean) => `flex flex-col items-center ${
-            isActive ? 'scale-110 transition-transform duration-300' : 'scale-100'
-        }`,
+        ITEM: (isActive: boolean, isCompleted: boolean) => `
+            flex flex-col items-center cursor-pointer
+            ${isActive ? 'scale-110 transition-transform duration-300' : 'scale-100'}
+            hover:scale-105 transition-all duration-300
+        `,
         CIRCLE: (isActive: boolean, isCompleted: boolean) => `
             w-8 h-8 rounded-full flex items-center justify-center 
             transition-all duration-300 ease-out transform
             ${isActive 
                 ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-110' 
                 : isCompleted 
-                    ? 'bg-green-500 text-white' 
-                    : 'bg-gray-200 text-gray-500'
+                    ? 'bg-green-500 text-white hover:bg-green-600' 
+                    : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
             }
             ${isActive ? 'ring-4 ring-blue-100' : ''}
+            hover:shadow-md
         `,
-        LABEL: (isActive: boolean) => `
+        LABEL: (isActive: boolean, isCompleted: boolean) => `
             mt-2 text-sm font-medium transition-all duration-300
-            ${isActive ? 'text-blue-600' : 'text-gray-500'}
+            ${isActive 
+                ? 'text-blue-600' 
+                : isCompleted 
+                    ? 'text-green-600'
+                    : 'text-gray-500'
+            }
+            group-hover:text-blue-600
         `,
         CONNECTOR: "hidden",
     },
