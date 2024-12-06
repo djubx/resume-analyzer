@@ -19,6 +19,17 @@ export default function About() {
           <p className="text-xl max-w-2xl mx-auto text-gray-300">
             Resume Checkers is dedicated to helping job seekers optimize their resumes using cutting-edge AI technology.
           </p>
+          <p className="text-lg mt-4">
+            <strong>CEO:</strong> Ranju Jha
+          </p>
+          <a 
+            href="https://www.linkedin.com/in/ranju-jha-a130a5319/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg text-blue-300 underline mt-2 inline-block"
+          >
+            LinkedIn Profile
+          </a>
         </motion.div>
 
         <motion.div
@@ -31,7 +42,7 @@ export default function About() {
             {
               icon: <FaRocket className="text-5xl mb-4 text-blue-400" />,
               title: "Our Mission",
-              content: "To empower job seekers with AI-driven insights for crafting perfect resumes.",
+              content: "To Empower job seekers with AI-driven insights for crafting perfect resumes.",
             },
             {
               icon: <FaLightbulb className="text-5xl mb-4 text-yellow-400" />,
