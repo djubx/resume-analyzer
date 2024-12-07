@@ -99,6 +99,13 @@ export default function CreateResume() {
         }
     };
 
+    const handleStepComplete = () => {
+        const currentIdx = STEP_ORDER.indexOf(currentStep);
+        if (currentIdx < STEP_ORDER.length - 1) {
+            setCurrentStep(STEP_ORDER[currentIdx + 1]);
+        }
+    };
+
     const renderStepContent = () => {
         const commonProps = {
             data: formData,
@@ -114,7 +121,7 @@ export default function CreateResume() {
                     return (
                         <>
                             <h2 className={STYLES.SECTION_TITLE}>Upload Existing Resume</h2>
-                            <UploadResume {...commonProps} />
+                            <UploadResume {...commonProps} onStepComplete={handleStepComplete} />
                         </>
                     );
                 case STEPS.PERSONAL:

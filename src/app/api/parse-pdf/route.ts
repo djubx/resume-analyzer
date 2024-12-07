@@ -1,20 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import pdf from 'pdf-parse';
 
-// Add type declaration for pdf-parse
-declare module 'pdf-parse' {
-  interface PDFData {
-    text: string;
-    numpages: number;
-    info: any;
-    metadata: any;
-    version: string;
-  }
-  
-  function pdf(buffer: Buffer): Promise<PDFData>;
-  export = pdf;
-}
-
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();

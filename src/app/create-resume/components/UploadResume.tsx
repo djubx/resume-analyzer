@@ -15,6 +15,7 @@ interface UploadResumeProps {
 
 const MAX_RETRIES = 2;
 const RETRY_DELAY = 1000; // 1 second
+const SUCCESS_DELAY = 1500; // 1.5 seconds to show success state
 
 export default function UploadResume({ 
   data, 
@@ -29,12 +30,15 @@ export default function UploadResume({
 
   // Auto-navigate after success
   useEffect(() => {
-    if (isSuccess) {
-      const timer = setTimeout(() => {
-        onStepComplete?.();
-      }, 1500);
-      return () => clearTimeout(timer);
+    let timer: NodeJS.Timeout;
+    if (isSuccess && onStepComplete) {
+      timer = setTimeout(() => {
+        onStepComplete();
+      }, SUCCESS_DELAY);
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [isSuccess, onStepComplete]);
 
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
