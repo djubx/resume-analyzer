@@ -8,6 +8,7 @@ import TechnicalTemplate from '../templates/technical/TechnicalTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
+    UPLOAD: 'UPLOAD',
     PERSONAL: 'PERSONAL',
     EXPERIENCE: 'EXPERIENCE',
     EDUCATION: 'EDUCATION',
@@ -21,6 +22,7 @@ export const STEPS = {
 export type StepType = typeof STEPS[keyof typeof STEPS];
 
 export const STEP_ORDER: StepType[] = [
+    STEPS.UPLOAD,
     STEPS.PERSONAL,
     STEPS.EXPERIENCE,
     STEPS.EDUCATION,

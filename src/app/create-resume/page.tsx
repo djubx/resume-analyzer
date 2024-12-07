@@ -10,6 +10,7 @@ import {
     AdditionalInfo,
     Summary,
     Review,
+    UploadResume,
 } from './components';
 import { Icon } from './components/Icon';
 import { ResumeData } from './types';
@@ -27,7 +28,7 @@ import {
 import Navbar from '@/components/Navbar';
 
 export default function CreateResume() {
-    const [currentStep, setCurrentStep] = useState<StepType>(STEPS.PERSONAL);
+    const [currentStep, setCurrentStep] = useState<StepType>(STEPS.UPLOAD);
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
     const [formData, setFormData] = useState<ResumeData>(emptyResumeData);
     const [useDefaultData, setUseDefaultData] = useState(false);
@@ -109,6 +110,13 @@ export default function CreateResume() {
 
         const content = (() => {
             switch (currentStep) {
+                case STEPS.UPLOAD:
+                    return (
+                        <>
+                            <h2 className={STYLES.SECTION_TITLE}>Upload Existing Resume</h2>
+                            <UploadResume {...commonProps} />
+                        </>
+                    );
                 case STEPS.PERSONAL:
                     return (
                         <>
