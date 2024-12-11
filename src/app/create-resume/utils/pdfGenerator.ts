@@ -66,20 +66,23 @@ export const generatePDF = async (elementId: string, fileName: string, options: 
                 legal: { width: 215.9, height: 355.6 }
             }[finalOptions.pageSize];
 
-            const imgWidth = finalOptions.orientation === 'portrait' 
-                ? pageDimensions.width - (finalOptions.margin.left + finalOptions.margin.right)
-                : pageDimensions.height - (finalOptions.margin.left + finalOptions.margin.right);
+            // Calculate effective dimensions considering negative margins
+            const effectiveWidth = finalOptions.orientation === 'portrait' 
+                ? pageDimensions.width + Math.abs(Math.min(0, finalOptions.margin.left)) + Math.abs(Math.min(0, finalOptions.margin.right))
+                : pageDimensions.height + Math.abs(Math.min(0, finalOptions.margin.left)) + Math.abs(Math.min(0, finalOptions.margin.right));
             
-            const pageHeight = finalOptions.orientation === 'portrait'
-                ? pageDimensions.height - (finalOptions.margin.top + finalOptions.margin.bottom)
-                : pageDimensions.width - (finalOptions.margin.top + finalOptions.margin.bottom);
+            const effectiveHeight = finalOptions.orientation === 'portrait'
+                ? pageDimensions.height + Math.abs(Math.min(0, finalOptions.margin.top)) + Math.abs(Math.min(0, finalOptions.margin.bottom))
+                : pageDimensions.width + Math.abs(Math.min(0, finalOptions.margin.top)) + Math.abs(Math.min(0, finalOptions.margin.bottom));
 
+            // Calculate image dimensions
+            const imgWidth = effectiveWidth - Math.max(0, finalOptions.margin.left) - Math.max(0, finalOptions.margin.right);
             const imgHeight = canvas.height * imgWidth / canvas.width;
             
             // Create PDF with specified size and orientation
             const pdf = new jsPDF(finalOptions.orientation, 'mm', finalOptions.pageSize);
             let heightLeft = imgHeight;
-            let position = finalOptions.margin.top;
+            let position = Math.min(0, finalOptions.margin.top); // Start from negative margin if specified
             let pageNumber = 1;
 
             // Add image to PDF, creating new pages if necessary
@@ -91,7 +94,7 @@ export const generatePDF = async (elementId: string, fileName: string, options: 
                 pdf.addImage(
                     canvas.toDataURL('image/jpeg', finalOptions.quality),
                     'JPEG',
-                    finalOptions.margin.left,
+                    Math.min(0, finalOptions.margin.left), // Allow negative left margin
                     position,
                     imgWidth,
                     imgHeight,
@@ -99,8 +102,8 @@ export const generatePDF = async (elementId: string, fileName: string, options: 
                     'FAST'
                 );
                 
-                heightLeft -= pageHeight;
-                position -= pageHeight;
+                heightLeft -= effectiveHeight;
+                position -= effectiveHeight;
                 pageNumber++;
             }
 

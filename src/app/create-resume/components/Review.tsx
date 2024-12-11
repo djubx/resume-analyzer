@@ -95,6 +95,59 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
             </select>
           </div>
 
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <label className="block text-sm font-medium text-gray-700">Margins (mm)</label>
+              <button
+                onClick={() => setPdfOptions(prev => ({
+                  ...prev,
+                  margin: { top: 0, right: 0, bottom: 0, left: 0 }
+                }))}
+                className="text-xs text-blue-600 hover:text-blue-800"
+              >
+                Reset to 0
+              </button>
+            </div>
+            <div className="bg-gray-50 p-3 rounded-lg space-y-3">
+              {Object.entries(pdfOptions.margin).map(([side, value]) => (
+                <div key={side} className="flex items-center gap-3">
+                  <label className="text-sm text-gray-600 capitalize w-16">{side}</label>
+                  <input
+                    type="number"
+                    min="-50"
+                    max="50"
+                    value={value}
+                    onChange={(e) => setPdfOptions(prev => ({
+                      ...prev,
+                      margin: {
+                        ...prev.margin,
+                        [side]: parseInt(e.target.value) || 0
+                      }
+                    }))}
+                    className="w-20 rounded-md border border-gray-300 px-2 py-1"
+                  />
+                  <input
+                    type="range"
+                    min="-50"
+                    max="50"
+                    value={value}
+                    onChange={(e) => setPdfOptions(prev => ({
+                      ...prev,
+                      margin: {
+                        ...prev.margin,
+                        [side]: parseInt(e.target.value)
+                      }
+                    }))}
+                    className="flex-1"
+                  />
+                </div>
+              ))}
+              <p className="text-xs text-gray-500 mt-2">
+                Negative margins extend content beyond page boundaries
+              </p>
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Quality (0.1 - 1.0)</label>
             <input
@@ -121,29 +174,6 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
               className="w-full"
             />
             <div className="text-sm text-gray-500 text-right">{pdfOptions.scale.toFixed(1)}x</div>
-          </div>
-
-          <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">Margins (mm)</label>
-            {Object.entries(pdfOptions.margin).map(([side, value]) => (
-              <div key={side} className="flex items-center gap-2">
-                <label className="text-sm text-gray-600 capitalize w-16">{side}</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="50"
-                  value={value}
-                  onChange={(e) => setPdfOptions(prev => ({
-                    ...prev,
-                    margin: {
-                      ...prev.margin,
-                      [side]: parseInt(e.target.value) || 0
-                    }
-                  }))}
-                  className="w-20 rounded-md border border-gray-300 px-2 py-1"
-                />
-              </div>
-            ))}
           </div>
         </div>
       </div>
