@@ -3,8 +3,35 @@ import html2canvas from 'html2canvas';
 
 const PDF_TIMEOUT = 30000; // 30 seconds timeout
 
-export const generatePDF = async (elementId: string, fileName: string) => {
+export interface PDFOptions {
+    margin: {
+        top: number;
+        right: number;
+        bottom: number;
+        left: number;
+    };
+    quality: number;
+    scale: number;
+    pageSize: 'a4' | 'letter' | 'legal';
+    orientation: 'portrait' | 'landscape';
+}
+
+const defaultPDFOptions: PDFOptions = {
+    margin: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    },
+    quality: 1.0,
+    scale: 2,
+    pageSize: 'a4',
+    orientation: 'portrait'
+};
+
+export const generatePDF = async (elementId: string, fileName: string, options: Partial<PDFOptions> = {}) => {
     try {
+        const finalOptions = { ...defaultPDFOptions, ...options };
         const element = document.getElementById(elementId);
         if (!element) {
             throw new Error('Element not found');
@@ -25,22 +52,34 @@ export const generatePDF = async (elementId: string, fileName: string) => {
 
             // Create canvas with better quality
             const canvas = await html2canvas(element, {
-                scale: 2, // Better quality
+                scale: finalOptions.scale,
                 useCORS: true,
                 logging: false,
                 allowTaint: true,
                 backgroundColor: '#ffffff'
             });
 
-            // Calculate PDF dimensions to match A4
-            const imgWidth = 210; // A4 width in mm
-            const pageHeight = 297; // A4 height in mm
+            // Calculate PDF dimensions based on page size and orientation
+            const pageDimensions = {
+                a4: { width: 210, height: 297 },
+                letter: { width: 215.9, height: 279.4 },
+                legal: { width: 215.9, height: 355.6 }
+            }[finalOptions.pageSize];
+
+            const imgWidth = finalOptions.orientation === 'portrait' 
+                ? pageDimensions.width - (finalOptions.margin.left + finalOptions.margin.right)
+                : pageDimensions.height - (finalOptions.margin.left + finalOptions.margin.right);
+            
+            const pageHeight = finalOptions.orientation === 'portrait'
+                ? pageDimensions.height - (finalOptions.margin.top + finalOptions.margin.bottom)
+                : pageDimensions.width - (finalOptions.margin.top + finalOptions.margin.bottom);
+
             const imgHeight = canvas.height * imgWidth / canvas.width;
             
-            // Create PDF of A4 size
-            const pdf = new jsPDF('p', 'mm', 'a4');
+            // Create PDF with specified size and orientation
+            const pdf = new jsPDF(finalOptions.orientation, 'mm', finalOptions.pageSize);
             let heightLeft = imgHeight;
-            let position = 0;
+            let position = finalOptions.margin.top;
             let pageNumber = 1;
 
             // Add image to PDF, creating new pages if necessary
@@ -50,9 +89,9 @@ export const generatePDF = async (elementId: string, fileName: string) => {
                 }
                 
                 pdf.addImage(
-                    canvas.toDataURL('image/jpeg', 1.0),
+                    canvas.toDataURL('image/jpeg', finalOptions.quality),
                     'JPEG',
-                    0,
+                    finalOptions.margin.left,
                     position,
                     imgWidth,
                     imgHeight,
