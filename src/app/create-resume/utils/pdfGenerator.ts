@@ -1,5 +1,5 @@
+import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 const PDF_TIMEOUT = 30000; // 30 seconds timeout
 
@@ -23,24 +23,48 @@ export const generatePDF = async (elementId: string, fileName: string) => {
                     .map(img => img.complete ? Promise.resolve() : new Promise(resolve => img.onload = resolve))
             );
 
+            // Create canvas with better quality
             const canvas = await html2canvas(element, {
-                scale: 2,
+                scale: 2, // Better quality
                 useCORS: true,
                 logging: false,
                 allowTaint: true,
-                backgroundColor: '#ffffff',
-                windowWidth: element.scrollWidth,
-                windowHeight: element.scrollHeight,
+                backgroundColor: '#ffffff'
             });
 
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF({
-                orientation: 'portrait',
-                unit: 'px',
-                format: [canvas.width, canvas.height]
-            });
+            // Calculate PDF dimensions to match A4
+            const imgWidth = 210; // A4 width in mm
+            const pageHeight = 297; // A4 height in mm
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            
+            // Create PDF of A4 size
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            let heightLeft = imgHeight;
+            let position = 0;
+            let pageNumber = 1;
 
-            pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+            // Add image to PDF, creating new pages if necessary
+            while (heightLeft >= 0) {
+                if (pageNumber > 1) {
+                    pdf.addPage();
+                }
+                
+                pdf.addImage(
+                    canvas.toDataURL('image/jpeg', 1.0),
+                    'JPEG',
+                    0,
+                    position,
+                    imgWidth,
+                    imgHeight,
+                    '',
+                    'FAST'
+                );
+                
+                heightLeft -= pageHeight;
+                position -= pageHeight;
+                pageNumber++;
+            }
+
             pdf.save(fileName);
         })();
 
