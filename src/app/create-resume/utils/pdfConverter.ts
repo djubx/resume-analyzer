@@ -119,6 +119,15 @@ export const generatePDF = async (elementId: string, fileName: string, config: P
     }
 };
 
+// Helper function to chunk array into smaller arrays
+const chunkArray = <T>(array: T[], size: number): T[][] => {
+    const chunks: T[][] = [];
+    for (let i = 0; i < array.length; i += size) {
+        chunks.push(array.slice(i, i + size));
+    }
+    return chunks;
+};
+
 export const generateAllPDFs = async (elementId: string, data: any, templates: any[], config: Partial<PDFConfig> = {}) => {
     try {
         // Get all stylesheet contents once to reuse
@@ -143,90 +152,102 @@ export const generateAllPDFs = async (elementId: string, data: any, templates: a
 
         const styleContent = stylesheets.join('\n');
 
-        // Generate PDFs in parallel
-        const results = await Promise.allSettled(templates.map(async (template) => {
-            try {
-                // Create a temporary container for each template
-                const tempContainer = document.createElement('div');
-                tempContainer.id = `temp-${template.id}`;
-                document.body.appendChild(tempContainer);
+        // Process templates in chunks of 10 to prevent browser throttling
+        const templateChunks = chunkArray(templates, 10);
+        const results: PromiseSettledResult<any>[] = [];
 
-                // Render the template
-                const templateElement = createElement(template.component, { data });
-                const root = createRoot(tempContainer);
-                root.render(templateElement);
+        for (const chunk of templateChunks) {
+            const chunkResults = await Promise.allSettled(chunk.map(async (template) => {
+                try {
+                    // Create a temporary container for each template
+                    const tempContainer = document.createElement('div');
+                    tempContainer.id = `temp-${template.id}`;
+                    document.body.appendChild(tempContainer);
 
-                // Wait a bit for the render to complete
-                await new Promise(resolve => setTimeout(resolve, 100));
+                    // Render the template
+                    const templateElement = createElement(template.component, { data });
+                    const root = createRoot(tempContainer);
+                    root.render(templateElement);
 
-                // Generate HTML for this template
-                const html = `
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <meta charset="UTF-8">
-                        <style>${styleContent}</style>
-                    </head>
-                    <body class="bg-white">
-                        ${tempContainer.innerHTML}
-                    </body>
-                    </html>
-                `;
+                    // Wait for render to complete (reduced to 100ms)
+                    await new Promise(resolve => setTimeout(resolve, 100));
 
-                // Make the API call
-                const response = await fetch('https://api.resumecheckers.com/convert-to-pdf', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        html,
-                        config: {
-                            ...defaultConfig,
-                            ...config
-                        }
-                    }),
-                });
+                    // Generate HTML for this template
+                    const html = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta charset="UTF-8">
+                            <style>${styleContent}</style>
+                        </head>
+                        <body class="bg-white">
+                            ${tempContainer.innerHTML}
+                        </body>
+                        </html>
+                    `;
 
-                if (!response.ok) {
-                    throw new Error(`PDF conversion failed for ${template.name}: ${response.statusText}`);
+                    // Make the API call
+                    const response = await fetch('https://api.resumecheckers.com/convert-to-pdf', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            html,
+                            config: {
+                                ...defaultConfig,
+                                ...config
+                            }
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`PDF conversion failed for ${template.name}: ${response.statusText}`);
+                    }
+
+                    const pdfBlob = await response.blob();
+                    const fileName = `${data.contactInformation.fullName.toLowerCase().replace(/\s+/g, '-')}-${template.id}-resume.pdf`;
+
+                    // Create download link
+                    const url = window.URL.createObjectURL(pdfBlob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+
+                    // Cleanup
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                    root.unmount();
+                    document.body.removeChild(tempContainer);
+
+                    // Add a small delay between downloads (reduced to 200ms)
+                    await new Promise(resolve => setTimeout(resolve, 200));
+
+                    return {
+                        templateId: template.id,
+                        templateName: template.name,
+                        success: true
+                    };
+                } catch (error) {
+                    return {
+                        templateId: template.id,
+                        templateName: template.name,
+                        success: false,
+                        error: error instanceof Error ? error.message : 'Unknown error'
+                    };
                 }
+            }));
 
-                const pdfBlob = await response.blob();
-                const fileName = `${data.contactInformation.fullName.toLowerCase().replace(/\s+/g, '-')}-${template.id}-resume.pdf`;
-
-                // Create download link
-                const url = window.URL.createObjectURL(pdfBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = fileName;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-
-                // Cleanup
-                root.unmount();
-                document.body.removeChild(tempContainer);
-
-                return {
-                    templateId: template.id,
-                    templateName: template.name,
-                    success: true
-                };
-            } catch (error) {
-                return {
-                    templateId: template.id,
-                    templateName: template.name,
-                    success: false,
-                    error: error instanceof Error ? error.message : 'Unknown error'
-                };
-            }
-        }));
+            results.push(...chunkResults);
+            // Add a delay between chunks (reduced to 500ms)
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
 
         return results;
     } catch (error) {
         console.error('Parallel PDF Generation failed:', error);
         throw new Error(error instanceof Error ? error.message : 'Failed to generate PDFs');
     }
-}; 
+};

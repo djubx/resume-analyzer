@@ -76,10 +76,13 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
       
       setGenerationProgress(prev => 
         prev.map(item => {
-          const result = results.find(r => 
-            r.status === 'fulfilled' && 
-            (r.value as any).templateId === item.templateId
-          );
+          const result = results.find(r => {
+            if (r.status === 'fulfilled') {
+              const value = r.value as any;
+              return value.templateId === item.templateId;
+            }
+            return false;
+          });
           
           if (result?.status === 'fulfilled') {
             const value = result.value as any;
@@ -95,12 +98,33 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
               error: result.reason?.message || 'Unknown error'
             };
           }
-          return item;
+          return {
+            ...item,
+            status: 'error',
+            error: 'Template processing failed'
+          };
         })
       );
+
+      const failedCount = results.filter(r => 
+        r.status === 'rejected' || 
+        (r.status === 'fulfilled' && !(r.value as any).success)
+      ).length;
+
+      if (failedCount > 0) {
+        setError(`Failed to generate ${failedCount} template${failedCount > 1 ? 's' : ''}`);
+      }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Failed to generate PDFs');
       console.error('Failed to generate PDFs:', error);
+      
+      setGenerationProgress(prev => 
+        prev.map(item => 
+          item.status === 'pending' 
+            ? { ...item, status: 'error', error: 'Generation process failed' }
+            : item
+        )
+      );
     } finally {
       setIsGeneratingAll(false);
     }
