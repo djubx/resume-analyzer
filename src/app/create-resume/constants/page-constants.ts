@@ -46,6 +46,8 @@ import SteampunkTemplate from '../templates/steampunk/SteampunkTemplate';
 import NeonOutrunTemplate from '../templates/neon-outrun/NeonOutrunTemplate';
 import StainedGlassTemplate from '../templates/stained-glass/StainedGlassTemplate';
 import BauhausTemplate from '../templates/bauhaus/BauhausTemplate';
+import TechnicalLeadTemplate from '../templates/technical-lead/TechnicalLeadTemplate';
+import ProductManagerTemplate from '../templates/product-manager/ProductManagerTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
@@ -164,6 +166,24 @@ export const templates = [
         name: 'Modern Clean',
         description: 'A clean and contemporary design with a focus on readability and visual hierarchy.',
         component: ModernTemplate
+    },
+    {
+        id: 'technical-lead',
+        name: 'Technical Lead',
+        description: 'A professional template emphasizing technical leadership and engineering management skills.',
+        component: TechnicalLeadTemplate
+    },
+    {
+        id: 'product-manager',
+        name: 'Product Manager',
+        description: 'A strategic template highlighting product vision, user experience, and business impact.',
+        component: ProductManagerTemplate
+    },
+    {
+        id: 'executive',
+        name: 'Executive',
+        description: 'A sophisticated template for C-level executives, VPs, and Directors focusing on leadership and strategic achievements.',
+        component: ExecutiveTemplate
     },
     {
         id: 'safari',
@@ -428,12 +448,6 @@ export const templates = [
         name: 'Compact',
         description: 'A compact and concise design for a more streamlined resume.',
         component: CompactTemplate
-    },
-    {
-        id: 'executive',
-        name: 'Executive',
-        description: 'A sophisticated and executive design for high-level professionals.',
-        component: ExecutiveTemplate
     },
     {
         id: 'minimalist',
