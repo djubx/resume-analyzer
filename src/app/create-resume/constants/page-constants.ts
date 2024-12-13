@@ -26,6 +26,11 @@ import LuxuryTemplate from '../templates/luxury/LuxuryTemplate';
 import WatercolorTemplate from '../templates/watercolor/WatercolorTemplate';
 import GradientFlowTemplate from '../templates/gradient-flow/GradientFlowTemplate';
 import TechWaveTemplate from '../templates/tech-wave/TechWaveTemplate';
+import BlueprintTemplate from '../templates/blueprint/BlueprintTemplate';
+import CosmicTemplate from '../templates/cosmic/CosmicTemplate';
+import PixelArtTemplate from '../templates/pixel-art/PixelArtTemplate';
+import MaterialTemplate from '../templates/material/MaterialTemplate';
+import MarbleTemplate from '../templates/marble/MarbleTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
@@ -144,6 +149,36 @@ export const templates = [
         name: 'Modern Clean',
         description: 'A clean and contemporary design with a focus on readability and visual hierarchy.',
         component: ModernTemplate
+    },
+    {
+        id: 'blueprint',
+        name: 'Blueprint',
+        description: 'A technical blueprint-inspired design with grid patterns and engineering aesthetics.',
+        component: BlueprintTemplate
+    },
+    {
+        id: 'cosmic',
+        name: 'Cosmic',
+        description: 'A space-inspired design with stellar patterns and cosmic elements.',
+        component: CosmicTemplate
+    },
+    {
+        id: 'pixel-art',
+        name: 'Pixel Art',
+        description: 'A retro gaming-inspired design with pixel art aesthetics and nostalgic elements.',
+        component: PixelArtTemplate
+    },
+    {
+        id: 'material',
+        name: 'Material Design',
+        description: 'A modern template following Google\'s Material Design principles.',
+        component: MaterialTemplate
+    },
+    {
+        id: 'marble',
+        name: 'Marble',
+        description: 'An elegant design with marble textures and refined patterns.',
+        component: MarbleTemplate
     },
     {
         id: 'neon-cyberpunk',
