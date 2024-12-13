@@ -41,6 +41,11 @@ import InfographicTemplate from '../templates/infographic/InfographicTemplate';
 import ComicBookTemplate from '../templates/comic-book/ComicBookTemplate';
 import IndustrialTemplate from '../templates/industrial/IndustrialTemplate';
 import OrigamiTemplate from '../templates/origami/OrigamiTemplate';
+import SafariTemplate from '../templates/safari/SafariTemplate';
+import SteampunkTemplate from '../templates/steampunk/SteampunkTemplate';
+import NeonOutrunTemplate from '../templates/neon-outrun/NeonOutrunTemplate';
+import StainedGlassTemplate from '../templates/stained-glass/StainedGlassTemplate';
+import BauhausTemplate from '../templates/bauhaus/BauhausTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
@@ -159,6 +164,36 @@ export const templates = [
         name: 'Modern Clean',
         description: 'A clean and contemporary design with a focus on readability and visual hierarchy.',
         component: ModernTemplate
+    },
+    {
+        id: 'safari',
+        name: 'Safari Adventure',
+        description: 'An adventurous design with earthy tones and wildlife-inspired elements.',
+        component: SafariTemplate
+    },
+    {
+        id: 'steampunk',
+        name: 'Steampunk',
+        description: 'A Victorian-era industrial design with brass accents and mechanical elements.',
+        component: SteampunkTemplate
+    },
+    {
+        id: 'neon-outrun',
+        name: 'Neon Outrun',
+        description: 'A retro-futuristic design with neon colors and 80s synthwave aesthetics.',
+        component: NeonOutrunTemplate
+    },
+    {
+        id: 'stained-glass',
+        name: 'Stained Glass',
+        description: 'An elegant design inspired by stained glass windows with translucent colors.',
+        component: StainedGlassTemplate
+    },
+    {
+        id: 'bauhaus',
+        name: 'Bauhaus',
+        description: 'A modernist design inspired by the Bauhaus movement with geometric shapes and primary colors.',
+        component: BauhausTemplate
     },
     {
         id: 'art-deco',
