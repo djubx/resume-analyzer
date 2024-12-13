@@ -2,7 +2,7 @@
 
 import { ComponentType, useState, createElement } from 'react';
 import { ResumeData } from '../types';
-import { generatePDF, PDFOptions } from '../utils/pdfGenerator';
+import { generatePDF, PDFOptions } from '../utils/pdfConverter';
 
 interface ReviewProps {
   data: ResumeData;
@@ -27,8 +27,6 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
       bottom: 0,
       left: 0
     },
-    quality: 1.0,
-    scale: 2,
     pageSize: 'a4',
     orientation: 'portrait'
   });
@@ -146,34 +144,6 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
                 Negative margins extend content beyond page boundaries
               </p>
             </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Quality (0.1 - 1.0)</label>
-            <input
-              type="range"
-              min="0.1"
-              max="1.0"
-              step="0.1"
-              value={pdfOptions.quality}
-              onChange={(e) => setPdfOptions(prev => ({ ...prev, quality: parseFloat(e.target.value) }))}
-              className="w-full"
-            />
-            <div className="text-sm text-gray-500 text-right">{pdfOptions.quality.toFixed(1)}</div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Scale (1 - 3)</label>
-            <input
-              type="range"
-              min="1"
-              max="3"
-              step="0.5"
-              value={pdfOptions.scale}
-              onChange={(e) => setPdfOptions(prev => ({ ...prev, scale: parseFloat(e.target.value) }))}
-              className="w-full"
-            />
-            <div className="text-sm text-gray-500 text-right">{pdfOptions.scale.toFixed(1)}x</div>
           </div>
         </div>
       </div>
