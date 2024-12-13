@@ -5,6 +5,12 @@ import CompactTemplate from '../templates/compact/CompactTemplate';
 import ExecutiveTemplate from '../templates/executive/ExecutiveTemplate';
 import MinimalistTemplate from '../templates/minimalist/MinimalistTemplate';
 import TechnicalTemplate from '../templates/technical/TechnicalTemplate';
+import VibrantTemplate from '../templates/vibrant/VibrantTemplate';
+import FuturisticTemplate from '../templates/futuristic/FuturisticTemplate';
+import ElegantTemplate from '../templates/elegant/ElegantTemplate';
+import RetroTemplate from '../templates/retro/RetroTemplate';
+import MinimalDarkTemplate from '../templates/minimal-dark/MinimalDarkTemplate';
+import NordicTemplate from '../templates/nordic/NordicTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
@@ -137,6 +143,42 @@ export const templates = [
         component: CreativeTemplate
     },
     {
+        id: 'vibrant',
+        name: 'Vibrant Gradient',
+        description: 'A modern and energetic design with vibrant gradients and bold colors.',
+        component: VibrantTemplate
+    },
+    {
+        id: 'futuristic',
+        name: 'Futuristic Dark',
+        description: 'A cutting-edge design with neon accents and dark mode aesthetics.',
+        component: FuturisticTemplate
+    },
+    {
+        id: 'elegant',
+        name: 'Elegant Serif',
+        description: 'A sophisticated design with classic typography and refined spacing.',
+        component: ElegantTemplate
+    },
+    {
+        id: 'retro',
+        name: 'Retro Vintage',
+        description: 'A nostalgic design with typewriter fonts and vintage aesthetics.',
+        component: RetroTemplate
+    },
+    {
+        id: 'minimal-dark',
+        name: 'Minimal Dark',
+        description: 'A sleek dark theme with minimalist layout and typography.',
+        component: MinimalDarkTemplate
+    },
+    {
+        id: 'nordic',
+        name: 'Nordic Clean',
+        description: 'A clean Scandinavian design with subtle shadows and natural colors.',
+        component: NordicTemplate
+    },
+    {
         id: 'compact',
         name: 'Compact',
         description: 'A compact and concise design for a more streamlined resume.',
@@ -159,7 +201,7 @@ export const templates = [
         name: 'Technical',
         description: 'A technical design with a focus on technical details and expertise.',
         component: TechnicalTemplate
-    },
+    }
 ];
 
 export const emptyResumeData: ResumeData = {
