@@ -2,7 +2,7 @@
 
 import { ComponentType, useState, createElement } from 'react';
 import { ResumeData } from '../types';
-import { generatePDF, PDFOptions } from '../utils/pdfConverter';
+import { generatePDF, PDFConfig } from '../utils/pdfConverter';
 
 interface ReviewProps {
   data: ResumeData;
@@ -20,15 +20,19 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPdfSettings, setShowPdfSettings] = useState(false);
-  const [pdfOptions, setPdfOptions] = useState<PDFOptions>({
+  const [pdfConfig, setPdfConfig] = useState<PDFConfig>({
+    format: 'A4',
     margin: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
+      top: '20px',
+      right: '20px',
+      bottom: '20px',
+      left: '20px'
     },
-    pageSize: 'a4',
-    orientation: 'portrait'
+    scale: 1.0,
+    landscape: false,
+    printBackground: true,
+    preferCSSPageSize: false,
+    displayHeaderFooter: false
   });
 
   const handleDownload = async () => {
@@ -41,7 +45,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
       await generatePDF(
         'resume-template',
         `${data.contactInformation.fullName.toLowerCase().replace(/\s+/g, '-')}-resume.pdf`,
-        pdfOptions
+        pdfConfig
       );
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Failed to generate PDF');
@@ -69,81 +73,149 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Page Size</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Page Format</label>
             <select
-              value={pdfOptions.pageSize}
-              onChange={(e) => setPdfOptions(prev => ({ ...prev, pageSize: e.target.value as 'a4' | 'letter' | 'legal' }))}
+              value={pdfConfig.format}
+              onChange={(e) => setPdfConfig(prev => ({ ...prev, format: e.target.value as PDFConfig['format'] }))}
               className="w-full rounded-md border border-gray-300 px-3 py-2"
             >
-              <option value="a4">A4</option>
-              <option value="letter">Letter</option>
-              <option value="legal">Legal</option>
+              {['A4', 'A3', 'A5', 'Letter', 'Legal', 'Tabloid'].map(format => (
+                <option key={format} value={format}>{format}</option>
+              ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Orientation</label>
-            <select
-              value={pdfOptions.orientation}
-              onChange={(e) => setPdfOptions(prev => ({ ...prev, orientation: e.target.value as 'portrait' | 'landscape' }))}
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              <option value="portrait">Portrait</option>
-              <option value="landscape">Landscape</option>
-            </select>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Scale (0.1 - 2.0)</label>
+            <div className="flex items-center gap-3">
+              <input
+                type="range"
+                min="0.1"
+                max="2"
+                step="0.1"
+                value={pdfConfig.scale}
+                onChange={(e) => setPdfConfig(prev => ({ ...prev, scale: parseFloat(e.target.value) }))}
+                className="flex-1"
+              />
+              <span className="text-sm text-gray-600 w-12">{pdfConfig.scale.toFixed(1)}</span>
+            </div>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="block text-sm font-medium text-gray-700">Margins (mm)</label>
+              <label className="block text-sm font-medium text-gray-700">Margins</label>
               <button
-                onClick={() => setPdfOptions(prev => ({
+                onClick={() => setPdfConfig(prev => ({
                   ...prev,
-                  margin: { top: 0, right: 0, bottom: 0, left: 0 }
+                  margin: { top: '20px', right: '20px', bottom: '20px', left: '20px' }
                 }))}
                 className="text-xs text-blue-600 hover:text-blue-800"
               >
-                Reset to 0
+                Reset
               </button>
             </div>
             <div className="bg-gray-50 p-3 rounded-lg space-y-3">
-              {Object.entries(pdfOptions.margin).map(([side, value]) => (
+              {Object.entries(pdfConfig.margin).map(([side, value]) => (
                 <div key={side} className="flex items-center gap-3">
                   <label className="text-sm text-gray-600 capitalize w-16">{side}</label>
                   <input
-                    type="number"
-                    min="-50"
-                    max="50"
+                    type="text"
                     value={value}
-                    onChange={(e) => setPdfOptions(prev => ({
+                    onChange={(e) => setPdfConfig(prev => ({
                       ...prev,
                       margin: {
                         ...prev.margin,
-                        [side]: parseInt(e.target.value) || 0
+                        [side]: e.target.value
                       }
                     }))}
-                    className="w-20 rounded-md border border-gray-300 px-2 py-1"
-                  />
-                  <input
-                    type="range"
-                    min="-50"
-                    max="50"
-                    value={value}
-                    onChange={(e) => setPdfOptions(prev => ({
-                      ...prev,
-                      margin: {
-                        ...prev.margin,
-                        [side]: parseInt(e.target.value)
-                      }
-                    }))}
-                    className="flex-1"
+                    placeholder="20px"
+                    className="w-20 rounded-md border border-gray-300 px-2 py-1 text-sm"
                   />
                 </div>
               ))}
               <p className="text-xs text-gray-500 mt-2">
-                Negative margins extend content beyond page boundaries
+                Use px, cm, or in (e.g., 20px, 2cm, 1in)
               </p>
             </div>
+          </div>
+
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-700">Options</label>
+            <div className="space-y-2">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={pdfConfig.landscape}
+                  onChange={(e) => setPdfConfig(prev => ({ ...prev, landscape: e.target.checked }))}
+                  className="rounded border-gray-300"
+                />
+                <span className="text-sm text-gray-700">Landscape orientation</span>
+              </label>
+              
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={pdfConfig.printBackground}
+                  onChange={(e) => setPdfConfig(prev => ({ ...prev, printBackground: e.target.checked }))}
+                  className="rounded border-gray-300"
+                />
+                <span className="text-sm text-gray-700">Print background</span>
+              </label>
+
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={pdfConfig.preferCSSPageSize}
+                  onChange={(e) => setPdfConfig(prev => ({ ...prev, preferCSSPageSize: e.target.checked }))}
+                  className="rounded border-gray-300"
+                />
+                <span className="text-sm text-gray-700">Prefer CSS page size</span>
+              </label>
+
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={pdfConfig.displayHeaderFooter}
+                  onChange={(e) => setPdfConfig(prev => ({ ...prev, displayHeaderFooter: e.target.checked }))}
+                  className="rounded border-gray-300"
+                />
+                <span className="text-sm text-gray-700">Display header/footer</span>
+              </label>
+            </div>
+          </div>
+
+          {pdfConfig.displayHeaderFooter && (
+            <div className="space-y-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Header Template</label>
+                <textarea
+                  value={pdfConfig.headerTemplate || ''}
+                  onChange={(e) => setPdfConfig(prev => ({ ...prev, headerTemplate: e.target.value }))}
+                  placeholder="<div>Header HTML</div>"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm h-20"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Footer Template</label>
+                <textarea
+                  value={pdfConfig.footerTemplate || ''}
+                  onChange={(e) => setPdfConfig(prev => ({ ...prev, footerTemplate: e.target.value }))}
+                  placeholder="<div>Footer HTML</div>"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm h-20"
+                />
+              </div>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Page Ranges</label>
+            <input
+              type="text"
+              value={pdfConfig.pageRanges || ''}
+              onChange={(e) => setPdfConfig(prev => ({ ...prev, pageRanges: e.target.value }))}
+              placeholder="e.g., 1-5, 8"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+            />
           </div>
         </div>
       </div>

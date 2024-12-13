@@ -1,15 +1,37 @@
-export interface PDFOptions {
+export interface PDFConfig {
+    format: 'A4' | 'A3' | 'A5' | 'Letter' | 'Legal' | 'Tabloid';
     margin: {
-        top: number;
-        right: number;
-        bottom: number;
-        left: number;
+        top: string;
+        right: string;
+        bottom: string;
+        left: string;
     };
-    pageSize: 'a4' | 'letter' | 'legal';
-    orientation: 'portrait' | 'landscape';
+    scale: number;
+    landscape: boolean;
+    printBackground: boolean;
+    preferCSSPageSize: boolean;
+    displayHeaderFooter: boolean;
+    headerTemplate?: string;
+    footerTemplate?: string;
+    pageRanges?: string;
 }
 
-export const generatePDF = async (elementId: string, fileName: string, options: Partial<PDFOptions> = {}) => {
+const defaultConfig: PDFConfig = {
+    format: 'A4',
+    printBackground: true,
+    margin: {
+        top: '20px',
+        right: '20px',
+        bottom: '20px',
+        left: '20px'
+    },
+    scale: 1.0,
+    landscape: false,
+    preferCSSPageSize: false,
+    displayHeaderFooter: false
+};
+
+export const generatePDF = async (elementId: string, fileName: string, config: Partial<PDFConfig> = {}) => {
     try {
         const element = document.getElementById(elementId);
         if (!element) {
@@ -56,18 +78,16 @@ export const generatePDF = async (elementId: string, fileName: string, options: 
         `;
 
         // Make the API call to convert HTML to PDF
-        const response = await fetch('http://localhost:8000/convert-to-pdf', {
+        const response = await fetch('https://api.resumecheckers.com/convert-to-pdf', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 html,
-                options: {
-                    ...options,
-                    printBackground: true,
-                    scale: 1,
-                    preferCSSPageSize: true
+                config: {
+                    ...defaultConfig,
+                    ...config
                 }
             }),
         });
