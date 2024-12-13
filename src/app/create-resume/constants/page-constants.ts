@@ -31,6 +31,11 @@ import CosmicTemplate from '../templates/cosmic/CosmicTemplate';
 import PixelArtTemplate from '../templates/pixel-art/PixelArtTemplate';
 import MaterialTemplate from '../templates/material/MaterialTemplate';
 import MarbleTemplate from '../templates/marble/MarbleTemplate';
+import VintagePrintTemplate from '../templates/vintage-print/VintagePrintTemplate';
+import HolographicTemplate from '../templates/holographic/HolographicTemplate';
+import BotanicalTemplate from '../templates/botanical/BotanicalTemplate';
+import NeonSynthwaveTemplate from '../templates/neon-synthwave/NeonSynthwaveTemplate';
+import ZenTemplate from '../templates/zen/ZenTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
@@ -149,6 +154,36 @@ export const templates = [
         name: 'Modern Clean',
         description: 'A clean and contemporary design with a focus on readability and visual hierarchy.',
         component: ModernTemplate
+    },
+    {
+        id: 'vintage-print',
+        name: 'Vintage Print',
+        description: 'A classic letterpress-inspired design with vintage typography and elegant borders.',
+        component: VintagePrintTemplate
+    },
+    {
+        id: 'holographic',
+        name: 'Holographic',
+        description: 'A futuristic design with iridescent effects and glowing elements.',
+        component: HolographicTemplate
+    },
+    {
+        id: 'botanical',
+        name: 'Botanical',
+        description: 'A nature-inspired design with organic patterns and earthy colors.',
+        component: BotanicalTemplate
+    },
+    {
+        id: 'neon-synthwave',
+        name: 'Neon Synthwave',
+        description: 'A retro-futuristic design with neon colors and synthwave aesthetics.',
+        component: NeonSynthwaveTemplate
+    },
+    {
+        id: 'zen',
+        name: 'Zen',
+        description: 'A minimalist Japanese-inspired design with clean typography and balanced layout.',
+        component: ZenTemplate
     },
     {
         id: 'blueprint',
