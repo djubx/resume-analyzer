@@ -4,44 +4,27 @@ import { TemplateProps } from '../../types';
 
 export default function PixelArtTemplate({ data }: TemplateProps) {
   return (
-    <div className="max-w-[21cm] mx-auto bg-[#1a1b26] p-8 shadow-lg print:shadow-none text-white relative overflow-hidden font-mono">
-      {/* Pixel Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(66,71,105,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(66,71,105,0.1)_1px,transparent_1px)] bg-[size:8px_8px]" />
-      
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-[#7aa2f7]" />
-      <div className="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-[#7aa2f7]" />
-      <div className="absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-[#7aa2f7]" />
-      <div className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4 border-[#7aa2f7]" />
-
+    <div className="max-w-[21cm] mx-auto bg-[#1a1b26] p-8 shadow-lg print:shadow-none text-[#a9b1d6] relative overflow-hidden">
       {/* Header */}
       <header className="relative mb-12">
-        <div className="text-center">
-          <div className="inline-block relative px-8 py-4 mb-6">
-            <div className="absolute inset-0 bg-[#7aa2f7] opacity-20" />
-            <div className="absolute inset-0 border-2 border-[#7aa2f7]" />
-            <h1 className="text-4xl font-bold text-[#7aa2f7] relative">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-4 text-[#7aa2f7]">
               {data.contactInformation.fullName}
             </h1>
-          </div>
-          <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <div className="group flex items-center gap-2">
-              <span className="text-[#bb9af7]">[@]</span>
-              <span className="text-[#a9b1d6] group-hover:text-[#7aa2f7] transition-colors">
-                {data.contactInformation.email}
-              </span>
-            </div>
-            <div className="group flex items-center gap-2">
-              <span className="text-[#bb9af7]">[#]</span>
-              <span className="text-[#a9b1d6] group-hover:text-[#7aa2f7] transition-colors">
-                {data.contactInformation.phoneNumber}
-              </span>
-            </div>
-            <div className="group flex items-center gap-2">
-              <span className="text-[#bb9af7]">[&]</span>
-              <span className="text-[#a9b1d6] group-hover:text-[#7aa2f7] transition-colors">
-                {data.contactInformation.location}
-              </span>
+            <div className="flex flex-wrap justify-center gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-[#bb9af7]">{'>'}</span>
+                <span>{data.contactInformation.email}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#bb9af7]">{'>'}</span>
+                <span>{data.contactInformation.phoneNumber}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#bb9af7]">{'>'}</span>
+                <span>{data.contactInformation.location}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -50,13 +33,15 @@ export default function PixelArtTemplate({ data }: TemplateProps) {
       {/* Professional Summary */}
       {data.professionalSummary && (
         <section className="mb-12">
-          <div className="border-2 border-[#7aa2f7] p-6 relative">
-            <div className="absolute -top-3 left-4 bg-[#1a1b26] px-2 text-[#7aa2f7] text-sm">
-              PLAYER.INFO
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
+              <span className="text-[#bb9af7]">{'>'}</span> CHARACTER STATS
+            </h2>
+            <div className="bg-[#24283b] p-6 rounded-lg border border-[#414868]">
+              <p className="leading-relaxed">
+                {data.professionalSummary}
+              </p>
             </div>
-            <p className="text-[#a9b1d6] leading-relaxed">
-              {data.professionalSummary}
-            </p>
           </div>
         </section>
       )}
@@ -65,20 +50,16 @@ export default function PixelArtTemplate({ data }: TemplateProps) {
       {data.skills.length > 0 && (
         <section className="mb-12">
           <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
-            <span className="text-[#bb9af7]">[>]</span> ABILITIES
+            <span className="text-[#bb9af7]">{'>'}</span> ABILITIES
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {data.skills.map((skill, index) => (
               <div
                 key={index}
-                className="border-2 border-[#7aa2f7] p-3 relative group hover:bg-[#7aa2f7]/10 transition-colors"
+                className="bg-[#24283b] p-4 rounded-lg border border-[#414868] relative group"
               >
-                <span className="absolute -top-2 -right-2 text-xs bg-[#1a1b26] px-1 text-[#bb9af7]">
-                  Lv.{String(index + 1).padStart(2, '0')}
-                </span>
-                <div className="text-[#a9b1d6] group-hover:text-[#7aa2f7] transition-colors">
-                  {skill}
-                </div>
+                <div className="absolute inset-0 bg-[#7aa2f7]/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="relative z-10">{skill}</span>
               </div>
             ))}
           </div>
@@ -89,27 +70,21 @@ export default function PixelArtTemplate({ data }: TemplateProps) {
       {data.workExperience.length > 0 && (
         <section className="mb-12">
           <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
-            <span className="text-[#bb9af7]">[>]</span> QUEST LOG
+            <span className="text-[#bb9af7]">{'>'}</span> QUEST LOG
           </h2>
           <div className="space-y-8">
             {data.workExperience.map((job, index) => (
-              <div key={index} className="border-2 border-[#7aa2f7] p-6 relative">
-                <span className="absolute -top-3 left-4 bg-[#1a1b26] px-2 text-[#bb9af7] text-sm">
-                  QUEST_{String(index + 1).padStart(2, '0')}
-                </span>
-                <div className="mb-4">
-                  <h3 className="text-lg font-bold text-[#7aa2f7]">{job.jobTitle}</h3>
-                  <div className="text-[#bb9af7]">{job.companyName}</div>
-                  <div className="text-sm text-[#565f89]">
-                    {job.dates} | {job.location}
-                  </div>
-                </div>
+              <div key={index} className="bg-[#24283b] p-6 rounded-lg border border-[#414868]">
+                <h3 className="text-lg font-bold text-[#7aa2f7] mb-2">{job.jobTitle}</h3>
+                <div className="text-[#bb9af7] mb-1">{job.companyName}</div>
+                <div className="text-sm text-[#565f89] mb-4">{job.dates} • {job.location}</div>
                 <ul className="space-y-2">
                   {job.responsibilities.map((resp, idx) => (
                     <li
                       key={idx}
-                      className="text-[#a9b1d6] pl-6 relative before:content-['>'] 
-                                before:absolute before:left-0 before:text-[#bb9af7]"
+                      className="pl-6 relative before:content-[''] 
+                                before:absolute before:left-0 before:top-[0.6em] 
+                                before:w-2 before:h-2 before:bg-[#bb9af7]"
                     >
                       {resp}
                     </li>
@@ -125,26 +100,22 @@ export default function PixelArtTemplate({ data }: TemplateProps) {
       {data.projects.length > 0 && (
         <section className="mb-12">
           <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
-            <span className="text-[#bb9af7]">[>]</span> SIDE QUESTS
+            <span className="text-[#bb9af7]">{'>'}</span> SIDE QUESTS
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-6">
             {data.projects.map((project, index) => (
               <div
                 key={index}
-                className="border-2 border-[#7aa2f7] p-6 relative group 
-                          hover:bg-[#7aa2f7]/10 transition-colors"
+                className="bg-[#24283b] p-6 rounded-lg border border-[#414868]"
               >
-                <span className="absolute -top-3 left-4 bg-[#1a1b26] px-2 text-[#bb9af7] text-sm">
-                  QUEST_{String(index + 1).padStart(2, '0')}
-                </span>
                 <h3 className="text-lg font-bold text-[#7aa2f7] mb-2">{project.name}</h3>
-                <p className="text-[#a9b1d6] mb-4">{project.description}</p>
+                <p className="mb-4">{project.description}</p>
                 {project.technologies && (
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-1 text-sm border border-[#bb9af7] text-[#bb9af7]"
+                        className="px-2 py-1 text-sm bg-[#1a1b26] text-[#bb9af7] rounded"
                       >
                         {tech}
                       </span>
@@ -158,22 +129,19 @@ export default function PixelArtTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8">
         {/* Education */}
         {data.education.length > 0 && (
-          <section className="border-2 border-[#7aa2f7] p-6 relative">
-            <span className="absolute -top-3 left-4 bg-[#1a1b26] px-2 text-[#bb9af7] text-sm">
-              TRAINING
-            </span>
-            <div className="space-y-6">
+          <section>
+            <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
+              <span className="text-[#bb9af7]">{'>'}</span> TRAINING
+            </h2>
+            <div className="space-y-4">
               {data.education.map((edu, index) => (
-                <div key={index} className="relative">
-                  <span className="absolute -left-2 top-2 text-xs text-[#bb9af7]">
-                    [{String(index + 1).padStart(2, '0')}]
-                  </span>
-                  <h3 className="text-[#7aa2f7] font-bold pl-4">{edu.degree}</h3>
-                  <div className="text-[#bb9af7] pl-4">{edu.institution}</div>
-                  <div className="text-[#565f89] text-sm pl-4">{edu.graduationDate}</div>
+                <div key={index} className="bg-[#24283b] p-4 rounded-lg border border-[#414868]">
+                  <h3 className="font-bold text-[#7aa2f7]">{edu.degree}</h3>
+                  <div className="text-[#bb9af7]">{edu.institution}</div>
+                  <div className="text-sm text-[#565f89]">{edu.graduationDate}</div>
                 </div>
               ))}
             </div>
@@ -182,32 +150,132 @@ export default function PixelArtTemplate({ data }: TemplateProps) {
 
         {/* Certifications */}
         {data.certifications.length > 0 && (
-          <section className="border-2 border-[#7aa2f7] p-6 relative">
-            <span className="absolute -top-3 left-4 bg-[#1a1b26] px-2 text-[#bb9af7] text-sm">
-              ACHIEVEMENTS
-            </span>
-            <ul className="space-y-3">
+          <section>
+            <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
+              <span className="text-[#bb9af7]">{'>'}</span> ACHIEVEMENTS
+            </h2>
+            <div className="space-y-2">
               {data.certifications.map((cert, index) => (
-                <li
+                <div
                   key={index}
-                  className="text-[#a9b1d6] pl-6 relative before:content-['>'] 
-                            before:absolute before:left-0 before:text-[#bb9af7]"
+                  className="bg-[#24283b] p-4 rounded-lg border border-[#414868]"
                 >
                   {cert}
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
+            <span className="text-[#bb9af7]">{'>'}</span> SIDE MISSIONS
+          </h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="bg-[#24283b] p-6 rounded-lg border border-[#414868]"
+              >
+                <h3 className="text-lg font-bold text-[#7aa2f7] mb-2">{exp.role}</h3>
+                <div className="text-[#bb9af7] mb-1">{exp.organization}</div>
+                <p className="text-sm">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
+            <span className="text-[#bb9af7]">{'>'}</span> GUILDS
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="bg-[#24283b] p-4 rounded-lg border border-[#414868]"
+              >
+                {association}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
+              <span className="text-[#bb9af7]">{'>'}</span> LANGUAGE SKILLS
+            </h2>
+            <div className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <div
+                  key={index}
+                  className="bg-[#24283b] p-4 rounded-lg border border-[#414868]"
+                >
+                  {language}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
+              <span className="text-[#bb9af7]">{'>'}</span> SCROLLS
+            </h2>
+            <div className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <div
+                  key={index}
+                  className="bg-[#24283b] p-4 rounded-lg border border-[#414868] text-sm"
+                >
+                  {publication}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-xl font-bold mb-6 text-[#7aa2f7] flex items-center gap-2">
+              <span className="text-[#bb9af7]">{'>'}</span> TROPHIES
+            </h2>
+            <div className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <div
+                  key={index}
+                  className="bg-[#24283b] p-4 rounded-lg border border-[#414868]"
+                >
+                  {award}
+                </div>
+              ))}
+            </div>
           </section>
         )}
       </div>
 
       {/* Footer */}
       <footer className="mt-12 text-center">
-        <div className="inline-block border-2 border-[#7aa2f7] px-6 py-2 relative">
-          <span className="absolute -top-3 left-4 bg-[#1a1b26] px-2 text-[#bb9af7] text-sm">
-            GAME SAVE
-          </span>
-          <span className="text-[#a9b1d6]">References available upon request</span>
+        <div className="inline-block">
+          <div className="flex items-center gap-2">
+            <span className="text-[#bb9af7]">{'>'}</span>
+            <span className="text-[#565f89]">PRESS START TO CONTINUE</span>
+            <span className="text-[#bb9af7]">{'<'}</span>
+          </div>
         </div>
       </footer>
     </div>

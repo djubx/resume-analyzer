@@ -6,7 +6,9 @@ export default function VintagePrintTemplate({ data }: TemplateProps) {
   return (
     <div className="max-w-[21cm] mx-auto bg-amber-50 p-8 shadow-lg print:shadow-none text-gray-800 relative overflow-hidden">
       {/* Background Texture */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M0 0h20v20H0z\" fill=\"%23000\" fill-opacity=\".03\"/%3E%3C/svg%3E')] opacity-50" />
+      <div className="absolute inset-0 opacity-50" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='%23000' fill-opacity='.03'/%3E%3C/svg%3E")`
+      }} />
 
       {/* Header */}
       <header className="relative mb-12 text-center">
