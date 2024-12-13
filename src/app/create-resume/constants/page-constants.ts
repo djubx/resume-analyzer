@@ -11,6 +11,11 @@ import ElegantTemplate from '../templates/elegant/ElegantTemplate';
 import RetroTemplate from '../templates/retro/RetroTemplate';
 import MinimalDarkTemplate from '../templates/minimal-dark/MinimalDarkTemplate';
 import NordicTemplate from '../templates/nordic/NordicTemplate';
+import NeonWaveTemplate from '../templates/neon-wave/NeonWaveTemplate';
+import NatureTemplate from '../templates/nature/NatureTemplate';
+import GeometricTemplate from '../templates/geometric/GeometricTemplate';
+import ArtisticTemplate from '../templates/artistic/ArtisticTemplate';
+import BrutalistTemplate from '../templates/brutalist/BrutalistTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
@@ -147,6 +152,36 @@ export const templates = [
         name: 'Vibrant Gradient',
         description: 'A modern and energetic design with vibrant gradients and bold colors.',
         component: VibrantTemplate
+    },
+    {
+        id: 'neon-wave',
+        name: 'Neon Wave',
+        description: 'A cyberpunk-inspired design with neon colors and retro-futuristic elements.',
+        component: NeonWaveTemplate
+    },
+    {
+        id: 'nature',
+        name: 'Nature',
+        description: 'An organic design with natural colors and flowing elements.',
+        component: NatureTemplate
+    },
+    {
+        id: 'geometric',
+        name: 'Geometric',
+        description: 'A bold design with geometric shapes and strong visual elements.',
+        component: GeometricTemplate
+    },
+    {
+        id: 'artistic',
+        name: 'Artistic',
+        description: 'A creative design with artistic flourishes and elegant typography.',
+        component: ArtisticTemplate
+    },
+    {
+        id: 'brutalist',
+        name: 'Brutalist',
+        description: 'A raw and bold design inspired by brutalist web design principles.',
+        component: BrutalistTemplate
     },
     {
         id: 'futuristic',
