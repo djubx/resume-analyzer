@@ -2,7 +2,7 @@
 
 import { ComponentType, useState, createElement } from 'react';
 import { ResumeData } from '../types';
-import { generatePDF, PDFConfig } from '../utils/pdfConverter';
+import { generatePDF, generateAllPDFs, PDFConfig } from '../utils/pdfConverter';
 
 interface ReviewProps {
   data: ResumeData;
@@ -18,7 +18,14 @@ interface ReviewProps {
 
 export default function Review({ data, selectedTemplate, templates, onTemplateSelect }: ReviewProps) {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isGeneratingAll, setIsGeneratingAll] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [generationProgress, setGenerationProgress] = useState<Array<{
+    templateId: string;
+    templateName: string;
+    status: 'pending' | 'success' | 'error';
+    error?: string;
+  }>>([]);
   const [showPdfSettings, setShowPdfSettings] = useState(false);
   const [pdfConfig, setPdfConfig] = useState<PDFConfig>({
     format: 'A4',
@@ -52,6 +59,50 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
       console.error('Failed to generate PDF:', error);
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateAllPDFs = async () => {
+    setError(null);
+    setIsGeneratingAll(true);
+    setGenerationProgress(templates.map(t => ({
+      templateId: t.id,
+      templateName: t.name,
+      status: 'pending'
+    })));
+
+    try {
+      const results = await generateAllPDFs('resume-template', data, templates, pdfConfig);
+      
+      setGenerationProgress(prev => 
+        prev.map(item => {
+          const result = results.find(r => 
+            r.status === 'fulfilled' && 
+            (r.value as any).templateId === item.templateId
+          );
+          
+          if (result?.status === 'fulfilled') {
+            const value = result.value as any;
+            return {
+              ...item,
+              status: value.success ? 'success' : 'error',
+              error: value.error
+            };
+          } else if (result?.status === 'rejected') {
+            return {
+              ...item,
+              status: 'error',
+              error: result.reason?.message || 'Unknown error'
+            };
+          }
+          return item;
+        })
+      );
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to generate PDFs');
+      console.error('Failed to generate PDFs:', error);
+    } finally {
+      setIsGeneratingAll(false);
     }
   };
 
@@ -270,12 +321,12 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
           <div className="flex gap-4">
             <button
               onClick={handleDownload}
-              disabled={isGenerating}
+              disabled={isGenerating || isGeneratingAll}
               className={`
                 px-6 py-3 rounded-lg font-medium
                 transition-all duration-300
                 flex items-center gap-2
-                ${isGenerating
+                ${(isGenerating || isGeneratingAll)
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5'
                 }
@@ -327,6 +378,63 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
             </button>
 
             <button
+              onClick={handleGenerateAllPDFs}
+              disabled={isGenerating || isGeneratingAll}
+              className={`
+                px-6 py-3 rounded-lg font-medium border
+                transition-all duration-300
+                flex items-center gap-2
+                ${(isGenerating || isGeneratingAll)
+                  ? 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed'
+                  : 'border-blue-500 text-blue-500 hover:bg-blue-50'
+                }
+              `}
+            >
+              {isGeneratingAll ? (
+                <>
+                  <svg 
+                    className="animate-spin h-5 w-5" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24"
+                  >
+                    <circle 
+                      className="opacity-25" 
+                      cx="12" 
+                      cy="12" 
+                      r="10" 
+                      stroke="currentColor" 
+                      strokeWidth="4"
+                    />
+                    <path 
+                      className="opacity-75" 
+                      fill="currentColor" 
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Generating All PDFs...
+                </>
+              ) : (
+                <>
+                  <svg 
+                    className="h-5 w-5" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  Test All Templates
+                </>
+              )}
+            </button>
+
+            <button
               onClick={() => setShowPdfSettings(true)}
               className="px-4 py-3 rounded-lg font-medium border border-gray-300 hover:border-gray-400 transition-all duration-300 flex items-center gap-2"
             >
@@ -338,10 +446,49 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
             </button>
           </div>
           
-          {isGenerating && (
+          {(isGenerating || isGeneratingAll) && (
             <p className="text-sm text-gray-600">
               This may take a few moments. Please don't close this window.
             </p>
+          )}
+
+          {generationProgress.length > 0 && (
+            <div className="w-full max-w-2xl mt-4">
+              <h3 className="text-lg font-medium mb-3">Generation Progress</h3>
+              <div className="space-y-2">
+                {generationProgress.map((item) => (
+                  <div 
+                    key={item.templateId}
+                    className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                  >
+                    <span className="text-sm">{item.templateName}</span>
+                    <div className="flex items-center gap-2">
+                      {item.status === 'pending' && (
+                        <svg className="animate-spin h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                        </svg>
+                      )}
+                      {item.status === 'success' && (
+                        <svg className="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
+                        </svg>
+                      )}
+                      {item.status === 'error' && (
+                        <div className="flex items-center gap-2">
+                          <svg className="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+                          </svg>
+                          {item.error && (
+                            <span className="text-xs text-red-500">{item.error}</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>

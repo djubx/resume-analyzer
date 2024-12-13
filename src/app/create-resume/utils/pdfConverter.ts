@@ -1,3 +1,6 @@
+import { createElement } from 'react';
+import { createRoot } from 'react-dom/client';
+
 export interface PDFConfig {
     format: 'A4' | 'A3' | 'A5' | 'Letter' | 'Legal' | 'Tabloid';
     margin: {
@@ -113,5 +116,117 @@ export const generatePDF = async (elementId: string, fileName: string, config: P
     } catch (error) {
         console.error('PDF Generation failed:', error);
         throw new Error(error instanceof Error ? error.message : 'Failed to generate PDF');
+    }
+};
+
+export const generateAllPDFs = async (elementId: string, data: any, templates: any[], config: Partial<PDFConfig> = {}) => {
+    try {
+        // Get all stylesheet contents once to reuse
+        const stylesheets = await Promise.all(
+            Array.from(document.styleSheets).map(async (sheet) => {
+                try {
+                    if (sheet.cssRules) {
+                        return Array.from(sheet.cssRules)
+                            .map(rule => rule.cssText)
+                            .join('\n');
+                    } else if (sheet.href) {
+                        const response = await fetch(sheet.href);
+                        return await response.text();
+                    }
+                } catch (e) {
+                    console.warn('Could not get stylesheet content:', e);
+                    return '';
+                }
+                return '';
+            })
+        );
+
+        const styleContent = stylesheets.join('\n');
+
+        // Generate PDFs in parallel
+        const results = await Promise.allSettled(templates.map(async (template) => {
+            try {
+                // Create a temporary container for each template
+                const tempContainer = document.createElement('div');
+                tempContainer.id = `temp-${template.id}`;
+                document.body.appendChild(tempContainer);
+
+                // Render the template
+                const templateElement = createElement(template.component, { data });
+                const root = createRoot(tempContainer);
+                root.render(templateElement);
+
+                // Wait a bit for the render to complete
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                // Generate HTML for this template
+                const html = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <style>${styleContent}</style>
+                    </head>
+                    <body class="bg-white">
+                        ${tempContainer.innerHTML}
+                    </body>
+                    </html>
+                `;
+
+                // Make the API call
+                const response = await fetch('https://api.resumecheckers.com/convert-to-pdf', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        html,
+                        config: {
+                            ...defaultConfig,
+                            ...config
+                        }
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`PDF conversion failed for ${template.name}: ${response.statusText}`);
+                }
+
+                const pdfBlob = await response.blob();
+                const fileName = `${data.contactInformation.fullName.toLowerCase().replace(/\s+/g, '-')}-${template.id}-resume.pdf`;
+
+                // Create download link
+                const url = window.URL.createObjectURL(pdfBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+
+                // Cleanup
+                root.unmount();
+                document.body.removeChild(tempContainer);
+
+                return {
+                    templateId: template.id,
+                    templateName: template.name,
+                    success: true
+                };
+            } catch (error) {
+                return {
+                    templateId: template.id,
+                    templateName: template.name,
+                    success: false,
+                    error: error instanceof Error ? error.message : 'Unknown error'
+                };
+            }
+        }));
+
+        return results;
+    } catch (error) {
+        console.error('Parallel PDF Generation failed:', error);
+        throw new Error(error instanceof Error ? error.message : 'Failed to generate PDFs');
     }
 }; 
