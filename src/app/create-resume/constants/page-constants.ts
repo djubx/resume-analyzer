@@ -16,6 +16,16 @@ import NatureTemplate from '../templates/nature/NatureTemplate';
 import GeometricTemplate from '../templates/geometric/GeometricTemplate';
 import ArtisticTemplate from '../templates/artistic/ArtisticTemplate';
 import BrutalistTemplate from '../templates/brutalist/BrutalistTemplate';
+import GlassmorphicTemplate from '../templates/glassmorphic/GlassmorphicTemplate';
+import HandwrittenTemplate from '../templates/handwritten/HandwrittenTemplate';
+import NewspaperTemplate from '../templates/newspaper/NewspaperTemplate';
+import ThreeDTemplate from '../templates/three-d/ThreeDTemplate';
+import MinimalistPlusTemplate from '../templates/minimalist-plus/MinimalistPlusTemplate';
+import NeonCyberpunkTemplate from '../templates/neon-cyberpunk/NeonCyberpunkTemplate';
+import LuxuryTemplate from '../templates/luxury/LuxuryTemplate';
+import WatercolorTemplate from '../templates/watercolor/WatercolorTemplate';
+import GradientFlowTemplate from '../templates/gradient-flow/GradientFlowTemplate';
+import TechWaveTemplate from '../templates/tech-wave/TechWaveTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
@@ -134,6 +144,66 @@ export const templates = [
         name: 'Modern Clean',
         description: 'A clean and contemporary design with a focus on readability and visual hierarchy.',
         component: ModernTemplate
+    },
+    {
+        id: 'neon-cyberpunk',
+        name: 'Neon Cyberpunk',
+        description: 'A cyberpunk-themed design with neon effects and futuristic aesthetics.',
+        component: NeonCyberpunkTemplate
+    },
+    {
+        id: 'luxury',
+        name: 'Luxury Gold',
+        description: 'An elegant design with gold accents and premium aesthetics.',
+        component: LuxuryTemplate
+    },
+    {
+        id: 'watercolor',
+        name: 'Watercolor Flow',
+        description: 'A soft and artistic design with watercolor effects and gentle gradients.',
+        component: WatercolorTemplate
+    },
+    {
+        id: 'gradient-flow',
+        name: 'Gradient Flow',
+        description: 'A modern design with flowing gradients and smooth transitions.',
+        component: GradientFlowTemplate
+    },
+    {
+        id: 'tech-wave',
+        name: 'Tech Wave',
+        description: 'A tech-inspired design with wave patterns and modern elements.',
+        component: TechWaveTemplate
+    },
+    {
+        id: 'glassmorphic',
+        name: 'Glassmorphic',
+        description: 'A modern design with frosted glass effects and subtle gradients.',
+        component: GlassmorphicTemplate
+    },
+    {
+        id: 'handwritten',
+        name: 'Handwritten',
+        description: 'A personal touch with handwritten-style elements and casual layout.',
+        component: HandwrittenTemplate
+    },
+    {
+        id: 'newspaper',
+        name: 'Newspaper',
+        description: 'A classic newspaper-inspired layout with traditional typography.',
+        component: NewspaperTemplate
+    },
+    {
+        id: 'three-d',
+        name: '3D Modern',
+        description: 'A cutting-edge design with 3D effects and depth perception.',
+        component: ThreeDTemplate
+    },
+    {
+        id: 'minimalist-plus',
+        name: 'Minimalist Plus',
+        description: 'An elevated minimalist design with subtle modern touches.',
+        component: MinimalistPlusTemplate
     },
     {
         id: 'professional',
