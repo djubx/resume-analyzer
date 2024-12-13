@@ -36,6 +36,11 @@ import HolographicTemplate from '../templates/holographic/HolographicTemplate';
 import BotanicalTemplate from '../templates/botanical/BotanicalTemplate';
 import NeonSynthwaveTemplate from '../templates/neon-synthwave/NeonSynthwaveTemplate';
 import ZenTemplate from '../templates/zen/ZenTemplate';
+import ArtDecoTemplate from '../templates/art-deco/ArtDecoTemplate';
+import InfographicTemplate from '../templates/infographic/InfographicTemplate';
+import ComicBookTemplate from '../templates/comic-book/ComicBookTemplate';
+import IndustrialTemplate from '../templates/industrial/IndustrialTemplate';
+import OrigamiTemplate from '../templates/origami/OrigamiTemplate';
 import { ResumeData } from '../types';
 
 export const STEPS = {
@@ -154,6 +159,36 @@ export const templates = [
         name: 'Modern Clean',
         description: 'A clean and contemporary design with a focus on readability and visual hierarchy.',
         component: ModernTemplate
+    },
+    {
+        id: 'art-deco',
+        name: 'Art Deco',
+        description: 'An elegant design inspired by the Art Deco movement with geometric patterns and luxurious details.',
+        component: ArtDecoTemplate
+    },
+    {
+        id: 'infographic',
+        name: 'Infographic',
+        description: 'A data visualization-inspired design with modern infographic elements and clean layout.',
+        component: InfographicTemplate
+    },
+    {
+        id: 'comic-book',
+        name: 'Comic Book',
+        description: 'A playful design inspired by comic books with bold colors and dynamic elements.',
+        component: ComicBookTemplate
+    },
+    {
+        id: 'industrial',
+        name: 'Industrial',
+        description: 'A robust design with mechanical and engineering-inspired elements.',
+        component: IndustrialTemplate
+    },
+    {
+        id: 'origami',
+        name: 'Origami',
+        description: 'A Japanese-inspired design with clean lines and folded paper aesthetics.',
+        component: OrigamiTemplate
     },
     {
         id: 'vintage-print',
