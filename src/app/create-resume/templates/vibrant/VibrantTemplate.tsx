@@ -129,7 +129,7 @@ export default function VibrantTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="p-6 bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl border-2 border-green-100">
@@ -156,6 +156,100 @@ export default function VibrantTemplate({ data }: TemplateProps) {
                             before:top-[0.6em] before:w-2 before:h-2 before:bg-red-400 before:rounded-full"
                 >
                   {cert}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-violet-600 mb-6">Volunteer Experience</h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative pl-8 bg-gradient-to-r from-violet-50 to-fuchsia-50 p-6 rounded-2xl border-2 border-violet-100">
+                <div className="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-violet-400 to-fuchsia-400 rounded-full ml-2" />
+                <div className="mb-4">
+                  <h3 className="text-xl font-semibold text-gray-800">{exp.role}</h3>
+                  <div className="text-violet-600 font-medium">{exp.organization}</div>
+                </div>
+                <p className="text-gray-700">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-emerald-600 mb-6">Professional Associations</h2>
+          <div className="flex flex-wrap gap-3">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-50 to-green-50 
+                          text-emerald-700 text-sm border-2 border-emerald-100 hover:shadow-md transition-shadow"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="p-6 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl border-2 border-amber-100">
+            <h2 className="text-2xl font-bold text-amber-600 mb-6">Languages</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-amber-400 before:rounded-full"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="p-6 bg-gradient-to-r from-cyan-50 to-sky-50 rounded-2xl border-2 border-cyan-100">
+            <h2 className="text-2xl font-bold text-cyan-600 mb-6">Publications</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-cyan-400 before:rounded-full"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="p-6 bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl border-2 border-rose-100">
+            <h2 className="text-2xl font-bold text-rose-600 mb-6">Awards</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-rose-400 before:rounded-full"
+                >
+                  {award}
                 </li>
               ))}
             </ul>

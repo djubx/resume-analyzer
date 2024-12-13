@@ -160,7 +160,7 @@ export default function SafariTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8 mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="bg-stone-100 p-6 rounded-lg border-4 border-stone-800 relative">
@@ -212,14 +212,139 @@ export default function SafariTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-8 relative">
+            <span className="relative z-10">Community Expeditions</span>
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-32 h-2 bg-amber-400 -skew-x-12 opacity-50" />
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="bg-stone-100 p-6 rounded-lg border-4 border-stone-800 relative">
+                <div className="absolute -right-6 top-6 w-12 h-12 bg-amber-600 rounded-full border-4 border-stone-800 flex items-center justify-center">
+                  <span className="text-stone-100 text-xl">🌱</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-2">{exp.role}</h3>
+                <div className="text-amber-700 font-bold mb-4">{exp.organization}</div>
+                <p className="text-stone-600">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-8 relative">
+            <span className="relative z-10">Safari Guilds</span>
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-32 h-2 bg-amber-400 -skew-x-12 opacity-50" />
+          </h2>
+          <div className="grid grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="bg-stone-100 p-4 rounded-lg border-2 border-stone-800 relative group overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-amber-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 opacity-20" />
+                <div className="relative z-10 flex items-center gap-2">
+                  <span className="text-xl">🏕️</span>
+                  <span>{association}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="bg-stone-100 p-6 rounded-lg border-4 border-stone-800 relative">
+            <div className="absolute -left-6 top-6 w-12 h-12 bg-amber-600 rounded-full border-4 border-stone-800 flex items-center justify-center">
+              <span className="text-stone-100 text-xl">🗣️</span>
+            </div>
+            <div className="pl-8">
+              <h2 className="text-2xl font-bold mb-6 relative inline-block">
+                Trail Languages
+                <div className="absolute left-0 bottom-0 w-full h-2 bg-amber-400 -skew-x-12 opacity-50" />
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center gap-3"
+                  >
+                    <span className="text-amber-600">▹</span>
+                    <span>{language}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="bg-stone-100 p-6 rounded-lg border-4 border-stone-800 relative">
+            <div className="absolute -left-6 top-6 w-12 h-12 bg-amber-600 rounded-full border-4 border-stone-800 flex items-center justify-center">
+              <span className="text-stone-100 text-xl">📖</span>
+            </div>
+            <div className="pl-8">
+              <h2 className="text-2xl font-bold mb-6 relative inline-block">
+                Field Notes
+                <div className="absolute left-0 bottom-0 w-full h-2 bg-amber-400 -skew-x-12 opacity-50" />
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center gap-3"
+                  >
+                    <span className="text-amber-600">▹</span>
+                    <span>{publication}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="bg-stone-100 p-6 rounded-lg border-4 border-stone-800 relative">
+            <div className="absolute -left-6 top-6 w-12 h-12 bg-amber-600 rounded-full border-4 border-stone-800 flex items-center justify-center">
+              <span className="text-stone-100 text-xl">🏆</span>
+            </div>
+            <div className="pl-8">
+              <h2 className="text-2xl font-bold mb-6 relative inline-block">
+                Safari Honors
+                <div className="absolute left-0 bottom-0 w-full h-2 bg-amber-400 -skew-x-12 opacity-50" />
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center gap-3"
+                  >
+                    <span className="text-amber-600">▹</span>
+                    <span>{award}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
         <div className="inline-block bg-stone-100 px-8 py-3 rounded-lg border-4 border-stone-800 relative">
           <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-amber-600 rounded-full border-4 border-stone-800" />
           <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-amber-600 rounded-full border-4 border-stone-800" />
-          <span className="text-stone-600 font-bold tracking-wider">
-            References Available Upon Request
-          </span>
+          <div className="w-16 h-1 bg-amber-400 mx-auto" />
         </div>
       </footer>
     </div>

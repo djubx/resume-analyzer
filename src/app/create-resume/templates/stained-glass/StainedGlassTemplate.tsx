@@ -151,7 +151,7 @@ export default function StainedGlassTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8 mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="relative bg-gradient-to-br from-emerald-500/30 to-teal-500/30 p-6 rounded-lg border-4 border-slate-900 backdrop-blur-sm">
@@ -199,13 +199,132 @@ export default function StainedGlassTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-serif text-center mb-8 bg-gradient-to-r from-rose-300 to-pink-300 bg-clip-text text-transparent">
+            Community Service
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative bg-gradient-to-br from-rose-500/30 to-pink-500/30 p-6 rounded-lg border-4 border-slate-900 backdrop-blur-sm">
+                <div className="absolute inset-0 shadow-inner" />
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-serif text-rose-200 mb-2">{exp.role}</h3>
+                  <div className="text-pink-200 font-bold mb-4">{exp.organization}</div>
+                  <p className="text-rose-200/90">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-serif text-center mb-8 bg-gradient-to-r from-amber-300 to-yellow-300 bg-clip-text text-transparent">
+            Professional Networks
+          </h2>
+          <div className="grid grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="relative bg-gradient-to-br from-amber-500/30 to-yellow-500/30 p-4 rounded-lg border-4 border-slate-900 backdrop-blur-sm group"
+              >
+                <div className="absolute inset-0 shadow-inner" />
+                <span className="relative z-10 block text-center text-amber-200 group-hover:text-yellow-200 transition-colors">
+                  {association}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="relative bg-gradient-to-br from-cyan-500/30 to-sky-500/30 p-6 rounded-lg border-4 border-slate-900 backdrop-blur-sm">
+            <div className="absolute inset-0 shadow-inner" />
+            <div className="relative z-10">
+              <h2 className="text-2xl font-serif text-cyan-200 mb-6">
+                Languages
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-sky-200/90 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-sky-400/50 
+                              before:rounded-full"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="relative bg-gradient-to-br from-violet-500/30 to-indigo-500/30 p-6 rounded-lg border-4 border-slate-900 backdrop-blur-sm">
+            <div className="absolute inset-0 shadow-inner" />
+            <div className="relative z-10">
+              <h2 className="text-2xl font-serif text-violet-200 mb-6">
+                Publications
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-indigo-200/90 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-indigo-400/50 
+                              before:rounded-full"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="relative bg-gradient-to-br from-fuchsia-500/30 to-pink-500/30 p-6 rounded-lg border-4 border-slate-900 backdrop-blur-sm">
+            <div className="absolute inset-0 shadow-inner" />
+            <div className="relative z-10">
+              <h2 className="text-2xl font-serif text-fuchsia-200 mb-6">
+                Honors
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-pink-200/90 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-pink-400/50 
+                              before:rounded-full"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
         <div className="inline-block relative bg-gradient-to-br from-purple-500/30 to-blue-500/30 px-8 py-3 rounded-lg border-4 border-slate-900 backdrop-blur-sm">
           <div className="absolute inset-0 shadow-inner" />
-          <span className="relative z-10 font-serif text-purple-200">
-            References Available Upon Request
-          </span>
+          <div className="relative z-10 w-16 h-px bg-gradient-to-r from-purple-300 to-blue-300 mx-auto" />
         </div>
       </footer>
     </div>

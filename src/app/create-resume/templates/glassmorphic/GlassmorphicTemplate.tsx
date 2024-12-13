@@ -178,10 +178,111 @@ export default function GlassmorphicTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-light text-gray-800 mb-6">Community Impact</h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="bg-white/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-lg
+                          hover:bg-white/50 transition-colors duration-300"
+              >
+                <h3 className="text-xl font-medium text-gray-800 mb-2">{exp.role}</h3>
+                <div className="text-gray-600 mb-3">{exp.organization}</div>
+                <p className="text-gray-700">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-light text-gray-800 mb-6">Professional Networks</h2>
+          <div className="flex flex-wrap gap-3">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 bg-white/40 backdrop-blur-lg border border-white/20 rounded-lg
+                          text-gray-700 hover:bg-white/60 transition-colors duration-300"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="bg-white/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-lg">
+            <h2 className="text-2xl font-light text-gray-800 mb-6">Languages</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-sky-200 
+                            before:rounded-full"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="bg-white/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-lg">
+            <h2 className="text-2xl font-light text-gray-800 mb-6">Publications</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-purple-200 
+                            before:rounded-full"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="bg-white/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-lg">
+            <h2 className="text-2xl font-light text-gray-800 mb-6">Awards</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-rose-200 
+                            before:rounded-full"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 text-center text-gray-500">
-        <div className="bg-white/40 backdrop-blur-lg border border-white/20 rounded-lg px-6 py-3 inline-block">
-          References available upon request
+      <footer className="mt-12 text-center">
+        <div className="bg-white/40 backdrop-blur-lg border border-white/20 rounded-2xl py-4 px-8 shadow-lg inline-block">
+          <div className="w-16 h-px bg-gradient-to-r from-sky-200 via-purple-200 to-rose-200" />
         </div>
       </footer>
     </div>

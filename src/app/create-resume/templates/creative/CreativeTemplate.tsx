@@ -130,7 +130,7 @@ export default function CreativeTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Education */}
         {data.education.length > 0 && (
           <section>
@@ -157,6 +157,100 @@ export default function CreativeTemplate({ data }: TemplateProps) {
                             before:top-[0.6em] before:w-2 before:h-2 before:bg-pink-400 before:rounded-full"
                 >
                   {cert}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Volunteer Experience</h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative pl-8">
+                <div className="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-purple-400 to-pink-400 rounded-full" />
+                <div className="mb-2">
+                  <h3 className="text-xl font-semibold text-gray-800">{exp.role}</h3>
+                  <div className="text-purple-600 font-medium">{exp.organization}</div>
+                </div>
+                <p className="text-gray-700">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Professional Networks</h2>
+          <div className="flex flex-wrap gap-3">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 
+                          text-gray-800 text-sm border border-purple-200"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Languages</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-pink-400 before:rounded-full"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Publications</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-pink-400 before:rounded-full"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Awards</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-pink-400 before:rounded-full"
+                >
+                  {award}
                 </li>
               ))}
             </ul>

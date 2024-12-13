@@ -157,7 +157,7 @@ export default function TechWaveTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/10">
@@ -199,11 +199,128 @@ export default function TechWaveTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+            Community Impact
+          </h2>
+          <div className="space-y-12">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="max-w-3xl mx-auto p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10
+                          border border-blue-500/10"
+              >
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-blue-400">{exp.role}</h3>
+                  <div className="text-indigo-400">{exp.organization}</div>
+                </div>
+                <p className="text-slate-300">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+            Professional Networks
+          </h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="group relative px-4 py-2 bg-gradient-to-br from-blue-500/10 to-indigo-500/10
+                          border border-blue-500/10 rounded-lg hover:border-blue-500/30 transition-all"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-indigo-500/0 
+                              opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
+                <span className="relative text-slate-300 group-hover:text-blue-400 transition-colors">
+                  {association}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/10">
+            <h2 className="text-2xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+              Languages
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-slate-300 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-blue-500/30 
+                            before:rounded-full text-center"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/10">
+            <h2 className="text-2xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+              Publications
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-slate-300 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-blue-500/30 
+                            before:rounded-full text-center"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/10">
+            <h2 className="text-2xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+              Awards
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-slate-300 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-blue-500/30 
+                            before:rounded-full text-center"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
         <div className="inline-block px-8 py-3 rounded-full bg-gradient-to-br from-blue-500/10 to-indigo-500/10 
-                        border border-blue-500/10 text-slate-400">
-          References available upon request
+                        border border-blue-500/10">
+          <div className="w-16 h-0.5 bg-gradient-to-r from-blue-400 to-indigo-400 mx-auto" />
         </div>
       </footer>
     </div>

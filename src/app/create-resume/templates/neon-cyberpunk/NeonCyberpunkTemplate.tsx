@@ -234,15 +234,149 @@ export default function NeonCyberpunkTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-pink-500">COMMUNITY.SYS</h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="border border-cyan-500/30 p-6 group hover:border-pink-500/30 
+                          transition-colors duration-500 relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/10 to-pink-900/10 
+                              opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative">
+                  <h3 className="text-xl font-bold text-cyan-500 group-hover:text-pink-500 transition-colors duration-500">
+                    {exp.role}
+                  </h3>
+                  <div className="text-pink-500 group-hover:text-cyan-500 transition-colors duration-500">
+                    {exp.organization}
+                  </div>
+                  <p className="text-gray-400 mt-2">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-cyan-500">NETWORK.DAT</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="border border-cyan-500/30 p-3 group hover:border-pink-500/30 
+                          transition-all duration-500 relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/10 to-pink-900/10 
+                              opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <span className="relative text-gray-400 group-hover:text-white transition-colors duration-500">
+                  {association}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="border border-cyan-500/30 p-6 group hover:border-pink-500/30 
+                            transition-colors duration-500 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/10 to-pink-900/10 
+                          opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold mb-6 text-cyan-500 group-hover:text-pink-500 transition-colors duration-500">
+                LANG.BIN
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-400 pl-6 relative before:content-['>'] 
+                              before:absolute before:left-0 before:text-cyan-500
+                              group-hover:before:text-pink-500 before:transition-colors
+                              before:duration-500"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="border border-cyan-500/30 p-6 group hover:border-pink-500/30 
+                            transition-colors duration-500 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/10 to-pink-900/10 
+                          opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold mb-6 text-cyan-500 group-hover:text-pink-500 transition-colors duration-500">
+                DOCS.TXT
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-400 pl-6 relative before:content-['>'] 
+                              before:absolute before:left-0 before:text-cyan-500
+                              group-hover:before:text-pink-500 before:transition-colors
+                              before:duration-500"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="border border-cyan-500/30 p-6 group hover:border-pink-500/30 
+                            transition-colors duration-500 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/10 to-pink-900/10 
+                          opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold mb-6 text-cyan-500 group-hover:text-pink-500 transition-colors duration-500">
+                ACHIEVEMENTS.DAT
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-400 pl-6 relative before:content-['>'] 
+                              before:absolute before:left-0 before:text-cyan-500
+                              group-hover:before:text-pink-500 before:transition-colors
+                              before:duration-500"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 text-center text-gray-500">
+      <footer className="mt-12 text-center">
         <div className="border border-cyan-500/30 px-6 py-3 inline-block group hover:border-pink-500/30 
                       transition-colors duration-500 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/10 to-pink-900/10 
                         opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative">
             <span className="text-cyan-500 group-hover:text-pink-500 transition-colors duration-500">
-              {'</'} References available upon request {'>'}
+              {'</>'} 
             </span>
           </div>
         </div>

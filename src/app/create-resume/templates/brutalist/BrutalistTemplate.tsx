@@ -168,13 +168,113 @@ export default function BrutalistTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold uppercase mb-6 bg-black text-white inline-block px-4 py-2">
+            Community Work
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="border-8 border-black p-6 relative">
+                <div className="absolute -left-4 -top-4 w-8 h-8 bg-yellow-300" />
+                <h3 className="text-xl font-bold uppercase mb-2">{exp.role}</h3>
+                <div className="font-bold">{exp.organization}</div>
+                <p className="mt-4 pl-4 border-l-4 border-black">
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold uppercase mb-6 bg-black text-white inline-block px-4 py-2">
+            Professional Networks
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="border-4 border-black p-2 hover:bg-yellow-300 transition-colors"
+              >
+                {association}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="border-8 border-black p-6 relative">
+            <div className="absolute -right-4 -top-4 w-8 h-8 bg-blue-500" />
+            <h2 className="text-2xl font-bold uppercase mb-6 bg-black text-white inline-block px-4 py-2">
+              Languages
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="pl-4 border-l-4 border-black"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="border-8 border-black p-6 relative">
+            <div className="absolute -left-4 -top-4 w-8 h-8 bg-red-500" />
+            <h2 className="text-2xl font-bold uppercase mb-6 bg-black text-white inline-block px-4 py-2">
+              Publications
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="pl-4 border-l-4 border-black"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="border-8 border-black p-6 relative">
+            <div className="absolute -right-4 -top-4 w-8 h-8 bg-yellow-300" />
+            <h2 className="text-2xl font-bold uppercase mb-6 bg-black text-white inline-block px-4 py-2">
+              Awards
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="pl-4 border-l-4 border-black"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 border-t-8 border-black pt-4 text-center relative">
+      <footer className="mt-12 border-t-8 border-black pt-4 relative">
         <div className="absolute -right-4 -top-4 w-8 h-8 bg-yellow-300" />
         <div className="absolute -left-4 -top-4 w-8 h-8 bg-yellow-300" />
-        <div className="bg-black text-white px-4 py-2 inline-block">
-          References available upon request
-        </div>
       </footer>
     </div>
   );

@@ -183,11 +183,125 @@ export default function NeonOutrunTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-black text-center mb-8 bg-gradient-to-r from-[#00ffff] to-[#ff00ff] bg-clip-text text-transparent">
+            COMMUNITY QUESTS
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="bg-[#1a1f3c] p-6 rounded-lg border border-[#00ffff]/30 relative group hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-shadow">
+                <h3 className="text-2xl font-black text-[#00ffff] mb-2">{exp.role}</h3>
+                <div className="text-[#ff00ff] font-bold mb-1">{exp.organization}</div>
+                <p className="text-white/80 pl-6 relative before:content-[''] 
+                             before:absolute before:left-0 before:top-[0.6em] 
+                             before:w-2 before:h-2 before:bg-[#ff00ff] 
+                             before:shadow-[0_0_10px_rgba(255,0,255,0.5)]">
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-black text-center mb-8 bg-gradient-to-r from-[#ff00ff] to-[#00ffff] bg-clip-text text-transparent">
+            GUILDS & ALLIANCES
+          </h2>
+          <div className="grid grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="bg-[#1a1f3c] p-4 rounded-lg border border-[#ff00ff]/30 relative group overflow-hidden hover:shadow-[0_0_20px_rgba(255,0,255,0.3)] transition-shadow"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-[#ff00ff]/10 to-[#00ffff]/10 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+                <span className="relative z-10 block text-center text-white group-hover:text-[#ff00ff] transition-colors">
+                  {association}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="bg-[#1a1f3c] p-6 rounded-lg border border-[#00ffff]/30 relative group hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-shadow">
+            <h2 className="text-2xl font-black text-[#00ffff] mb-6">
+              LANGUAGE MATRIX
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-white/80 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-[#ff00ff] 
+                            before:shadow-[0_0_10px_rgba(255,0,255,0.5)]"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="bg-[#1a1f3c] p-6 rounded-lg border border-[#ff00ff]/30 relative group hover:shadow-[0_0_20px_rgba(255,0,255,0.3)] transition-shadow">
+            <h2 className="text-2xl font-black text-[#ff00ff] mb-6">
+              DATA ARCHIVES
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-white/80 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-[#00ffff] 
+                            before:shadow-[0_0_10px_rgba(0,255,255,0.5)]"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="bg-[#1a1f3c] p-6 rounded-lg border border-[#00ffff]/30 relative group hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-shadow">
+            <h2 className="text-2xl font-black text-[#00ffff] mb-6">
+              HIGH SCORES
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-white/80 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-[#ff00ff] 
+                            before:shadow-[0_0_10px_rgba(255,0,255,0.5)]"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
         <div className="inline-block bg-[#1a1f3c] px-8 py-3 rounded-lg border border-[#ff00ff]/30 group hover:shadow-[0_0_20px_rgba(255,0,255,0.3)] transition-shadow">
           <span className="bg-gradient-to-r from-[#ff00ff] to-[#00ffff] bg-clip-text text-transparent font-black tracking-wider">
-            PRESS START TO CONTINUE
+            ⚡
           </span>
         </div>
       </footer>

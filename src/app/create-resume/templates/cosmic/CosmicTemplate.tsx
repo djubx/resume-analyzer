@@ -201,12 +201,121 @@ export default function CosmicTemplate({ data }: TemplateProps) {
         )}
       </div>
 
-      {/* Footer */}
-      <footer className="mt-16 text-center">
-        <div className="inline-block px-8 py-3 rounded-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 
-                        backdrop-blur-sm border border-purple-500/20 text-slate-400">
-          References available upon request
-        </div>
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Galactic Contributions
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="max-w-3xl mx-auto p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10
+                          backdrop-blur-sm border border-purple-500/20 relative group"
+              >
+                <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full opacity-30 blur-lg
+                              group-hover:opacity-50 transition-opacity" />
+                <h3 className="text-xl font-bold text-purple-300 mb-2">{exp.role}</h3>
+                <div className="text-pink-300 mb-4">{exp.organization}</div>
+                <p className="text-slate-300">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Interstellar Networks
+          </h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="group relative px-4 py-2 bg-gradient-to-br from-purple-500/10 to-pink-500/10
+                          backdrop-blur-sm border border-purple-500/20 rounded-full
+                          hover:border-purple-500/40 transition-all duration-300"
+              >
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-pink-500/0 
+                              opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="relative text-slate-300 group-hover:text-purple-300 transition-colors">
+                  {association}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/20">
+            <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Universal Languages
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-slate-300 pl-6 relative before:content-['✧'] 
+                            before:absolute before:left-0 before:text-purple-400 text-center"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/20">
+            <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Cosmic Chronicles
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-slate-300 pl-6 relative before:content-['✧'] 
+                            before:absolute before:left-0 before:text-purple-400 text-center"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-purple-500/20">
+            <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Stellar Honors
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-slate-300 pl-6 relative before:content-['✧'] 
+                            before:absolute before:left-0 before:text-purple-400 text-center"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      {/* Footer - Removed hardcoded text */}
+      <footer className="mt-16">
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
       </footer>
     </div>
   );

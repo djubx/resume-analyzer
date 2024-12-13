@@ -163,7 +163,7 @@ export default function SteampunkTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8 mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="bg-[#2a1810] p-6 rounded-lg border-4 border-[#b87d3b] relative">
@@ -215,14 +215,142 @@ export default function SteampunkTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-8 text-[#2a1810] font-serif">
+            Philanthropic Endeavors
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="bg-[#2a1810] p-6 rounded-lg border-4 border-[#b87d3b] relative"
+              >
+                <div className="absolute -left-6 top-6 w-12 h-12 bg-[#b87d3b] rounded-full border-4 border-[#2a1810] flex items-center justify-center transform rotate-45">
+                  <div className="w-8 h-8 border-4 border-[#2a1810] rounded-full" />
+                </div>
+                <div className="pl-8">
+                  <h3 className="text-xl font-bold text-[#b87d3b] font-serif mb-2">{exp.role}</h3>
+                  <div className="text-[#b87d3b] font-bold mb-2">{exp.organization}</div>
+                  <p className="text-[#b87d3b]/80">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-8 text-[#2a1810] font-serif">
+            Inventors' Guilds
+          </h2>
+          <div className="grid grid-cols-2 gap-6">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="bg-[#2a1810] p-4 rounded-lg border-4 border-[#b87d3b] relative group overflow-hidden"
+              >
+                <div className="absolute -top-4 -left-4 w-8 h-8 bg-[#b87d3b] rounded-full border-2 border-[#2a1810] transform rotate-45 group-hover:rotate-90 transition-transform duration-500" />
+                <span className="text-[#b87d3b] block text-center font-serif">{association}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="bg-[#2a1810] p-6 rounded-lg border-4 border-[#b87d3b] relative">
+            <div className="absolute -left-6 top-6 w-12 h-12 bg-[#b87d3b] rounded-full border-4 border-[#2a1810] flex items-center justify-center transform rotate-45">
+              <div className="w-8 h-8 border-4 border-[#2a1810] rounded-full" />
+            </div>
+            <div className="pl-8">
+              <h2 className="text-2xl font-bold text-[#b87d3b] font-serif mb-6">
+                Linguistic Apparatus
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-[#b87d3b] pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-[#b87d3b] 
+                              before:transform before:rotate-45"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="bg-[#2a1810] p-6 rounded-lg border-4 border-[#b87d3b] relative">
+            <div className="absolute -left-6 top-6 w-12 h-12 bg-[#b87d3b] rounded-full border-4 border-[#2a1810] flex items-center justify-center transform rotate-45">
+              <div className="w-8 h-8 border-4 border-[#2a1810] rounded-full" />
+            </div>
+            <div className="pl-8">
+              <h2 className="text-2xl font-bold text-[#b87d3b] font-serif mb-6">
+                Scientific Journals
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-[#b87d3b] pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-[#b87d3b] 
+                              before:transform before:rotate-45"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="bg-[#2a1810] p-6 rounded-lg border-4 border-[#b87d3b] relative">
+            <div className="absolute -left-6 top-6 w-12 h-12 bg-[#b87d3b] rounded-full border-4 border-[#2a1810] flex items-center justify-center transform rotate-45">
+              <div className="w-8 h-8 border-4 border-[#2a1810] rounded-full" />
+            </div>
+            <div className="pl-8">
+              <h2 className="text-2xl font-bold text-[#b87d3b] font-serif mb-6">
+                Distinguished Honors
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-[#b87d3b] pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-[#b87d3b] 
+                              before:transform before:rotate-45"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
         <div className="inline-block bg-[#2a1810] px-8 py-3 rounded-lg border-4 border-[#b87d3b] relative">
           <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#b87d3b] rounded-full border-4 border-[#2a1810] transform rotate-45" />
           <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#b87d3b] rounded-full border-4 border-[#2a1810] transform rotate-45" />
-          <span className="text-[#b87d3b] font-serif tracking-wider">
-            References Available Upon Request
-          </span>
+          <div className="w-16 h-1 bg-[#b87d3b] mx-auto" />
         </div>
       </footer>
     </div>

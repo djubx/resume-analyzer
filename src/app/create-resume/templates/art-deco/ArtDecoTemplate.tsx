@@ -155,7 +155,7 @@ export default function ArtDecoTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8 mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="relative border-2 border-yellow-800 p-8">
@@ -209,14 +209,149 @@ export default function ArtDecoTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <div className="flex justify-center items-center gap-4 mb-8">
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+            <h2 className="text-2xl font-bold tracking-widest text-yellow-800 uppercase">Community Service</h2>
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+          </div>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative border-2 border-yellow-800 p-8">
+                <div className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-yellow-800" />
+                <div className="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 border-yellow-800" />
+                <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2 border-yellow-800" />
+                <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-yellow-800" />
+                <div className="text-center mb-4">
+                  <h3 className="text-xl font-bold text-yellow-800">{exp.role}</h3>
+                  <div className="text-yellow-900">{exp.organization}</div>
+                </div>
+                <p className="text-yellow-900">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <div className="flex justify-center items-center gap-4 mb-8">
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+            <h2 className="text-2xl font-bold tracking-widest text-yellow-800 uppercase">Professional Networks</h2>
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="relative border border-yellow-800 p-3 text-center"
+              >
+                <div className="absolute -top-1 -left-1 w-2 h-2 bg-yellow-800" />
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-800" />
+                <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-yellow-800" />
+                <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-yellow-800" />
+                <span className="text-yellow-900">{association}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="relative border-2 border-yellow-800 p-8">
+            <div className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-yellow-800" />
+            <div className="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 border-yellow-800" />
+            <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2 border-yellow-800" />
+            <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-yellow-800" />
+            <div className="flex justify-center items-center gap-4 mb-8">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+              <h2 className="text-2xl font-bold tracking-widest text-yellow-800 uppercase">Languages</h2>
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+            </div>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-yellow-900 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-yellow-800 
+                            before:transform before:rotate-45 text-center"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="relative border-2 border-yellow-800 p-8">
+            <div className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-yellow-800" />
+            <div className="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 border-yellow-800" />
+            <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2 border-yellow-800" />
+            <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-yellow-800" />
+            <div className="flex justify-center items-center gap-4 mb-8">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+              <h2 className="text-2xl font-bold tracking-widest text-yellow-800 uppercase">Publications</h2>
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+            </div>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-yellow-900 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-yellow-800 
+                            before:transform before:rotate-45 text-center"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="relative border-2 border-yellow-800 p-8">
+            <div className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-yellow-800" />
+            <div className="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 border-yellow-800" />
+            <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2 border-yellow-800" />
+            <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-yellow-800" />
+            <div className="flex justify-center items-center gap-4 mb-8">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+              <h2 className="text-2xl font-bold tracking-widest text-yellow-800 uppercase">Honors</h2>
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
+            </div>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-yellow-900 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-yellow-800 
+                            before:transform before:rotate-45 text-center"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
         <div className="inline-block">
           <div className="flex items-center gap-4">
             <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
-            <span className="text-yellow-800 uppercase tracking-widest text-sm">
-              References Available Upon Request
-            </span>
             <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-800 to-transparent" />
           </div>
         </div>

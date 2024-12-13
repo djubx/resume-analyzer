@@ -258,7 +258,7 @@ export default function PixelArtTemplate({ data }: TemplateProps) {
               {data.additionalSections.awards.map((award, index) => (
                 <div
                   key={index}
-                  className="bg-[#24283b] p-4 rounded-lg border border-[#414868]"
+                  className="bg-[#24283b] p-4 rounded-lg border border-[#414868] text-sm"
                 >
                   {award}
                 </div>
@@ -271,11 +271,7 @@ export default function PixelArtTemplate({ data }: TemplateProps) {
       {/* Footer */}
       <footer className="mt-12 text-center">
         <div className="inline-block">
-          <div className="flex items-center gap-2">
-            <span className="text-[#bb9af7]">{'>'}</span>
-            <span className="text-[#565f89]">PRESS START TO CONTINUE</span>
-            <span className="text-[#bb9af7]">{'<'}</span>
-          </div>
+          <div className="h-1 w-16 bg-[#bb9af7] mx-auto" />
         </div>
       </footer>
     </div>

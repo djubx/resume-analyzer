@@ -147,7 +147,7 @@ export default function ThreeDTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="transform hover:scale-[1.01] transition-transform duration-300">
@@ -192,11 +192,129 @@ export default function ThreeDTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Volunteer Experience
+          </h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="transform hover:scale-[1.01] transition-transform duration-300"
+              >
+                <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20">
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-indigo-300">{exp.role}</h3>
+                    <div className="text-purple-300">{exp.organization}</div>
+                  </div>
+                  <p>{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Professional Associations
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="bg-white/10 backdrop-blur-sm p-4 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20
+                          transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300
+                          relative before:absolute before:inset-0 before:-z-10 before:bg-gradient-to-r before:from-indigo-500/10 before:to-purple-500/10 before:blur-xl"
+              >
+                {association}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="transform hover:scale-[1.01] transition-transform duration-300">
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20">
+              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                Languages
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="pl-6 relative before:content-[''] before:absolute before:left-0 
+                              before:top-[0.6em] before:w-2 before:h-2 before:bg-indigo-500/30 
+                              before:rounded-full"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="transform hover:scale-[1.01] transition-transform duration-300">
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20">
+              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Publications
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="pl-6 relative before:content-[''] before:absolute before:left-0 
+                              before:top-[0.6em] before:w-2 before:h-2 before:bg-purple-500/30 
+                              before:rounded-full"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="transform hover:scale-[1.01] transition-transform duration-300">
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20">
+              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink-400 to-indigo-400 bg-clip-text text-transparent">
+                Awards
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="pl-6 relative before:content-[''] before:absolute before:left-0 
+                              before:top-[0.6em] before:w-2 before:h-2 before:bg-pink-500/30 
+                              before:rounded-full"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 text-center text-sm text-white/60">
+      <footer className="mt-12 text-center">
         <div className="transform hover:scale-[1.01] transition-transform duration-300">
           <div className="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20 inline-block">
-            References available upon request
+            <div className="w-16 h-0.5 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 mx-auto" />
           </div>
         </div>
       </footer>

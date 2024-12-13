@@ -100,6 +100,18 @@ export default function ProfessionalTemplate({ data }: TemplateProps) {
               </ul>
             </section>
           )}
+
+          {/* Publications */}
+          {data.additionalSections?.publications?.length > 0 && (
+            <section className="mb-6">
+              <h2 className="text-xl font-serif text-gray-800 border-b border-gray-300 mb-3">Publications</h2>
+              <ul className="list-disc ml-5 text-gray-700">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li key={index}>{publication}</li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
 
         {/* Right Column */}
@@ -129,6 +141,22 @@ export default function ProfessionalTemplate({ data }: TemplateProps) {
           )}
         </div>
       </div>
+
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-xl font-serif text-gray-800 border-b border-gray-300 mb-4">Volunteer Experience</h2>
+          {data.volunteerExperience.map((exp, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex justify-between items-baseline mb-1">
+                <h3 className="text-lg font-semibold text-gray-800">{exp.role}</h3>
+              </div>
+              <div className="text-gray-700 italic mb-2">{exp.organization}</div>
+              <p className="text-gray-700">{exp.description}</p>
+            </div>
+          ))}
+        </section>
+      )}
 
       {/* Projects */}
       {data.projects.length > 0 && (

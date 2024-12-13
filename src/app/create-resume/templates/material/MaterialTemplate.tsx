@@ -139,7 +139,7 @@ export default function MaterialTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="p-6 bg-white rounded-lg shadow-md">
@@ -177,10 +177,116 @@ export default function MaterialTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-light mb-6 text-blue-600">Volunteer Experience</h2>
+            <div className="space-y-8">
+              {data.volunteerExperience.map((exp, index) => (
+                <div
+                  key={index}
+                  className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                >
+                  <div className="mb-4">
+                    <h3 className="text-xl font-medium text-gray-800">{exp.role}</h3>
+                    <div className="text-blue-600">{exp.organization}</div>
+                  </div>
+                  <p className="text-gray-700">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-light mb-6 text-blue-600">Professional Associations</h2>
+            <div className="flex flex-wrap gap-2">
+              {data.professionalAssociations.map((association, index) => (
+                <span
+                  key={index}
+                  className="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm
+                            shadow-sm hover:shadow-md transition-shadow duration-300"
+                >
+                  {association}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-2xl font-light mb-6 text-blue-600">Languages</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-4 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-blue-600 
+                            before:rounded-full"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-2xl font-light mb-6 text-blue-600">Publications</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-4 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-blue-600 
+                            before:rounded-full"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-2xl font-light mb-6 text-blue-600">Awards</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-gray-700 pl-4 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-blue-600 
+                            before:rounded-full"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-12 text-center">
-        <div className="inline-block px-6 py-2 text-gray-600">
-          References available upon request
+        <div className="inline-block px-6 py-2">
+          <div className="w-16 h-px bg-blue-200 mx-auto" />
         </div>
       </footer>
     </div>

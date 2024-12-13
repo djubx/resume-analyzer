@@ -139,7 +139,7 @@ export default function NeonWaveTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="border border-cyan-500/20 p-6 rounded-lg">
@@ -174,10 +174,104 @@ export default function NeonWaveTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold mb-6 text-pink-400">Community.Impact</h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative">
+                <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-400 via-pink-500 to-purple-500" />
+                <div className="pl-6">
+                  <div className="mb-4">
+                    <h3 className="text-lg font-bold text-cyan-400">{exp.role}</h3>
+                    <div className="text-pink-400">{exp.organization}</div>
+                  </div>
+                  <p className="text-sm">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold mb-6 text-purple-400">Network.Nodes</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="p-3 border border-purple-500/20 rounded-lg relative group overflow-hidden
+                          hover:border-pink-500/50 transition-all duration-300"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-pink-500/10 to-purple-500/10 
+                              opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative text-sm">{association}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="border border-cyan-500/20 p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-6 text-cyan-400">Language.Protocol</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-sm pl-4 relative before:content-['»'] before:absolute before:left-0 before:text-pink-500"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="border border-pink-500/20 p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-6 text-pink-400">Data.Stream</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-sm pl-4 relative before:content-['»'] before:absolute before:left-0 before:text-cyan-500"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="border border-purple-500/20 p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-6 text-purple-400">Achievement.Matrix</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-sm pl-4 relative before:content-['»'] before:absolute before:left-0 before:text-pink-500"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 pt-8 border-t border-pink-500/30 text-center text-sm text-purple-400">
-        <div className="w-full h-px bg-gradient-to-r from-cyan-500 via-pink-500 to-purple-500 mb-4" />
-        References available upon request
+      <footer className="mt-12 pt-8 border-t border-pink-500/30 text-center">
+        <div className="w-full h-px bg-gradient-to-r from-cyan-500 via-pink-500 to-purple-500" />
       </footer>
     </div>
   );

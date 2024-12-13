@@ -130,7 +130,7 @@ export default function GradientFlowTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="bg-white/5 p-8 rounded-lg border border-purple-500/20">
@@ -172,10 +172,118 @@ export default function GradientFlowTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-light text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Volunteer Experience
+          </h2>
+          <div className="space-y-12">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="max-w-3xl mx-auto">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-medium text-purple-300">{exp.role}</h3>
+                  <div className="text-pink-300">{exp.organization}</div>
+                </div>
+                <p className="text-gray-300 text-center">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-light text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Professional Networks
+          </h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 bg-white/5 rounded-full text-gray-300 border border-purple-500/20
+                          hover:border-purple-500/40 hover:bg-white/10 transition-all duration-300"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="bg-white/5 p-8 rounded-lg border border-purple-500/20">
+            <h2 className="text-2xl font-light text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Languages
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-gray-300 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-purple-500/30 
+                            before:rounded-full text-center"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="bg-white/5 p-8 rounded-lg border border-purple-500/20">
+            <h2 className="text-2xl font-light text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Publications
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-gray-300 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-purple-500/30 
+                            before:rounded-full text-center"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="bg-white/5 p-8 rounded-lg border border-purple-500/20">
+            <h2 className="text-2xl font-light text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Awards
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-gray-300 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-purple-500/30 
+                            before:rounded-full text-center"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center text-gray-400">
         <div className="inline-block bg-white/5 px-8 py-3 rounded-full border border-purple-500/20">
-          References available upon request
         </div>
       </footer>
     </div>

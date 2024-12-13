@@ -160,7 +160,7 @@ export default function InfographicTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8 mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="p-6 bg-white rounded-2xl shadow-sm relative">
@@ -205,12 +205,134 @@ export default function InfographicTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            Community Impact
+          </h2>
+          <div className="grid grid-cols-2 gap-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="p-6 bg-white rounded-2xl shadow-sm relative group overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 
+                              translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                <div className="relative">
+                  <h3 className="text-xl font-bold text-blue-500 mb-2">{exp.role}</h3>
+                  <div className="text-purple-500 mb-4">{exp.organization}</div>
+                  <p className="text-slate-600">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            Professional Networks
+          </h2>
+          <div className="grid grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="relative p-4 bg-white rounded-xl shadow-sm overflow-hidden group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 
+                              translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                <div className="relative flex items-center gap-3">
+                  <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+                  <span className="text-slate-700">{association}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="p-6 bg-white rounded-2xl shadow-sm relative">
+            <div className="absolute -left-3 top-8 w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full" />
+            <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Languages
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-slate-600 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-gradient-to-br 
+                            before:from-blue-500/50 before:to-purple-500/50 
+                            before:rounded-full"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="p-6 bg-white rounded-2xl shadow-sm relative">
+            <div className="absolute -left-3 top-8 w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full" />
+            <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Publications
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-slate-600 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-gradient-to-br 
+                            before:from-blue-500/50 before:to-purple-500/50 
+                            before:rounded-full"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="p-6 bg-white rounded-2xl shadow-sm relative">
+            <div className="absolute -left-3 top-8 w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full" />
+            <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Achievements
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-slate-600 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-gradient-to-br 
+                            before:from-blue-500/50 before:to-purple-500/50 
+                            before:rounded-full"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
         <div className="inline-block px-6 py-2 bg-white rounded-full shadow-sm">
-          <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-            References available upon request
-          </span>
+          <div className="w-16 h-px bg-gradient-to-r from-blue-500 to-purple-500 mx-auto" />
         </div>
       </footer>
     </div>

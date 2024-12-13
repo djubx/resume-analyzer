@@ -203,13 +203,139 @@ export default function ComicBookTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-black text-center mb-8 transform rotate-2" style={{
+            textShadow: '2px 2px 0 #dc2626'
+          }}>
+            HERO FOR HIRE!
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-lg border-4 border-black relative"
+                style={{ transform: `rotate(${(index % 2 === 0 ? 1 : -1)}deg)` }}
+              >
+                <div className="absolute -top-4 -right-4 w-16 h-16 bg-yellow-400 rounded-full border-4 border-black flex items-center justify-center transform rotate-12">
+                  <span className="font-bold">WHAM!</span>
+                </div>
+                <h3 className="text-2xl font-black mb-2 text-red-600">{exp.role}</h3>
+                <div className="font-bold text-lg mb-1">{exp.organization}</div>
+                <p className="mt-4" style={{
+                  fontFamily: 'Comic Sans MS, cursive'
+                }}>{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-black text-center mb-8 transform -rotate-2" style={{
+            textShadow: '2px 2px 0 #dc2626'
+          }}>
+            SUPERHERO TEAMS
+          </h2>
+          <div className="grid grid-cols-2 gap-6">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="bg-yellow-400 p-4 rounded-lg shadow-lg border-4 border-black transform hover:scale-105 transition-transform"
+                style={{ transform: `rotate(${(index % 2 === 0 ? 2 : -2)}deg)` }}
+              >
+                <div className="font-bold text-lg text-center" style={{
+                  fontFamily: 'Comic Sans MS, cursive'
+                }}>
+                  {association}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="bg-white p-6 rounded-lg shadow-lg border-4 border-black transform rotate-2">
+            <h2 className="text-2xl font-black mb-6" style={{
+              textShadow: '2px 2px 0 #dc2626'
+            }}>
+              UNIVERSAL TRANSLATOR
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="flex items-center gap-2"
+                >
+                  <span className="text-2xl">🗣️</span>
+                  <span className="font-bold" style={{
+                    fontFamily: 'Comic Sans MS, cursive'
+                  }}>{language}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="bg-white p-6 rounded-lg shadow-lg border-4 border-black transform -rotate-1">
+            <h2 className="text-2xl font-black mb-6" style={{
+              textShadow: '2px 2px 0 #dc2626'
+            }}>
+              PUBLISHED CHRONICLES
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="flex items-center gap-2"
+                >
+                  <span className="text-2xl">📚</span>
+                  <span className="font-bold" style={{
+                    fontFamily: 'Comic Sans MS, cursive'
+                  }}>{publication}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="bg-white p-6 rounded-lg shadow-lg border-4 border-black transform rotate-1">
+            <h2 className="text-2xl font-black mb-6" style={{
+              textShadow: '2px 2px 0 #dc2626'
+            }}>
+              LEGENDARY ACHIEVEMENTS
+            </h2>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="flex items-center gap-2"
+                >
+                  <span className="text-2xl">🌟</span>
+                  <span className="font-bold" style={{
+                    fontFamily: 'Comic Sans MS, cursive'
+                  }}>{award}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-16 text-center">
-        <div className="inline-block bg-red-600 px-8 py-3 rounded-lg shadow-lg border-4 border-black transform rotate-2">
-          <span className="text-white font-black text-lg">
-            TO BE CONTINUED...
-          </span>
-        </div>
+      <footer className="mt-16">
+        <div className="h-1 w-full bg-black border-t-4 border-black transform -rotate-1" />
       </footer>
     </div>
   );

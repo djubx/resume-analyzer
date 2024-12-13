@@ -127,6 +127,95 @@ export default function ExecutiveTemplate({ data }: TemplateProps) {
           </section>
         )}
       </div>
+
+      {/* Projects */}
+      {data.projects.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-xl font-serif text-gray-800 mb-4">Strategic Initiatives</h2>
+          <div className="space-y-6">
+            {data.projects.map((project, index) => (
+              <div key={index} className="mb-4">
+                <h3 className="font-semibold text-gray-800 mb-2">{project.name}</h3>
+                <p className="text-gray-700 mb-3">{project.description}</p>
+                {project.technologies && (
+                  <div className="flex flex-wrap gap-4">
+                    {project.technologies.map((tech, idx) => (
+                      <span key={idx} className="text-gray-600 text-sm">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-xl font-serif text-gray-800 mb-4">Leadership & Community Engagement</h2>
+          <div className="space-y-4">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="mb-4">
+                <div className="flex justify-between items-baseline mb-2">
+                  <div>
+                    <h3 className="font-semibold text-gray-800">{exp.role}</h3>
+                    <div className="text-gray-600">{exp.organization}</div>
+                  </div>
+                </div>
+                <p className="text-gray-700 pl-4">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-xl font-serif text-gray-800 mb-4">Professional Affiliations</h2>
+          <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+            {data.professionalAssociations.map((association, index) => (
+              <div key={index} className="text-gray-700 pl-4 relative before:content-['•'] before:absolute before:left-0">
+                {association}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections - Publications & Awards */}
+      <div className="grid grid-cols-2 gap-8">
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-xl font-serif text-gray-800 mb-4">Publications & Thought Leadership</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li key={index} className="text-gray-700 pl-4 relative before:content-['•'] before:absolute before:left-0">
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-xl font-serif text-gray-800 mb-4">Honors & Recognition</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li key={index} className="text-gray-700 pl-4 relative before:content-['•'] before:absolute before:left-0">
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
     </div>
   );
 } 

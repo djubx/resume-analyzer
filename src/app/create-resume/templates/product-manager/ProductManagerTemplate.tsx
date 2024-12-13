@@ -137,7 +137,7 @@ export default function ProductManagerTemplate({ data }: TemplateProps) {
         )}
 
         {/* Education & Certifications */}
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 gap-8 mb-12">
           {/* Education */}
           {data.education.length > 0 && (
             <section>
@@ -178,13 +178,119 @@ export default function ProductManagerTemplate({ data }: TemplateProps) {
             </section>
           )}
         </div>
+
+        {/* Volunteer Experience */}
+        {data.volunteerExperience?.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-lg font-semibold mb-6 text-gray-900 border-b border-emerald-200 pb-2">
+              Community Leadership
+            </h2>
+            <div className="space-y-8">
+              {data.volunteerExperience.map((exp, index) => (
+                <div key={index} className="relative pl-6 border-l-2 border-emerald-200">
+                  <div className="absolute -left-[9px] top-1.5 w-4 h-4 bg-white border-2 border-emerald-400 rounded-full" />
+                  <h3 className="text-lg font-semibold text-gray-900">{exp.role}</h3>
+                  <div className="text-emerald-600 font-medium">{exp.organization}</div>
+                  <p className="text-gray-700 mt-2">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Professional Associations */}
+        {data.professionalAssociations?.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-lg font-semibold mb-6 text-gray-900 border-b border-emerald-200 pb-2">
+              Professional Networks
+            </h2>
+            <div className="grid grid-cols-3 gap-4">
+              {data.professionalAssociations.map((association, index) => (
+                <div
+                  key={index}
+                  className="bg-white p-3 rounded border border-gray-200 text-sm text-gray-700 hover:border-emerald-300 hover:shadow-sm transition-all"
+                >
+                  {association}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Additional Sections */}
+        <div className="grid grid-cols-3 gap-8 mb-12">
+          {/* Languages */}
+          {data.additionalSections?.languages?.length > 0 && (
+            <section>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 border-b border-emerald-200 pb-2">
+                Languages
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-1.5 before:h-1.5 before:bg-emerald-200 
+                              before:rounded-full"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Publications */}
+          {data.additionalSections?.publications?.length > 0 && (
+            <section>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 border-b border-emerald-200 pb-2">
+                Publications
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-1.5 before:h-1.5 before:bg-emerald-200 
+                              before:rounded-full"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Awards */}
+          {data.additionalSections?.awards?.length > 0 && (
+            <section>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 border-b border-emerald-200 pb-2">
+                Achievements
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-1.5 before:h-1.5 before:bg-emerald-200 
+                              before:rounded-full"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
       </div>
 
       {/* Footer */}
-      <footer className="mt-12 text-center text-gray-600 text-sm">
+      <footer className="mt-12 text-center">
         <div className="inline-flex items-center gap-3">
           <div className="w-12 h-px bg-emerald-200" />
-          <span>References available upon request</span>
           <div className="w-12 h-px bg-emerald-200" />
         </div>
       </footer>

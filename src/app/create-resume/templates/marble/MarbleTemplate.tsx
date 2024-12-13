@@ -145,7 +145,7 @@ export default function MarbleTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="p-6 bg-gray-50 rounded-lg relative">
@@ -189,10 +189,122 @@ export default function MarbleTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-serif text-center mb-8 text-gray-800">Community Service</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="p-6 bg-gray-50 rounded-lg relative group"
+              >
+                <div className="absolute inset-0 bg-[radial-gradient(circle_400px_at_50%_50%,rgba(243,244,246,1),transparent)] opacity-0 group-hover:opacity-50 transition-opacity" />
+                <div className="relative">
+                  <h3 className="text-xl font-medium text-gray-800 mb-2">{exp.role}</h3>
+                  <div className="text-gray-600 mb-4">{exp.organization}</div>
+                  <p className="text-gray-700">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-serif text-center mb-8 text-gray-800">Professional Affiliations</h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 bg-gray-50 text-gray-700 rounded-lg text-sm
+                          shadow-sm hover:shadow-md transition-shadow duration-300"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="p-6 bg-gray-50 rounded-lg relative">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_400px_at_50%_50%,rgba(243,244,246,1),transparent)] opacity-50" />
+            <div className="relative">
+              <h2 className="text-2xl font-serif text-center mb-8 text-gray-800">Languages</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-gray-300 
+                              before:rounded-full text-center"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="p-6 bg-gray-50 rounded-lg relative">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_400px_at_50%_50%,rgba(243,244,246,1),transparent)] opacity-50" />
+            <div className="relative">
+              <h2 className="text-2xl font-serif text-center mb-8 text-gray-800">Publications</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-gray-300 
+                              before:rounded-full text-center"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="p-6 bg-gray-50 rounded-lg relative">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_400px_at_50%_50%,rgba(243,244,246,1),transparent)] opacity-50" />
+            <div className="relative">
+              <h2 className="text-2xl font-serif text-center mb-8 text-gray-800">Honors & Awards</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-gray-300 
+                              before:rounded-full text-center"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
-        <div className="inline-block px-8 py-3 text-gray-600 font-serif">
-          References available upon request
+        <div className="inline-block px-8 py-3">
+          <div className="w-16 h-px bg-gray-300 mx-auto" />
         </div>
       </footer>
     </div>

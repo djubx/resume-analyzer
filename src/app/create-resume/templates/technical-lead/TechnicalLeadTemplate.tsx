@@ -13,7 +13,6 @@ export default function TechnicalLeadTemplate({ data }: TemplateProps) {
               <h1 className="text-4xl font-bold mb-4 text-slate-800">
                 {data.contactInformation.fullName}
               </h1>
-              <p className="text-blue-600 font-medium mb-4">Technical Team Lead • Engineering Manager</p>
               <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-600">
                 <div className="flex items-center gap-2">
                   <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,6 +99,45 @@ export default function TechnicalLeadTemplate({ data }: TemplateProps) {
               </div>
             </section>
           )}
+
+          {/* Professional Associations */}
+          {data.professionalAssociations?.length > 0 && (
+            <section className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-bold mb-4 text-slate-800 border-b-2 border-blue-600 pb-2">
+                Professional Associations
+              </h2>
+              <div className="space-y-3">
+                {data.professionalAssociations.map((association, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full" />
+                    <span className="text-slate-700">{association}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Languages */}
+          {data.additionalSections?.languages?.length > 0 && (
+            <section className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-bold mb-4 text-slate-800 border-b-2 border-blue-600 pb-2">
+                Languages
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-slate-700 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-blue-600/20 
+                              before:rounded-full"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
 
         {/* Right Column */}
@@ -180,14 +218,76 @@ export default function TechnicalLeadTemplate({ data }: TemplateProps) {
               </div>
             </section>
           )}
+
+          {/* Volunteer Experience */}
+          {data.volunteerExperience?.length > 0 && (
+            <section className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-bold mb-6 text-slate-800 border-b-2 border-blue-600 pb-2">
+                Volunteer Experience
+              </h2>
+              <div className="space-y-6">
+                {data.volunteerExperience.map((exp, index) => (
+                  <div key={index} className="relative pl-4 border-l-2 border-blue-600/20">
+                    <div className="absolute -left-[5px] top-1.5 w-2 h-2 bg-blue-600 rounded-full" />
+                    <h3 className="text-lg font-bold text-slate-800">{exp.role}</h3>
+                    <div className="text-blue-600 font-medium">{exp.organization}</div>
+                    <p className="text-slate-700 mt-2">{exp.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Publications */}
+          {data.additionalSections?.publications?.length > 0 && (
+            <section className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-bold mb-6 text-slate-800 border-b-2 border-blue-600 pb-2">
+                Publications
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-slate-700 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-blue-600/20 
+                              before:rounded-full"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Awards */}
+          {data.additionalSections?.awards?.length > 0 && (
+            <section className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-bold mb-6 text-slate-800 border-b-2 border-blue-600 pb-2">
+                Awards & Recognition
+              </h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-slate-700 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-blue-600/20 
+                              before:rounded-full"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="mt-8 text-center text-slate-600 text-sm">
+      <footer className="mt-8 text-center">
         <div className="inline-flex items-center gap-2">
           <div className="w-16 h-px bg-blue-600/20" />
-          <span>References available upon request</span>
           <div className="w-16 h-px bg-blue-600/20" />
         </div>
       </footer>

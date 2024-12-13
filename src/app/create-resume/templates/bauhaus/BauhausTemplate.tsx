@@ -190,13 +190,118 @@ export default function BauhausTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold mb-8 flex items-center gap-4">
+            <div className="w-12 h-12 bg-red-500 transform rotate-[135deg]" />
+            <span>Community Engagement</span>
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative border-4 border-black p-6">
+                <div className="absolute -top-4 -left-4 w-8 h-8 bg-blue-500 rounded-full" />
+                <h3 className="text-xl font-bold mb-2">{exp.role}</h3>
+                <div className="font-bold mb-1">{exp.organization}</div>
+                <p className="pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-yellow-400">
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold mb-8 flex items-center gap-4">
+            <div className="w-12 h-12 bg-yellow-400" />
+            <span>Professional Networks</span>
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="relative border-4 border-black p-4 group overflow-hidden"
+              >
+                <div className="absolute -right-8 -bottom-8 w-16 h-16 bg-red-500 transform rotate-45 scale-0 group-hover:scale-100 transition-transform duration-300" />
+                <span className="relative z-10 block">{association}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="relative border-4 border-black p-6">
+            <div className="absolute -top-4 -left-4 w-8 h-8 bg-blue-500" />
+            <h2 className="text-2xl font-bold mb-6">Languages</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-yellow-400"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="relative border-4 border-black p-6">
+            <div className="absolute -top-4 -right-4 w-8 h-8 bg-red-500 rounded-full" />
+            <h2 className="text-2xl font-bold mb-6">Publications</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-blue-500"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="relative border-4 border-black p-6">
+            <div className="absolute -top-4 -left-4 w-8 h-8 bg-yellow-400 transform rotate-45" />
+            <h2 className="text-2xl font-bold mb-6">Awards</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:bg-red-500"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16">
         <div className="border-t-8 border-black pt-4 flex items-center justify-center gap-4">
           <div className="w-4 h-4 bg-blue-500 rounded-full" />
-          <span className="uppercase tracking-widest">
-            References Available Upon Request
-          </span>
           <div className="w-4 h-4 bg-red-500 transform rotate-45" />
         </div>
       </footer>

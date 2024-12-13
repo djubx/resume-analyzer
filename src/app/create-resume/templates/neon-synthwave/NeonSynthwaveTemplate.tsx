@@ -223,10 +223,148 @@ export default function NeonSynthwaveTemplate({ data }: TemplateProps) {
         )}
       </div>
 
-      {/* Footer */}
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 relative">
+            <span className="absolute inset-0 text-[#ff00ff] blur-[1px] animate-pulse">COMMUNITY SYNC</span>
+            <span className="absolute inset-0 text-[#00ffff] blur-[1px] animate-pulse">COMMUNITY SYNC</span>
+            <span className="relative text-white">COMMUNITY SYNC</span>
+          </h2>
+          <div className="space-y-12">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="max-w-3xl mx-auto p-8 bg-[#1a0533] rounded-lg border border-[#00ffff]/30 
+                          hover:border-[#00ffff] transition-colors relative group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-[#00ffff]/0 via-[#00ffff]/5 to-[#00ffff]/0 
+                              translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="relative">
+                  <h3 className="text-xl font-bold text-[#00ffff] mb-2">{exp.role}</h3>
+                  <div className="text-[#ff00ff] mb-1">{exp.organization}</div>
+                  <p className="text-[#e0e0ff] pl-6 relative before:content-[''] 
+                               before:absolute before:left-0 before:top-[0.6em] 
+                               before:w-2 before:h-2 before:bg-[#ff00ff] 
+                               before:rounded-full">
+                    {exp.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 relative">
+            <span className="absolute inset-0 text-[#ff00ff] blur-[1px] animate-pulse">NETWORK NODES</span>
+            <span className="absolute inset-0 text-[#00ffff] blur-[1px] animate-pulse">NETWORK NODES</span>
+            <span className="relative text-white">NETWORK NODES</span>
+          </h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="group relative"
+              >
+                <div className="px-4 py-2 bg-[#1a0533] rounded-lg border border-[#ff00ff]/30 
+                              hover:border-[#ff00ff] transition-colors relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#ff00ff]/0 via-[#ff00ff]/10 to-[#ff00ff]/0 
+                                translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                  <span className="relative text-[#ff00ff]">{association}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="p-6 bg-[#1a0533] rounded-lg border border-[#00ffff]/30 
+                            hover:border-[#00ffff] transition-colors relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#00ffff]/0 via-[#00ffff]/5 to-[#00ffff]/0 
+                          translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold text-center mb-8 text-[#00ffff]">Communication</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-[#e0e0ff] pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-[#ff00ff] 
+                              before:rounded-full text-center"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="p-6 bg-[#1a0533] rounded-lg border border-[#ff00ff]/30 
+                            hover:border-[#ff00ff] transition-colors relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#ff00ff]/0 via-[#ff00ff]/5 to-[#ff00ff]/0 
+                          translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold text-center mb-8 text-[#ff00ff]">Data Archives</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-[#e0e0ff] pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-[#00ffff] 
+                              before:rounded-full text-center"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="p-6 bg-[#1a0533] rounded-lg border border-[#00ffff]/30 
+                            hover:border-[#00ffff] transition-colors relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#00ffff]/0 via-[#00ffff]/5 to-[#00ffff]/0 
+                          translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold text-center mb-8 text-[#00ffff]">High Scores</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-[#e0e0ff] pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-[#ff00ff] 
+                              before:rounded-full text-center"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
+      {/* Footer - Removed hardcoded text */}
       <footer className="mt-16 text-center">
-        <div className="inline-block px-8 py-3 text-[#e0e0ff]/60">
-          References available upon request
+        <div className="inline-block px-8 py-3">
+          <span className="text-[#ff00ff] blur-[1px] animate-pulse">⚡</span>
+          <span className="text-[#00ffff] blur-[1px] animate-pulse ml-2">⚡</span>
         </div>
       </footer>
     </div>

@@ -133,7 +133,7 @@ export default function VintagePrintTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Education */}
         {data.education.length > 0 && (
           <section>
@@ -176,12 +176,117 @@ export default function VintagePrintTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <div className="relative border-t-2 border-gray-800 pt-8">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-50 px-4">
+              <h2 className="text-sm uppercase tracking-[0.3em] text-gray-600">Volunteer Service</h2>
+            </div>
+            <div className="space-y-8">
+              {data.volunteerExperience.map((exp, index) => (
+                <div key={index} className="text-center">
+                  <h3 className="text-xl uppercase tracking-wider mb-2">{exp.role}</h3>
+                  <div className="font-serif italic text-gray-700 mb-4">{exp.organization}</div>
+                  <p className="max-w-2xl mx-auto text-gray-700">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <div className="relative border-t-2 border-gray-800 pt-8">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-50 px-4">
+              <h2 className="text-sm uppercase tracking-[0.3em] text-gray-600">Professional Affiliations</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {data.professionalAssociations.map((association, index) => (
+                <div
+                  key={index}
+                  className="text-center py-2 border border-gray-800 bg-amber-50"
+                >
+                  <span className="font-serif italic">{association}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <div className="relative border-t-2 border-gray-800 pt-8">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-50 px-4">
+                <h2 className="text-sm uppercase tracking-[0.3em] text-gray-600">Languages</h2>
+              </div>
+              <ul className="space-y-2 text-center">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="font-serif italic text-gray-700"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <div className="relative border-t-2 border-gray-800 pt-8">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-50 px-4">
+                <h2 className="text-sm uppercase tracking-[0.3em] text-gray-600">Publications</h2>
+              </div>
+              <ul className="space-y-2 text-center">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="font-serif italic text-gray-700"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <div className="relative border-t-2 border-gray-800 pt-8">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-50 px-4">
+                <h2 className="text-sm uppercase tracking-[0.3em] text-gray-600">Honors & Awards</h2>
+              </div>
+              <ul className="space-y-2 text-center">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="font-serif italic text-gray-700"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-12 text-center">
         <div className="inline-block border-t-2 border-gray-800 pt-4">
-          <span className="text-sm uppercase tracking-[0.3em] text-gray-600">
-            References Available Upon Request
-          </span>
+          <div className="w-16 h-px bg-gray-800 mx-auto" />
         </div>
       </footer>
     </div>

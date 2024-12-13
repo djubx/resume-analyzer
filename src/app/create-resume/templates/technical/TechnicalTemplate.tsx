@@ -126,7 +126,7 @@ export default function TechnicalTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Education */}
         {data.education.length > 0 && (
           <section>
@@ -153,6 +153,98 @@ export default function TechnicalTemplate({ data }: TemplateProps) {
               {data.certifications.map((cert, index) => (
                 <li key={index} className="text-gray-700">
                   {cert}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-lg font-bold text-gray-800 border-b-2 border-gray-900 pb-2 mb-4">
+            Volunteer Experience
+          </h2>
+          <div className="space-y-4">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="bg-gray-50 rounded-lg p-4">
+                <div className="flex justify-between items-baseline mb-2">
+                  <div>
+                    <h3 className="font-bold text-gray-800">{exp.role}</h3>
+                    <div className="text-gray-600">{exp.organization}</div>
+                  </div>
+                </div>
+                <p className="text-gray-700">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-lg font-bold text-gray-800 border-b-2 border-gray-900 pb-2 mb-4">
+            Professional Associations
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="bg-gray-100 rounded px-3 py-2 text-sm font-mono text-gray-800"
+              >
+                {association}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <h2 className="text-lg font-bold text-gray-800 border-b-2 border-gray-900 pb-2 mb-4">
+              Languages
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li key={index} className="text-gray-700">
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-lg font-bold text-gray-800 border-b-2 border-gray-900 pb-2 mb-4">
+              Publications
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li key={index} className="text-gray-700">
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-lg font-bold text-gray-800 border-b-2 border-gray-900 pb-2 mb-4">
+              Awards
+            </h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li key={index} className="text-gray-700">
+                  {award}
                 </li>
               ))}
             </ul>

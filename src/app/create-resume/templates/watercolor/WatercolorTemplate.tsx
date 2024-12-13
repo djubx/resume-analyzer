@@ -127,7 +127,7 @@ export default function WatercolorTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="relative">
@@ -171,12 +171,125 @@ export default function WatercolorTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-light text-center mb-8 text-gray-800">Community Impact</h2>
+          <div className="space-y-12">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-50 via-yellow-50 to-orange-50 opacity-50 rounded-lg" />
+                <div className="relative p-8">
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-medium text-gray-800">{exp.role}</h3>
+                    <div className="text-gray-600">{exp.organization}</div>
+                  </div>
+                  <p className="text-gray-700 max-w-3xl mx-auto">
+                    {exp.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-light text-center mb-8 text-gray-800">Professional Networks</h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 bg-white rounded-lg shadow-sm text-gray-700
+                          ring-1 ring-gray-100 hover:ring-sky-200 transition-all duration-300"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-lime-50 via-green-50 to-emerald-50 opacity-50 rounded-lg" />
+            <div className="relative p-8">
+              <h2 className="text-2xl font-light text-center mb-8 text-gray-800">Languages</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-emerald-200 
+                              before:rounded-full text-center"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 via-blue-50 to-violet-50 opacity-50 rounded-lg" />
+            <div className="relative p-8">
+              <h2 className="text-2xl font-light text-center mb-8 text-gray-800">Publications</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-indigo-200 
+                              before:rounded-full text-center"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-50 via-pink-50 to-rose-50 opacity-50 rounded-lg" />
+            <div className="relative p-8">
+              <h2 className="text-2xl font-light text-center mb-8 text-gray-800">Awards</h2>
+              <ul className="space-y-3">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-gray-700 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-fuchsia-200 
+                              before:rounded-full text-center"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-16 text-center text-gray-500">
+      <footer className="mt-16 text-center">
         <div className="relative inline-block">
           <div className="absolute inset-0 bg-gradient-to-r from-rose-50 via-sky-50 to-violet-50 opacity-50 rounded-lg" />
           <div className="relative px-8 py-3">
-            References available upon request
+            <div className="w-16 h-px bg-gradient-to-r from-rose-200 via-sky-200 to-violet-200 mx-auto" />
           </div>
         </div>
       </footer>

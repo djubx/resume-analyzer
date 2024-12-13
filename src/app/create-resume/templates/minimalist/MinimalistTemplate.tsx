@@ -79,7 +79,7 @@ export default function MinimalistTemplate({ data }: TemplateProps) {
       )}
 
       {/* Additional Sections in Two Columns */}
-      <div className="grid grid-cols-2 gap-12">
+      <div className="grid grid-cols-2 gap-12 mb-12">
         {/* Certifications */}
         {data.certifications.length > 0 && (
           <section>
@@ -103,7 +103,61 @@ export default function MinimalistTemplate({ data }: TemplateProps) {
             </ul>
           </section>
         )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Publications</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li key={index} className="text-gray-700">{publication}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-4">Awards</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li key={index} className="text-gray-700">{award}</li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
+
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-6">Volunteer Experience</h2>
+          {data.volunteerExperience.map((exp, index) => (
+            <div key={index} className="grid grid-cols-[1fr,2fr] gap-6 mb-4">
+              <div>
+                <div className="text-gray-600">{exp.organization}</div>
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-gray-800">{exp.role}</h3>
+                <p className="text-gray-700">{exp.description}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-6">Professional Networks</h2>
+          <div className="flex flex-wrap gap-x-12 gap-y-2">
+            {data.professionalAssociations.map((association, index) => (
+              <span key={index} className="text-gray-700">{association}</span>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Projects */}
       {data.projects.length > 0 && (

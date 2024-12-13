@@ -103,7 +103,7 @@ export default function MinimalDarkTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Education */}
         {data.education.length > 0 && (
           <section>
@@ -135,9 +135,91 @@ export default function MinimalDarkTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-white text-sm uppercase tracking-wider mb-6">Community Service</h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index}>
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="text-white font-medium">{exp.role}</h3>
+                    <div className="text-gray-400">{exp.organization}</div>
+                  </div>
+                </div>
+                <p className="text-gray-400 text-sm">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-white text-sm uppercase tracking-wider mb-6">Professional Networks</h2>
+          <div className="flex flex-wrap gap-2">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-3 py-1 bg-gray-800 text-sm rounded hover:bg-gray-700 transition-colors"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <h2 className="text-white text-sm uppercase tracking-wider mb-6">Languages</h2>
+            <ul className="space-y-2 text-sm">
+              {data.additionalSections.languages.map((language, index) => (
+                <li key={index} className="text-gray-400">
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-white text-sm uppercase tracking-wider mb-6">Publications</h2>
+            <ul className="space-y-2 text-sm">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li key={index} className="text-gray-400">
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-white text-sm uppercase tracking-wider mb-6">Honors</h2>
+            <ul className="space-y-2 text-sm">
+              {data.additionalSections.awards.map((award, index) => (
+                <li key={index} className="text-gray-400">
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
-        Portfolio and references available upon request
+      <footer className="mt-12 pt-8 border-t border-gray-800 text-center">
+        <div className="w-16 h-px bg-gray-800 mx-auto" />
       </footer>
     </div>
   );

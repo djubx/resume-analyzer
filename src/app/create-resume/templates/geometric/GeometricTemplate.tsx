@@ -193,10 +193,127 @@ export default function GeometricTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-orange-950 mb-6 flex items-center gap-3">
+            <div className="w-4 h-4 bg-orange-500 rotate-45" />
+            Community Impact
+          </h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative">
+                <div className="absolute -left-2 top-0 w-4 h-4 bg-orange-200 rotate-45" />
+                <div className="pl-6">
+                  <h3 className="text-xl font-bold text-orange-950 mb-2">{exp.role}</h3>
+                  <div className="text-orange-800 mb-2">{exp.organization}</div>
+                  <p className="text-orange-800">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-orange-950 mb-6 flex items-center gap-3">
+            <div className="w-4 h-4 bg-orange-500 rotate-45" />
+            Professional Networks
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="relative p-4 bg-orange-50 group hover:bg-orange-100 transition-colors"
+              >
+                <div className="absolute top-0 left-0 w-2 h-2 bg-orange-200 group-hover:bg-orange-300 transition-colors" />
+                <div className="absolute top-0 right-0 w-2 h-2 bg-orange-200 group-hover:bg-orange-300 transition-colors" />
+                <div className="absolute bottom-0 left-0 w-2 h-2 bg-orange-200 group-hover:bg-orange-300 transition-colors" />
+                <div className="absolute bottom-0 right-0 w-2 h-2 bg-orange-200 group-hover:bg-orange-300 transition-colors" />
+                <span className="text-orange-800">{association}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="relative">
+            <div className="absolute -left-2 top-0 w-4 h-4 bg-orange-500 rotate-45" />
+            <div className="pl-6">
+              <h2 className="text-2xl font-bold text-orange-950 mb-6">Languages</h2>
+              <ul className="space-y-2">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-orange-800 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-orange-200 
+                              before:rotate-45"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="relative">
+            <div className="absolute -left-2 top-0 w-4 h-4 bg-orange-500 rotate-45" />
+            <div className="pl-6">
+              <h2 className="text-2xl font-bold text-orange-950 mb-6">Publications</h2>
+              <ul className="space-y-2">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-orange-800 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-orange-200 
+                              before:rotate-45"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="relative">
+            <div className="absolute -left-2 top-0 w-4 h-4 bg-orange-500 rotate-45" />
+            <div className="pl-6">
+              <h2 className="text-2xl font-bold text-orange-950 mb-6">Awards</h2>
+              <ul className="space-y-2">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-orange-800 pl-4 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-orange-200 
+                              before:rotate-45"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 pt-6 text-center text-orange-600 relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-orange-200 rotate-45" />
-        References available upon request
+      <footer className="mt-12 text-center">
+        <div className="w-32 h-px bg-orange-200 mx-auto" />
       </footer>
     </div>
   );

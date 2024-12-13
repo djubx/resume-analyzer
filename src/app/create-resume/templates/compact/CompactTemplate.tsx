@@ -63,6 +63,51 @@ export default function CompactTemplate({ data }: TemplateProps) {
               ))}
             </section>
           )}
+
+          {/* Volunteer Experience */}
+          {data.volunteerExperience?.length > 0 && (
+            <section>
+              <h2 className="font-bold text-gray-800 border-b mb-2">Volunteer Experience</h2>
+              {data.volunteerExperience.map((exp, index) => (
+                <div key={index} className="mb-3">
+                  <div className="flex justify-between items-baseline">
+                    <h3 className="font-semibold text-gray-800">{exp.role}</h3>
+                  </div>
+                  <div className="text-xs text-gray-600 mb-1">{exp.organization}</div>
+                  <p className="text-xs text-gray-700">{exp.description}</p>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {/* Professional Associations */}
+          {data.professionalAssociations?.length > 0 && (
+            <section>
+              <h2 className="font-bold text-gray-800 border-b mb-2">Professional Associations</h2>
+              <div className="flex flex-wrap gap-1">
+                {data.professionalAssociations.map((association, index) => (
+                  <span
+                    key={index}
+                    className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
+                  >
+                    {association}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Publications */}
+          {data.additionalSections?.publications?.length > 0 && (
+            <section>
+              <h2 className="font-bold text-gray-800 border-b mb-2">Publications</h2>
+              <ul className="list-disc list-inside text-xs space-y-1">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li key={index} className="text-gray-700">{publication}</li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
 
         {/* Sidebar */}
@@ -117,6 +162,18 @@ export default function CompactTemplate({ data }: TemplateProps) {
               <ul className="text-xs space-y-1">
                 {data.additionalSections.languages.map((lang, index) => (
                   <li key={index} className="text-gray-700">{lang}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Awards */}
+          {data.additionalSections?.awards?.length > 0 && (
+            <section>
+              <h2 className="font-bold text-gray-800 border-b mb-2">Awards</h2>
+              <ul className="text-xs space-y-1">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li key={index} className="text-gray-700">{award}</li>
                 ))}
               </ul>
             </section>

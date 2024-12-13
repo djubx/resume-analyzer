@@ -114,7 +114,7 @@ export default function ZenTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section>
@@ -149,10 +149,97 @@ export default function ZenTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-lg tracking-[0.3em] text-center mb-8 text-stone-800 uppercase">Community Service</h2>
+          <div className="space-y-12 max-w-2xl mx-auto">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="text-center">
+                <h3 className="text-xl text-stone-800 mb-1">{exp.role}</h3>
+                <div className="text-stone-600 mb-4">{exp.organization}</div>
+                <p className="text-stone-600">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-lg tracking-[0.3em] text-center mb-8 text-stone-800 uppercase">Professional Networks</h2>
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-3 max-w-2xl mx-auto">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="text-stone-600"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-4xl mx-auto mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <h2 className="text-lg tracking-[0.3em] text-center mb-8 text-stone-800 uppercase">Languages</h2>
+            <div className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <div
+                  key={index}
+                  className="text-stone-600 text-center"
+                >
+                  {language}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-lg tracking-[0.3em] text-center mb-8 text-stone-800 uppercase">Publications</h2>
+            <div className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <div
+                  key={index}
+                  className="text-stone-600 text-center"
+                >
+                  {publication}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-lg tracking-[0.3em] text-center mb-8 text-stone-800 uppercase">Honors</h2>
+            <div className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <div
+                  key={index}
+                  className="text-stone-600 text-center"
+                >
+                  {award}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
-        <div className="inline-block text-sm text-stone-500 tracking-wider">
-          References available upon request
+        <div className="inline-block">
+          <div className="w-16 h-px bg-stone-300 mx-auto" />
         </div>
       </footer>
     </div>

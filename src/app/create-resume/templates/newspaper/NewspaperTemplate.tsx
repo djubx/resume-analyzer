@@ -15,17 +15,17 @@ export default function NewspaperTemplate({ data }: TemplateProps) {
       <header className="mb-12 border-b-4 border-double border-black pb-4">
         <div className="text-center">
           <h1 className="text-6xl font-black uppercase tracking-tight mb-4">
-            The Daily Chronicle
+            {data.contactInformation.fullName}
           </h1>
           <div className="text-sm uppercase tracking-widest mb-4">
-            "All the news about {data.contactInformation.fullName}"
+            Professional Portfolio
           </div>
           <div className="flex justify-center items-center gap-4 text-sm">
-            <span>Vol. MMXXIII</span>
+            <span>{data.contactInformation.email}</span>
             <span>|</span>
-            <span>Edition No. 001</span>
+            <span>{data.contactInformation.phoneNumber}</span>
             <span>|</span>
-            <span>Est. 2023</span>
+            <span>{data.contactInformation.location}</span>
           </div>
         </div>
       </header>
@@ -154,13 +154,99 @@ export default function NewspaperTemplate({ data }: TemplateProps) {
         )}
       </div>
 
-      {/* Footer */}
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 uppercase border-b-2 border-black">
+            Community Affairs
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <article key={index} className="break-inside-avoid">
+                <h3 className="text-xl font-bold uppercase mb-2">{exp.role}</h3>
+                <div className="italic mb-2">{exp.organization}</div>
+                <div className="pl-4 border-l-2 border-black">
+                  <p className="mb-2 text-justify">
+                    {exp.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 uppercase border-b-2 border-black">
+            Professional Networks
+          </h2>
+          <div className="columns-3 gap-8">
+            {data.professionalAssociations.map((association, index) => (
+              <div key={index} className="break-inside-avoid mb-4">
+                <span className="font-bold">• {association}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold mb-6 uppercase border-b-2 border-black">
+              Language Dispatch
+            </h2>
+            <div className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <article key={index} className="break-inside-avoid">
+                  <p className="text-justify">• {language}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold mb-6 uppercase border-b-2 border-black">
+              Published Works
+            </h2>
+            <div className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <article key={index} className="break-inside-avoid">
+                  <p className="text-justify">• {publication}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-bold mb-6 uppercase border-b-2 border-black">
+              Awards & Honors
+            </h2>
+            <div className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <article key={index} className="break-inside-avoid">
+                  <p className="text-justify">• {award}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
+      {/* Footer - Removed hardcoded text */}
       <footer className="mt-12 pt-4 border-t-2 border-black text-center text-sm">
-        <div className="uppercase tracking-widest">
-          References Available Upon Request
-        </div>
-        <div className="mt-2 text-xs">
-          Copyright © {new Date().getFullYear()} | All Rights Reserved
+        <div className="text-xs italic">
+          {data.contactInformation.fullName} | {data.contactInformation.email} | {data.contactInformation.phoneNumber}
         </div>
       </footer>
     </div>

@@ -156,6 +156,103 @@ export default function FuturisticTemplate({ data }: TemplateProps) {
           </section>
         )}
       </div>
+
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-cyan-400 mb-6">Social Impact Protocols</h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="p-6 bg-gray-800 rounded-lg border border-gray-700
+                          hover:border-cyan-500 transition-all duration-300
+                          hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]"
+              >
+                <h3 className="text-xl font-semibold text-gray-100 mb-2">{exp.role}</h3>
+                <div className="text-cyan-400 mb-2">{exp.organization}</div>
+                <p className="text-gray-300">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-blue-400 mb-6">Network Connections</h2>
+          <div className="flex flex-wrap gap-3">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 bg-gray-800 rounded-lg border border-gray-700 text-gray-300
+                          hover:border-blue-500 hover:text-blue-400 transition-all duration-300
+                          hover:shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-purple-500 transition-colors duration-300">
+            <h2 className="text-2xl font-bold text-purple-400 mb-6">Communication Protocols</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-gray-300 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-purple-500 before:rounded-full"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-cyan-500 transition-colors duration-300">
+            <h2 className="text-2xl font-bold text-cyan-400 mb-6">Data Archives</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-gray-300 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-cyan-500 before:rounded-full"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-colors duration-300">
+            <h2 className="text-2xl font-bold text-blue-400 mb-6">Achievement Matrix</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-gray-300 pl-6 relative before:content-[''] before:absolute before:left-0 
+                            before:top-[0.6em] before:w-2 before:h-2 before:bg-blue-500 before:rounded-full"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
     </div>
   );
 } 

@@ -198,12 +198,125 @@ export default function BlueprintTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold mb-6 text-blue-300 relative inline-block">
+            <span className="absolute -top-3 text-xs text-blue-400">SECTION:</span>
+            Community Initiatives
+          </h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="border-2 border-blue-500/30 p-6 relative">
+                <span className="absolute -top-3 left-4 bg-blue-900 px-2 text-xs text-blue-400">
+                  VOL: {String(index + 1).padStart(2, '0')}
+                </span>
+                <h3 className="text-lg font-bold text-blue-300 mb-2">{exp.role}</h3>
+                <div className="text-blue-400 mb-1">{exp.organization}</div>
+                <p className="text-blue-200">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-bold mb-6 text-blue-300 relative inline-block">
+            <span className="absolute -top-3 text-xs text-blue-400">SECTION:</span>
+            Professional Affiliations
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="border-2 border-blue-500/30 p-3 relative group hover:border-blue-400 transition-colors"
+              >
+                <span className="absolute -top-2 -right-2 text-xs text-blue-400 bg-blue-900 px-1">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div className="text-blue-200 group-hover:text-blue-300 transition-colors">
+                  {association}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="border-2 border-blue-500/30 p-6 relative">
+            <span className="absolute -top-3 left-4 bg-blue-900 px-2 text-xs text-blue-400">
+              LANGUAGE PROFICIENCY
+            </span>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-blue-200 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:border-2 
+                            before:border-blue-400 before:rounded-full"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="border-2 border-blue-500/30 p-6 relative">
+            <span className="absolute -top-3 left-4 bg-blue-900 px-2 text-xs text-blue-400">
+              PUBLISHED WORKS
+            </span>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-blue-200 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:border-2 
+                            before:border-blue-400 before:rounded-full"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="border-2 border-blue-500/30 p-6 relative">
+            <span className="absolute -top-3 left-4 bg-blue-900 px-2 text-xs text-blue-400">
+              ACHIEVEMENTS
+            </span>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-blue-200 pl-6 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] 
+                            before:w-2 before:h-2 before:border-2 
+                            before:border-blue-400 before:rounded-full"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 text-center">
-        <div className="inline-block border-2 border-blue-500/30 px-6 py-2 relative">
-          <span className="absolute -top-3 left-4 bg-blue-900 px-2 text-xs text-blue-400">NOTE</span>
-          <span className="text-blue-300">References available upon request</span>
-        </div>
+      <footer className="mt-12">
+        <div className="h-px w-full bg-blue-500/30" />
       </footer>
     </div>
   );

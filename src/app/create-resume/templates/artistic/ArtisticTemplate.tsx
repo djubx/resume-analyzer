@@ -181,12 +181,92 @@ export default function ArtisticTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-light text-violet-950 mb-8">Community Canvas</h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="relative pl-8">
+                <div className="absolute left-0 top-2 w-2 h-2 border-2 border-violet-400 rounded-full" />
+                <h3 className="font-medium text-violet-900">{exp.role}</h3>
+                <div className="text-violet-700">{exp.organization}</div>
+                <p className="text-violet-600 mt-2">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-light text-violet-950 mb-8">Creative Circles</h2>
+          <div className="flex flex-wrap gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full text-violet-700
+                          border border-violet-100 hover:border-violet-300 transition-colors"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-light text-violet-950 mb-8">Languages</h2>
+            <div className="space-y-4">
+              {data.additionalSections.languages.map((language, index) => (
+                <div key={index} className="relative pl-8">
+                  <div className="absolute left-0 top-2 w-2 h-2 border-2 border-violet-400 rounded-full" />
+                  <span className="text-violet-700">{language}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-light text-violet-950 mb-8">Published Works</h2>
+            <div className="space-y-4">
+              {data.additionalSections.publications.map((publication, index) => (
+                <div key={index} className="relative pl-8">
+                  <div className="absolute left-0 top-2 w-2 h-2 border-2 border-violet-400 rounded-full" />
+                  <span className="text-violet-700 text-sm">{publication}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-light text-violet-950 mb-8">Recognition</h2>
+            <div className="space-y-4">
+              {data.additionalSections.awards.map((award, index) => (
+                <div key={index} className="relative pl-8">
+                  <div className="absolute left-0 top-2 w-2 h-2 border-2 border-violet-400 rounded-full" />
+                  <span className="text-violet-700">{award}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-16 text-center text-violet-600 relative">
+      <footer className="mt-16 relative">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-300 to-transparent" />
-        <div className="pt-8 font-light italic">
-          Creating beauty through purpose
-        </div>
       </footer>
     </div>
   );

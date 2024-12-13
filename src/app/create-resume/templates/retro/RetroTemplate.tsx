@@ -130,7 +130,7 @@ export default function RetroTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="border-2 border-black p-4">
@@ -165,9 +165,102 @@ export default function RetroTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-lg font-bold mb-6 uppercase tracking-widest text-center 
+                        border-b-4 border-black pb-2">Community Service</h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="border-2 border-black p-4"
+              >
+                <h3 className="text-base font-bold uppercase mb-2">{exp.role}</h3>
+                <div className="text-sm font-bold mb-2">{exp.organization}</div>
+                <p className="text-sm">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-lg font-bold mb-6 uppercase tracking-widest text-center 
+                        border-b-4 border-black pb-2">Professional Networks</h2>
+          <div className="grid grid-cols-2 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="border-2 border-black p-2 text-center text-sm relative overflow-hidden
+                          hover:bg-black hover:text-amber-50 transition-colors duration-300"
+              >
+                {association}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="border-2 border-black p-4">
+            <h2 className="text-lg font-bold uppercase tracking-widest mb-4 text-center">Languages</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-sm pl-4 relative before:content-['>'] before:absolute before:left-0"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="border-2 border-black p-4">
+            <h2 className="text-lg font-bold uppercase tracking-widest mb-4 text-center">Publications</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-sm pl-4 relative before:content-['>'] before:absolute before:left-0"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="border-2 border-black p-4">
+            <h2 className="text-lg font-bold uppercase tracking-widest mb-4 text-center">Achievements</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-sm pl-4 relative before:content-['>'] before:absolute before:left-0"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer Design */}
-      <div className="mt-12 border-t-4 border-black pt-4 text-center text-xs uppercase tracking-widest">
-        References Available Upon Request
+      <div className="mt-12 border-t-4 border-black pt-4">
+        <div className="w-16 h-1 bg-black mx-auto" />
       </div>
     </div>
   );

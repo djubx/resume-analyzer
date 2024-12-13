@@ -149,10 +149,111 @@ export default function NordicTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-slate-400 text-sm tracking-wider uppercase mb-6">Community Engagement</h2>
+          <div className="space-y-6">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="bg-white p-6 shadow-sm">
+                <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4 mb-4">
+                  <div>
+                    <h3 className="text-slate-800 font-medium mb-1">{exp.role}</h3>
+                    <div className="text-slate-600">{exp.organization}</div>
+                  </div>
+                </div>
+                <p className="text-slate-600 text-sm pl-4 relative before:content-[''] 
+                             before:absolute before:left-0 before:top-[0.6em] before:w-2 
+                             before:h-2 before:bg-slate-200">
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-slate-400 text-sm tracking-wider uppercase mb-6">Professional Networks</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="bg-white p-3 text-slate-600 text-sm shadow-sm
+                          hover:shadow-md transition-shadow duration-300"
+              >
+                {association}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="bg-white p-6 shadow-sm">
+            <h2 className="text-slate-400 text-sm tracking-wider uppercase mb-6">Languages</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-slate-600 text-sm pl-4 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] before:w-2 
+                            before:h-2 before:bg-slate-200"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="bg-white p-6 shadow-sm">
+            <h2 className="text-slate-400 text-sm tracking-wider uppercase mb-6">Publications</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-slate-600 text-sm pl-4 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] before:w-2 
+                            before:h-2 before:bg-slate-200"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="bg-white p-6 shadow-sm">
+            <h2 className="text-slate-400 text-sm tracking-wider uppercase mb-6">Awards</h2>
+            <ul className="space-y-2">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-slate-600 text-sm pl-4 relative before:content-[''] 
+                            before:absolute before:left-0 before:top-[0.6em] before:w-2 
+                            before:h-2 before:bg-slate-200"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
-      <footer className="mt-12 text-center text-slate-400 text-sm">
-        <div className="h-px w-16 bg-slate-200 mx-auto mb-4" />
-        References available upon request
+      <footer className="mt-12 text-center">
+        <div className="h-px w-16 bg-slate-200 mx-auto" />
       </footer>
     </div>
   );

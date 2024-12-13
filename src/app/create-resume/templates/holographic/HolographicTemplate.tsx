@@ -158,7 +158,7 @@ export default function HolographicTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="p-6 rounded-2xl relative group">
@@ -209,14 +209,143 @@ export default function HolographicTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">
+            Community Impact
+          </h2>
+          <div className="space-y-12">
+            {data.volunteerExperience.map((exp, index) => (
+              <div
+                key={index}
+                className="max-w-3xl mx-auto p-8 rounded-2xl relative group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-fuchsia-500/10 to-cyan-500/10 rounded-2xl" />
+                <div className="absolute inset-0 border border-white/10 rounded-2xl" />
+                <div className="relative">
+                  <h3 className="text-xl font-bold text-cyan-300 mb-2">{exp.role}</h3>
+                  <div className="text-fuchsia-300">{exp.organization}</div>
+                  <p className="text-slate-300 mt-4">{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">
+            Professional Networks
+          </h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="group relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-fuchsia-500 to-cyan-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity" />
+                <div className="relative px-4 py-2 bg-white/5 rounded-full border border-white/10 text-slate-300 hover:text-white transition-colors">
+                  {association}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="p-6 rounded-2xl relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-fuchsia-500/10 to-cyan-500/10 rounded-2xl" />
+            <div className="absolute inset-0 border border-white/10 rounded-2xl" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">
+                Languages
+              </h2>
+              <ul className="space-y-3">
+                {data.additionalSections.languages.map((language, index) => (
+                  <li
+                    key={index}
+                    className="text-slate-300 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-gradient-to-r 
+                              before:from-cyan-500 before:to-fuchsia-500 
+                              before:rounded-full text-center"
+                  >
+                    {language}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="p-6 rounded-2xl relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-fuchsia-500/10 to-cyan-500/10 rounded-2xl" />
+            <div className="absolute inset-0 border border-white/10 rounded-2xl" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">
+                Publications
+              </h2>
+              <ul className="space-y-3">
+                {data.additionalSections.publications.map((publication, index) => (
+                  <li
+                    key={index}
+                    className="text-slate-300 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-gradient-to-r 
+                              before:from-cyan-500 before:to-fuchsia-500 
+                              before:rounded-full text-center"
+                  >
+                    {publication}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="p-6 rounded-2xl relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-fuchsia-500/10 to-cyan-500/10 rounded-2xl" />
+            <div className="absolute inset-0 border border-white/10 rounded-2xl" />
+            <div className="relative">
+              <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">
+                Achievements
+              </h2>
+              <ul className="space-y-3">
+                {data.additionalSections.awards.map((award, index) => (
+                  <li
+                    key={index}
+                    className="text-slate-300 pl-6 relative before:content-[''] 
+                              before:absolute before:left-0 before:top-[0.6em] 
+                              before:w-2 before:h-2 before:bg-gradient-to-r 
+                              before:from-cyan-500 before:to-fuchsia-500 
+                              before:rounded-full text-center"
+                  >
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
         <div className="inline-block px-8 py-3 rounded-full relative group">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-fuchsia-500/10 to-cyan-500/10 rounded-full" />
           <div className="absolute inset-0 border border-white/10 rounded-full" />
-          <span className="relative text-slate-400">
-            References available upon request
-          </span>
+          <div className="relative w-16 h-px bg-gradient-to-r from-cyan-500 via-fuchsia-500 to-cyan-500 mx-auto" />
         </div>
       </footer>
     </div>

@@ -85,6 +85,34 @@ export default function ModernTemplate({ data }: TemplateProps) {
         </section>
       )}
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-6">
+          <h2 className="text-xl font-semibold text-blue-500 mb-4">Volunteer Experience</h2>
+          {data.volunteerExperience.map((exp, index) => (
+            <div key={index} className="mb-3">
+              <h3 className="font-semibold text-gray-800">{exp.role}</h3>
+              <div className="text-gray-600">{exp.organization}</div>
+              <p className="text-gray-700 mt-1">{exp.description}</p>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-6">
+          <h2 className="text-xl font-semibold text-blue-500 mb-2">Professional Associations</h2>
+          <div className="flex flex-wrap gap-2">
+            {data.professionalAssociations.map((association, index) => (
+              <span key={index} className="bg-gray-100 px-3 py-1 rounded-full text-gray-700">
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Additional Sections */}
       <div className="grid grid-cols-2 gap-6">
         {/* Certifications */}

@@ -144,6 +144,96 @@ export default function ElegantTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-light text-gray-800 mb-8 text-center tracking-wide">
+            Community Engagement
+          </h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="text-center">
+                <h3 className="text-xl font-medium text-gray-800 mb-2">{exp.role}</h3>
+                <div className="text-gray-600 italic mb-2">{exp.organization}</div>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-light text-gray-800 mb-6 text-center tracking-wide">
+            Professional Affiliations
+          </h2>
+          <div className="flex flex-wrap justify-center gap-6">
+            {data.professionalAssociations.map((association, index) => (
+              <span
+                key={index}
+                className="text-gray-600 relative after:content-['•'] after:mx-3 after:text-gray-300 last:after:content-none"
+              >
+                {association}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-12 mb-12">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-light text-gray-800 mb-6 text-center tracking-wide">
+              Languages
+            </h2>
+            <ul className="space-y-3 text-center">
+              {data.additionalSections.languages.map((language, index) => (
+                <li key={index} className="text-gray-600">
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-light text-gray-800 mb-6 text-center tracking-wide">
+              Publications
+            </h2>
+            <ul className="space-y-3 text-center">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li key={index} className="text-gray-600 italic">
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section>
+            <h2 className="text-2xl font-light text-gray-800 mb-6 text-center tracking-wide">
+              Honors & Awards
+            </h2>
+            <ul className="space-y-3 text-center">
+              {data.additionalSections.awards.map((award, index) => (
+                <li key={index} className="text-gray-600">
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer Ornament */}
       <div className="mt-12 flex justify-center">
         <div className="w-24 h-px bg-gray-200" />

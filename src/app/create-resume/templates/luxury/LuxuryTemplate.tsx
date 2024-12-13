@@ -115,7 +115,7 @@ export default function LuxuryTemplate({ data }: TemplateProps) {
       )}
 
       {/* Education & Certifications */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8 mb-16">
         {/* Education */}
         {data.education.length > 0 && (
           <section className="border border-yellow-900/50 p-8 bg-gradient-to-b from-yellow-900/20 to-transparent">
@@ -151,10 +151,103 @@ export default function LuxuryTemplate({ data }: TemplateProps) {
         )}
       </div>
 
+      {/* Volunteer Experience */}
+      {data.volunteerExperience?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-serif text-center mb-8 text-yellow-600">Community Service</h2>
+          <div className="space-y-8">
+            {data.volunteerExperience.map((exp, index) => (
+              <div key={index} className="border border-yellow-900/50 p-8 bg-gradient-to-b from-yellow-900/20 to-transparent">
+                <div className="mb-4 text-center">
+                  <h3 className="text-xl font-serif text-yellow-500">{exp.role}</h3>
+                  <div className="text-yellow-200">{exp.organization}</div>
+                </div>
+                <p className="text-yellow-100">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Professional Associations */}
+      {data.professionalAssociations?.length > 0 && (
+        <section className="mb-16">
+          <h2 className="text-2xl font-serif text-center mb-8 text-yellow-600">Professional Affiliations</h2>
+          <div className="grid grid-cols-3 gap-4">
+            {data.professionalAssociations.map((association, index) => (
+              <div
+                key={index}
+                className="border border-yellow-900/50 p-4 text-center text-yellow-200
+                          hover:bg-yellow-900/20 transition-colors duration-300"
+              >
+                {association}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Additional Sections */}
+      <div className="grid grid-cols-3 gap-8 mb-16">
+        {/* Languages */}
+        {data.additionalSections?.languages?.length > 0 && (
+          <section className="border border-yellow-900/50 p-8 bg-gradient-to-b from-yellow-900/20 to-transparent">
+            <h2 className="text-2xl font-serif text-center mb-8 text-yellow-600">Languages</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.languages.map((language, index) => (
+                <li
+                  key={index}
+                  className="text-yellow-100 pl-6 relative before:content-['•'] 
+                            before:absolute before:left-0 before:text-yellow-600"
+                >
+                  {language}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Publications */}
+        {data.additionalSections?.publications?.length > 0 && (
+          <section className="border border-yellow-900/50 p-8 bg-gradient-to-b from-yellow-900/20 to-transparent">
+            <h2 className="text-2xl font-serif text-center mb-8 text-yellow-600">Publications</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.publications.map((publication, index) => (
+                <li
+                  key={index}
+                  className="text-yellow-100 pl-6 relative before:content-['•'] 
+                            before:absolute before:left-0 before:text-yellow-600"
+                >
+                  {publication}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Awards */}
+        {data.additionalSections?.awards?.length > 0 && (
+          <section className="border border-yellow-900/50 p-8 bg-gradient-to-b from-yellow-900/20 to-transparent">
+            <h2 className="text-2xl font-serif text-center mb-8 text-yellow-600">Honors & Awards</h2>
+            <ul className="space-y-3">
+              {data.additionalSections.awards.map((award, index) => (
+                <li
+                  key={index}
+                  className="text-yellow-100 pl-6 relative before:content-['•'] 
+                            before:absolute before:left-0 before:text-yellow-600"
+                >
+                  {award}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
       {/* Footer */}
       <footer className="mt-16 text-center">
-        <div className="inline-block border border-yellow-900/50 px-8 py-3 text-yellow-200 font-serif">
-          References Available Upon Request
+        <div className="inline-block border border-yellow-900/50 px-8 py-3">
+          <div className="w-16 h-px bg-gradient-to-r from-yellow-900 via-yellow-600 to-yellow-900 mx-auto" />
         </div>
       </footer>
     </div>
