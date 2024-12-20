@@ -4,6 +4,15 @@ import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
 import { motion, AnimatePresence } from "framer-motion";
 import md5 from "md5";
+import {
+  Box,
+  Typography,
+  Button,
+  Paper,
+  CircularProgress,
+  useTheme,
+  alpha,
+} from '@mui/material';
 
 interface ATSScoreUploaderProps {
   onParsedData: (data: any) => void;
@@ -16,6 +25,7 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
   const [isUploading, setIsUploading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
+  const theme = useTheme();
 
   const calculateFileHash = async (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -171,42 +181,93 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
   };
 
   return (
-    <div className="mb-8 relative">
-      <div
-        className="flex items-center justify-center w-full"
+    <Box sx={{ mb: 4, position: 'relative' }}>
+      <Box
         onDragOver={handleDragOver}
         onDrop={handleDrop}
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}
       >
-        <label htmlFor="resume-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100">
-          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <FaUpload className="w-10 h-10 mb-3 text-blue-400" />
-            <p className="mb-2 text-sm text-blue-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-            <p className="text-xs text-blue-500">PDF (MAX. 5MB)</p>
-          </div>
-          <input id="resume-file" type="file" className="hidden" accept=".pdf" onChange={handleFileChange} />
+        <label htmlFor="resume-file">
+          <Paper
+            elevation={0}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: '16rem',
+              border: `2px dashed ${theme.palette.primary.main}`,
+              borderRadius: 2,
+              bgcolor: alpha(theme.palette.primary.main, 0.05),
+              cursor: 'pointer',
+              '&:hover': {
+                bgcolor: alpha(theme.palette.primary.main, 0.1),
+              },
+              transition: 'background-color 0.3s',
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3 }}>
+              <FaUpload style={{ fontSize: '2.5rem', marginBottom: '0.75rem', color: theme.palette.primary.main }} />
+              <Typography variant="body1" sx={{ mb: 1, color: 'primary.main' }}>
+                <Box component="span" sx={{ fontWeight: 600 }}>Click to upload</Box> or drag and drop
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'primary.main' }}>
+                PDF (MAX. 5MB)
+              </Typography>
+            </Box>
+          </Paper>
+          <input
+            id="resume-file"
+            type="file"
+            onChange={handleFileChange}
+            accept=".pdf"
+            style={{ display: 'none' }}
+          />
         </label>
-      </div>
-      {file && <p className="mt-2 text-sm text-blue-500">{file.name} ({formatFileSize(file.size)})</p>}
+      </Box>
 
-      <div className="mt-2 flex justify-between items-start">
-        <div className="flex flex-col space-y-2">
+      {file && (
+        <Typography variant="body2" sx={{ mt: 1, color: 'primary.main' }}>
+          {file.name} ({formatFileSize(file.size)})
+        </Typography>
+      )}
+
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {status && (
-            <p className={`text-sm ${status.includes("Error") || status.includes("Unable") ? "text-red-500" : "text-green-500"}`}>
+            <Typography
+              variant="body2"
+              sx={{
+                color: status.includes("Error") || status.includes("Unable")
+                  ? 'error.main'
+                  : 'success.main'
+              }}
+            >
               {status}
-            </p>
+            </Typography>
           )}
-          {isUploading && <p className="text-sm text-blue-500">Processing resume...</p>}
-        </div>
+          {isUploading && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <CircularProgress size={20} color="primary" />
+              <Typography variant="body2" sx={{ color: 'primary.main' }}>
+                Processing resume...
+              </Typography>
+            </Box>
+          )}
+        </Box>
         {file && (
-          <button
+          <Button
             onClick={() => handleFileProcessing(file, true)}
-            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            variant="contained"
+            color="primary"
             disabled={isUploading}
+            sx={{ ml: 2 }}
           >
             Force Re-analyze
-          </button>
+          </Button>
         )}
-      </div>
+      </Box>
 
       <AnimatePresence>
         {showAnimation && (
@@ -214,26 +275,46 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
-            className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white bg-opacity-90"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: alpha(theme.palette.background.paper, 0.9),
+              borderRadius: theme.shape.borderRadius,
+            }}
           >
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="text-green-500 text-6xl"
+              style={{ color: theme.palette.success.main, fontSize: '3rem' }}
             >
               <FaCheckCircle />
             </motion.div>
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="mt-4 text-xl font-bold text-green-600"
             >
-              ATS Analysis Complete!
-            </motion.p>
+              <Typography
+                variant="h6"
+                sx={{
+                  mt: 2,
+                  fontWeight: 'bold',
+                  color: 'success.main'
+                }}
+              >
+                ATS Analysis Complete!
+              </Typography>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </Box>
   );
 }

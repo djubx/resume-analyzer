@@ -7,6 +7,15 @@ import ResumeAnalysis from "@/components/ResumeAnalysis";
 import Navbar from "@/components/Navbar";
 import Cookies from 'js-cookie';
 import { FaFileAlt, FaChartLine } from "react-icons/fa";
+import {
+  Box,
+  Typography,
+  Button,
+  Container,
+  Paper,
+  Alert,
+  useTheme,
+} from '@mui/material';
 
 interface AnalysisResult {
   issues: Array<{
@@ -21,6 +30,7 @@ interface AnalysisResult {
 export default function ResumeAnalyzer() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const theme = useTheme();
 
   const handleAnalysisComplete = (result: AnalysisResult) => {
     setAnalysisResult(result);
@@ -45,61 +55,120 @@ export default function ResumeAnalyzer() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+    <Box sx={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column',
+      bgcolor: 'background.default',
+      color: 'text.primary'
+    }}>
       <Navbar />
-      <main className="flex-grow flex flex-col items-center justify-start bg-gradient-to-br from-gray-800 to-gray-900 px-4 sm:px-6 lg:px-8 py-12">
+      <Container 
+        component="main" 
+        sx={{ 
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'start',
+          py: 6,
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          style={{ textAlign: 'center', marginBottom: theme.spacing(6) }}
         >
-          <h1 className="text-5xl sm:text-6xl font-bold mb-8 text-shadow-lg max-w-6xl text-blue-300">Resume Analyzer</h1>
-          <p className="text-xl max-w-2xl mx-auto text-gray-300">
+          <Typography 
+            variant="h1" 
+            sx={{ 
+              mb: 4,
+              color: 'primary.main',
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+            }}
+          >
+            Resume Analyzer
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              maxWidth: 'md',
+              mx: 'auto',
+              color: 'text.secondary',
+            }}
+          >
             Upload your resume and get instant AI-powered feedback to improve your chances of landing that dream job.
-          </p>
+          </Typography>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
-          className="w-full max-w-2xl bg-gray-800 rounded-lg shadow-2xl p-8"
+          style={{ width: '100%', maxWidth: '42rem' }}
         >
-          {!analysisResult ? (
-            <div className="text-center">
-              <FaFileAlt className="text-6xl text-blue-400 mb-4 mx-auto" />
-              <ResumeUploader 
-                onAnalysisComplete={handleAnalysisComplete} 
-                onError={handleError} 
-                onNewUpload={handleNewUpload}
-              />
-            </div>
-          ) : (
-            <div>
-              <FaChartLine className="text-6xl text-green-400 mb-4 mx-auto" />
-              <ResumeAnalysis result={analysisResult} />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleNewUpload}
-                className="mt-6 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 shadow-lg hover:shadow-xl"
+          <Paper 
+            elevation={8}
+            sx={{ 
+              p: 4,
+              bgcolor: 'background.paper',
+              borderRadius: 2,
+            }}
+          >
+            {!analysisResult ? (
+              <Box sx={{ textAlign: 'center' }}>
+                <FaFileAlt style={{ 
+                  fontSize: '3rem', 
+                  color: theme.palette.primary.main,
+                  marginBottom: theme.spacing(2),
+                }} />
+                <ResumeUploader 
+                  onAnalysisComplete={handleAnalysisComplete} 
+                  onError={handleError} 
+                  onNewUpload={handleNewUpload}
+                />
+              </Box>
+            ) : (
+              <Box>
+                <FaChartLine style={{ 
+                  fontSize: '3rem', 
+                  color: theme.palette.success.main,
+                  marginBottom: theme.spacing(2),
+                }} />
+                <ResumeAnalysis result={analysisResult} />
+                <Box sx={{ mt: 3, textAlign: 'center' }}>
+                  <Button
+                    component={motion.button}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleNewUpload}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                  >
+                    Analyze Another Resume
+                  </Button>
+                </Box>
+              </Box>
+            )}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
               >
-                Analyze Another Resume
-              </motion.button>
-            </div>
-          )}
-          {error && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-red-400 mt-4"
-            >
-              {error}
-            </motion.p>
-          )}
+                <Alert 
+                  severity="error" 
+                  sx={{ mt: 2 }}
+                >
+                  {error}
+                </Alert>
+              </motion.div>
+            )}
+          </Paper>
         </motion.div>
-      </main>
-    </div>
+      </Container>
+    </Box>
   );
 }

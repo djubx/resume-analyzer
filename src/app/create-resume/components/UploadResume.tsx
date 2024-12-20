@@ -2,7 +2,17 @@
 
 import { ChangeEvent, useState, useEffect } from 'react';
 import { ResumeData } from '../types';
-import { CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import { FaUpload, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import {
+  Box,
+  Typography,
+  Button,
+  Paper,
+  CircularProgress,
+  Alert,
+  useTheme,
+  alpha,
+} from '@mui/material';
 
 interface UploadResumeProps {
   data: ResumeData;
@@ -27,6 +37,7 @@ export default function UploadResume({
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  const theme = useTheme();
 
   // Auto-navigate after success
   useEffect(() => {
@@ -144,55 +155,71 @@ export default function UploadResume({
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4">
-      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+    <Box sx={{ width: '100%', maxWidth: '42rem', mx: 'auto', p: 2 }}>
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          border: 2,
+          borderStyle: 'dashed',
+          borderColor: 'divider',
+          borderRadius: 2,
+          textAlign: 'center',
+          bgcolor: alpha(theme.palette.primary.main, 0.05),
+        }}
+      >
         <input
           type="file"
           accept=".pdf"
           onChange={handleFileUpload}
-          className="hidden"
+          style={{ display: 'none' }}
           id="resume-upload"
           disabled={isLoading || isSuccess}
         />
-        <label
-          htmlFor="resume-upload"
-          className={`relative cursor-pointer inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md ${
-            isSuccess
-              ? 'bg-green-600 hover:bg-green-700'
-              : isLoading
-              ? 'bg-blue-400 cursor-not-allowed'
-              : 'bg-blue-600 hover:bg-blue-700'
-          } text-white transition-all duration-200`}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              Processing Resume...
-            </>
-          ) : isSuccess ? (
-            <>
-              <CheckCircle2 className="w-5 h-5 mr-2" />
-              Resume Processed Successfully!
-            </>
-          ) : (
-            'Upload PDF Resume'
-          )}
+        <label htmlFor="resume-upload">
+          <Button
+            component="span"
+            variant="contained"
+            color={isSuccess ? 'success' : 'primary'}
+            disabled={isLoading || isSuccess}
+            startIcon={
+              isLoading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : isSuccess ? (
+                <FaCheckCircle />
+              ) : (
+                <FaUpload />
+              )
+            }
+            sx={{ px: 4, py: 1.5 }}
+          >
+            {isLoading
+              ? 'Processing Resume...'
+              : isSuccess
+              ? 'Resume Processed Successfully!'
+              : 'Upload PDF Resume'}
+          </Button>
         </label>
+
         {error && (
-          <div className="mt-4 p-3 bg-red-50 text-red-700 rounded-md flex items-start">
-            <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-medium">{error}</p>
-              <p className="text-xs mt-1">
-                Please try again or use a different PDF file. Make sure the PDF contains readable text.
-              </p>
-            </div>
-          </div>
+          <Alert
+            severity="error"
+            icon={<FaExclamationCircle />}
+            sx={{ mt: 3, textAlign: 'left' }}
+          >
+            <Typography variant="subtitle2" sx={{ fontWeight: 'medium' }}>
+              {error}
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 0.5 }}>
+              Please try again or use a different PDF file. Make sure the PDF contains readable text.
+            </Typography>
+          </Alert>
         )}
-        <p className="text-sm text-gray-500 mt-4">
+
+        <Typography variant="body2" sx={{ mt: 3, color: 'text.secondary' }}>
           Upload your PDF resume to automatically fill in your information
-        </p>
-      </div>
-    </div>
+        </Typography>
+      </Paper>
+    </Box>
   );
 }

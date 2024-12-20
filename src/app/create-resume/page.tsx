@@ -23,9 +23,20 @@ import {
     STEP_ORDER,
     DEFAULT_TEMPLATE,
     ICONS,
-    STYLES
 } from './constants/page-constants';
 import Navbar from '@/components/Navbar';
+import {
+  Box,
+  Typography,
+  Button,
+  Container,
+  Paper,
+  Grid,
+  LinearProgress,
+  IconButton,
+  useTheme,
+  alpha,
+} from '@mui/material';
 
 export default function CreateResume() {
     const [currentStep, setCurrentStep] = useState<StepType>(STEPS.UPLOAD);
@@ -33,6 +44,7 @@ export default function CreateResume() {
     const [formData, setFormData] = useState<ResumeData>(emptyResumeData);
     const [useDefaultData, setUseDefaultData] = useState(false);
     const [progressWidth, setProgressWidth] = useState(0);
+    const theme = useTheme();
 
     useEffect(() => {
         const currentIdx = STEP_ORDER.indexOf(currentStep);
@@ -120,74 +132,82 @@ export default function CreateResume() {
                 case STEPS.UPLOAD:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Upload Existing Resume</h2>
+                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                                Upload Existing Resume
+                            </Typography>
                             <UploadResume {...commonProps} onStepComplete={handleStepComplete} />
                         </>
                     );
                 case STEPS.PERSONAL:
                     return (
                         <>
-                            <div className="flex justify-between items-center mb-6">
-                                <h2 className={STYLES.SECTION_TITLE}>Personal Information</h2>
-                                <button
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                                <Typography variant="h4" sx={{ color: 'primary.main' }}>
+                                    Personal Information
+                                </Typography>
+                                <Button
                                     onClick={toggleDefaultData}
-                                    className={STYLES.SAMPLE_DATA_BUTTON}
+                                    variant="outlined"
+                                    color="primary"
+                                    startIcon={<Icon path={useDefaultData ? ICONS.CLEAR_SAMPLE : ICONS.LOAD_SAMPLE} />}
                                 >
-                                    {useDefaultData ? (
-                                        <>
-                                            <Icon path={ICONS.CLEAR_SAMPLE} />
-                                            Clear Sample Data
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Icon path={ICONS.LOAD_SAMPLE} />
-                                            Load Sample Data
-                                        </>
-                                    )}
-                                </button>
-                            </div>
+                                    {useDefaultData ? 'Clear Sample Data' : 'Load Sample Data'}
+                                </Button>
+                            </Box>
                             <PersonalInfo {...commonProps} />
                         </>
                     );
                 case STEPS.EXPERIENCE:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Work Experience</h2>
+                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                                Work Experience
+                            </Typography>
                             <WorkExperience {...commonProps} />
                         </>
                     );
                 case STEPS.EDUCATION:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Education</h2>
+                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                                Education
+                            </Typography>
                             <Education {...commonProps} />
                         </>
                     );
                 case STEPS.SKILLS:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Skills & Expertise</h2>
+                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                                Skills & Expertise
+                            </Typography>
                             <Skills {...commonProps} />
                         </>
                     );
                 case STEPS.ADDITIONAL:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Additional Information</h2>
+                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                                Additional Information
+                            </Typography>
                             <AdditionalInfo {...commonProps} />
                         </>
                     );
                 case STEPS.SUMMARY:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Professional Summary</h2>
+                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                                Professional Summary
+                            </Typography>
                             <Summary {...commonProps} />
                         </>
                     );
                 case STEPS.REVIEW:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Review & Finalize</h2>
+                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                                Review & Finalize
+                            </Typography>
                             <Review
                                 data={formData}
                                 selectedTemplate={selectedTemplate}
@@ -199,30 +219,50 @@ export default function CreateResume() {
                 case STEPS.TEMPLATE:
                     return (
                         <>
-                            <h2 className={STYLES.SECTION_TITLE}>Choose Your Template</h2>
-                            <p className="text-gray-600 mb-8">
+                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                                Choose Your Template
+                            </Typography>
+                            <Typography variant="body1" sx={{ mb: 4, color: 'text.secondary' }}>
                                 Select a template that best represents your professional style. 
                                 Preview how your resume looks with your current data.
-                            </p>
-                            <div className={STYLES.TEMPLATE_CARD.GRID}>
+                            </Typography>
+                            <Grid container spacing={3}>
                                 {templates.map((template) => (
-                                    <motion.div
-                                        key={template.id}
-                                        className={STYLES.TEMPLATE_CARD.CONTAINER(selectedTemplate === template.id)}
-                                        onClick={() => setSelectedTemplate(template.id)}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        <div className={STYLES.TEMPLATE_CARD.PREVIEW}>
-                                            <div className={STYLES.TEMPLATE_CARD.PREVIEW_WRAPPER}>
-                                                {createElement(template.component, { data: formData })}
-                                            </div>
-                                        </div>
-                                        <h3 className={STYLES.TEMPLATE_CARD.TITLE}>{template.name}</h3>
-                                        <p className={STYLES.TEMPLATE_CARD.DESCRIPTION}>{template.description}</p>
-                                    </motion.div>
+                                    <Grid item xs={12} md={6} key={template.id}>
+                                        <motion.div
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                        >
+                                            <Paper
+                                                elevation={selectedTemplate === template.id ? 8 : 2}
+                                                onClick={() => setSelectedTemplate(template.id)}
+                                                sx={{
+                                                    p: 3,
+                                                    cursor: 'pointer',
+                                                    bgcolor: 'background.paper',
+                                                    border: 2,
+                                                    borderColor: selectedTemplate === template.id 
+                                                        ? 'primary.main' 
+                                                        : 'transparent',
+                                                    '&:hover': {
+                                                        bgcolor: alpha(theme.palette.primary.main, 0.05),
+                                                    },
+                                                }}
+                                            >
+                                                <Box sx={{ mb: 2, overflow: 'hidden', borderRadius: 1 }}>
+                                                    {createElement(template.component, { data: formData })}
+                                                </Box>
+                                                <Typography variant="h6" sx={{ mb: 1, color: 'primary.main' }}>
+                                                    {template.name}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                                    {template.description}
+                                                </Typography>
+                                            </Paper>
+                                        </motion.div>
+                                    </Grid>
                                 ))}
-                            </div>
+                            </Grid>
                         </>
                     );
             }
@@ -235,7 +275,6 @@ export default function CreateResume() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className={STYLES.CONTENT_CONTAINER}
             >
                 {content}
             </motion.div>
@@ -247,80 +286,96 @@ export default function CreateResume() {
     const isLastStep = currentStepIndex === STEP_ORDER.length - 1;
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-900">
+        <Box sx={{ 
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            bgcolor: 'background.default',
+        }}>
             <Navbar />
-            <div className={STYLES.PAGE.CONTAINER}>
-                <div className={STYLES.PAGE.CONTENT}>
-                    {/* Progress Steps */}
-                    <div className="mb-8">
-                        <div className={STYLES.STEP_INDICATOR.CONTAINER}>
-                            <div 
-                                className={STYLES.STEP_INDICATOR.PROGRESS_BAR(progressWidth)}
-                                style={{ width: `${progressWidth}%` }}
-                            />
-                            {STEP_ORDER.map((step, index) => {
-                                const isActive = currentStepIndex === index;
-                                const isCompleted = currentStepIndex > index;
-                                const isClickable = index <= currentStepIndex + 1;
+            <Container 
+                maxWidth="lg" 
+                sx={{ 
+                    flexGrow: 1,
+                    py: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
+                <Box sx={{ mb: 4 }}>
+                    <LinearProgress 
+                        variant="determinate" 
+                        value={progressWidth} 
+                        sx={{
+                            height: 8,
+                            borderRadius: 4,
+                            bgcolor: alpha(theme.palette.primary.main, 0.1),
+                            '& .MuiLinearProgress-bar': {
+                                borderRadius: 4,
+                            },
+                        }}
+                    />
+                    <Grid container spacing={2} sx={{ mt: 2 }}>
+                        {STEP_ORDER.map((step, index) => {
+                            const isActive = currentStep === step;
+                            const isCompleted = index < currentStepIndex;
+                            const isClickable = index <= currentStepIndex + 1;
 
-                                return (
-                                    <motion.div
-                                        key={step}
-                                        className={`group ${STYLES.STEP_INDICATOR.ITEM(isActive, isCompleted)}`}
+                            return (
+                                <Grid item key={step}>
+                                    <Button
                                         onClick={() => handleStepClick(index)}
-                                        whileHover={isClickable ? { scale: 1.05 } : undefined}
-                                        whileTap={isClickable ? { scale: 0.95 } : undefined}
-                                        style={{ cursor: isClickable ? 'pointer' : 'not-allowed' }}
-                                        title={!isClickable ? "Complete previous steps first" : ""}
+                                        disabled={!isClickable}
+                                        variant={isActive ? 'contained' : 'outlined'}
+                                        color={isCompleted ? 'success' : 'primary'}
+                                        sx={{
+                                            opacity: isClickable ? 1 : 0.5,
+                                            '&.Mui-disabled': {
+                                                opacity: 0.5,
+                                            },
+                                        }}
                                     >
-                                        <motion.div 
-                                            className={STYLES.STEP_INDICATOR.CIRCLE(isActive, isCompleted)}
-                                            whileHover={{ scale: isClickable ? 1.1 : 1 }}
-                                            whileTap={{ scale: isClickable ? 0.95 : 1 }}
-                                        >
-                                            {isCompleted ? (
-                                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                                </svg>
-                                            ) : (
-                                                index + 1
-                                            )}
-                                        </motion.div>
-                                        <span className={STYLES.STEP_INDICATOR.LABEL(isActive, isCompleted)}>{step}</span>
-                                    </motion.div>
-                                );
-                            })}
-                        </div>
-                    </div>
+                                        {step}
+                                    </Button>
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                </Box>
 
-                    {/* Main Content */}
+                <Paper 
+                    elevation={4}
+                    sx={{ 
+                        p: 4,
+                        flexGrow: 1,
+                        bgcolor: 'background.paper',
+                        borderRadius: 2,
+                    }}
+                >
                     <AnimatePresence mode="wait">
                         {renderStepContent()}
                     </AnimatePresence>
+                </Paper>
 
-                    {/* Navigation Buttons */}
-                    <div className={STYLES.NAVIGATION.CONTAINER}>
-                        <motion.button
-                            onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex - 1])}
-                            className={STYLES.NAVIGATION.BUTTON(isFirstStep)}
-                            disabled={isFirstStep}
-                            whileHover={!isFirstStep ? { scale: 1.02 } : undefined}
-                            whileTap={!isFirstStep ? { scale: 0.98 } : undefined}
-                        >
-                            Back
-                        </motion.button>
-                        <motion.button
-                            onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex + 1])}
-                            className={STYLES.NAVIGATION.BUTTON(false)}
-                            disabled={isLastStep}
-                            whileHover={!isLastStep ? { scale: 1.02 } : undefined}
-                            whileTap={!isLastStep ? { scale: 0.98 } : undefined}
-                        >
-                            {isLastStep ? 'Finish' : 'Next'}
-                        </motion.button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        disabled={isFirstStep}
+                        onClick={() => setCurrentStep(STEP_ORDER[currentStepIndex - 1])}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={isLastStep}
+                        onClick={handleStepComplete}
+                    >
+                        Next
+                    </Button>
+                </Box>
+            </Container>
+        </Box>
     );
 } 

@@ -4,7 +4,17 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { createClient } from '@sanity/client';
-import { FaEnvelope, FaUser, FaCommentAlt, FaPaperPlane } from "react-icons/fa";
+import { Email, Person, Chat, Send } from "@mui/icons-material";
+import { 
+  Container,
+  Typography,
+  Box,
+  TextField,
+  Button,
+  Alert,
+  Paper,
+  useTheme
+} from "@mui/material";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -17,6 +27,7 @@ const client = createClient({
 export default function Contact() {
   const [formStatus, setFormStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const theme = useTheme();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,97 +57,160 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+    <Box 
+      sx={{ 
+        minHeight: '100vh', 
+        display: 'flex', 
+        flexDirection: 'column',
+        bgcolor: 'background.default',
+        color: 'text.primary'
+      }}
+    >
       <Navbar />
-      <main className="flex-grow flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 px-4 sm:px-6 lg:px-8 py-12">
+      <Container 
+        component="main" 
+        sx={{ 
+          flexGrow: 1, 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          py: 12
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          style={{ textAlign: 'center', marginBottom: theme.spacing(6) }}
         >
-          <h1 className="text-5xl sm:text-6xl font-bold mb-8 text-shadow-lg max-w-6xl text-blue-300">
+          <Typography 
+            variant="h1" 
+            sx={{ 
+              mb: 4,
+              fontSize: { xs: '3rem', sm: '4rem' },
+              fontWeight: 'bold',
+              color: 'primary.main'
+            }}
+          >
             Get in Touch
-          </h1>
-          <p className="text-xl max-w-2xl mx-auto text-gray-300">
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              maxWidth: '600px',
+              mx: 'auto',
+              color: 'text.secondary'
+            }}
+          >
             We're excited to hear from you! Drop us a message and let's start a conversation.
-          </p>
+          </Typography>
         </motion.div>
 
-        <motion.form
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
-          onSubmit={handleSubmit}
-          className="w-full max-w-lg bg-gray-800 p-8 rounded-lg shadow-2xl"
+          style={{ width: '100%', maxWidth: '32rem' }}
         >
-          <div className="mb-6 relative">
-            <FaUser className="absolute top-3 left-3 text-blue-400" />
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              className="w-full px-10 py-3 bg-gray-700 text-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition duration-300"
-              required
-            />
-          </div>
-          <div className="mb-6 relative">
-            <FaEnvelope className="absolute top-3 left-3 text-blue-400" />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              className="w-full px-10 py-3 bg-gray-700 text-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition duration-300"
-              required
-            />
-          </div>
-          <div className="mb-6 relative">
-            <FaCommentAlt className="absolute top-3 left-3 text-blue-400" />
-            <textarea
-              name="message"
-              placeholder="Your Message"
-              className="w-full px-10 py-3 bg-gray-700 text-gray-100 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition duration-300"
-              rows={4}
-              required
-            ></textarea>
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(66, 153, 225, 0.5)" }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600 transition duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 flex items-center justify-center"
-            type="submit"
-            disabled={isSubmitting}
+          <Paper 
+            component="form"
+            onSubmit={handleSubmit}
+            elevation={8}
+            sx={{ 
+              p: 4,
+              bgcolor: 'background.paper',
+              borderRadius: 2
+            }}
           >
-            {isSubmitting ? (
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                className="mr-2"
+            <Box sx={{ mb: 3, position: 'relative' }}>
+              <TextField
+                fullWidth
+                required
+                name="name"
+                label="Your Name"
+                variant="outlined"
+                InputProps={{
+                  startAdornment: <Person sx={{ mr: 1, color: 'primary.main' }} />,
+                }}
+              />
+            </Box>
+            <Box sx={{ mb: 3, position: 'relative' }}>
+              <TextField
+                fullWidth
+                required
+                name="email"
+                type="email"
+                label="Your Email"
+                variant="outlined"
+                InputProps={{
+                  startAdornment: <Email sx={{ mr: 1, color: 'primary.main' }} />,
+                }}
+              />
+            </Box>
+            <Box sx={{ mb: 3, position: 'relative' }}>
+              <TextField
+                fullWidth
+                required
+                name="message"
+                label="Your Message"
+                multiline
+                rows={4}
+                variant="outlined"
+                InputProps={{
+                  startAdornment: <Chat sx={{ mr: 1, mt: 1, color: 'primary.main' }} />,
+                }}
+              />
+            </Box>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                disabled={isSubmitting}
+                sx={{ 
+                  py: 1.5,
+                  fontSize: '1.1rem',
+                  fontWeight: 'bold'
+                }}
+                startIcon={
+                  isSubmitting ? (
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Send />
+                    </motion.div>
+                  ) : (
+                    <Send />
+                  )
+                }
               >
-                <FaPaperPlane />
-              </motion.div>
-            ) : (
-              <FaPaperPlane className="mr-2" />
-            )}
-            {isSubmitting ? 'Sending...' : 'Send Message'}
-          </motion.button>
-        </motion.form>
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </Button>
+            </motion.div>
+          </Paper>
+        </motion.div>
 
         {formStatus && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`mt-6 p-4 rounded-lg ${
-              formStatus.includes('Error') 
-                ? 'bg-red-600 text-white' 
-                : 'bg-green-600 text-white'
-            } shadow-lg`}
+            style={{ width: '100%', maxWidth: '32rem', marginTop: theme.spacing(3) }}
           >
-            {formStatus}
+            <Alert 
+              severity={formStatus.includes('Error') ? 'error' : 'success'}
+              variant="filled"
+            >
+              {formStatus}
+            </Alert>
           </motion.div>
         )}
-      </main>
-    </div>
+      </Container>
+    </Box>
   );
 }

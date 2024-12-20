@@ -1,17 +1,13 @@
-interface IconProps {
+import { SvgIcon, SvgIconProps } from '@mui/material';
+
+interface IconProps extends Omit<SvgIconProps, 'children'> {
     path: string;
-    className?: string;
 }
 
-export function Icon({ path, className = "h-5 w-5" }: IconProps) {
+export function Icon({ path, ...props }: IconProps) {
     return (
-        <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className={className} 
-            viewBox="0 0 20 20" 
-            fill="currentColor"
-        >
+        <SvgIcon {...props}>
             <path d={path} />
-        </svg>
+        </SvgIcon>
     );
 } 

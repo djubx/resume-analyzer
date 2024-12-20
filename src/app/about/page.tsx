@@ -2,76 +2,167 @@
 
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
-import { FaUsers, FaLightbulb, FaRocket, FaHandshake } from "react-icons/fa";
+import { People, Lightbulb, RocketLaunch, Handshake } from "@mui/icons-material";
+import { 
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Paper,
+  Link,
+  useTheme
+} from "@mui/material";
 
 export default function About() {
+  const theme = useTheme();
+
+  const aboutItems = [
+    {
+      icon: <RocketLaunch sx={{ fontSize: 48, mb: 2, color: 'primary.main' }} />,
+      title: "Our Mission",
+      content: "To Empower job seekers with AI-driven insights for crafting perfect resumes.",
+    },
+    {
+      icon: <Lightbulb sx={{ fontSize: 48, mb: 2, color: 'warning.main' }} />,
+      title: "Our Vision",
+      content: "To revolutionize the job application process through innovative technology.",
+    },
+    {
+      icon: <People sx={{ fontSize: 48, mb: 2, color: 'success.main' }} />,
+      title: "Our Team",
+      content: "A diverse group of AI experts, HR professionals, and software engineers.",
+    },
+    {
+      icon: <Handshake sx={{ fontSize: 48, mb: 2, color: 'secondary.main' }} />,
+      title: "Our Values",
+      content: "Innovation, integrity, and commitment to user success.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+    <Box 
+      sx={{ 
+        minHeight: '100vh', 
+        display: 'flex', 
+        flexDirection: 'column',
+        bgcolor: 'background.default',
+        color: 'text.primary'
+      }}
+    >
       <Navbar />
-      <main className="flex-grow flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 px-4 sm:px-6 lg:px-8 py-12">
+      <Container 
+        component="main" 
+        sx={{ 
+          flexGrow: 1, 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          py: 12
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          style={{ textAlign: 'center', marginBottom: theme.spacing(6) }}
         >
-          <h1 className="text-5xl sm:text-6xl font-bold mb-8 text-shadow-lg max-w-6xl text-blue-300">About Us</h1>
-          <p className="text-xl max-w-2xl mx-auto text-gray-300">
+          <Typography 
+            variant="h1" 
+            sx={{ 
+              mb: 4,
+              fontSize: { xs: '3rem', sm: '4rem' },
+              fontWeight: 'bold',
+              color: 'primary.main'
+            }}
+          >
+            About Us
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              maxWidth: '600px',
+              mx: 'auto',
+              mb: 2,
+              color: 'text.secondary'
+            }}
+          >
             Resume Checkers is dedicated to helping job seekers optimize their resumes using cutting-edge AI technology.
-          </p>
-          <p className="text-lg mt-4">
-            <strong>CEO:</strong> Ranju Jha
-          </p>
-          <a 
-            href="https://www.linkedin.com/in/ranju-jha-a130a5319/" 
-            target="_blank" 
+          </Typography>
+          <Typography 
+            variant="h6" 
+            sx={{ mb: 1 }}
+          >
+            <Box component="span" sx={{ fontWeight: 'bold' }}>CEO:</Box> Ranju Jha
+          </Typography>
+          <Link
+            href="https://www.linkedin.com/in/ranju-jha-a130a5319/"
+            target="_blank"
             rel="noopener noreferrer"
-            className="text-lg text-blue-300 underline mt-2 inline-block"
+            sx={{
+              color: 'primary.main',
+              textDecoration: 'underline',
+              '&:hover': {
+                color: 'primary.light',
+              }
+            }}
           >
             LinkedIn Profile
-          </a>
+          </Link>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl"
+          style={{ width: '100%', maxWidth: '1200px' }}
         >
-          {[
-            {
-              icon: <FaRocket className="text-5xl mb-4 text-blue-400" />,
-              title: "Our Mission",
-              content: "To Empower job seekers with AI-driven insights for crafting perfect resumes.",
-            },
-            {
-              icon: <FaLightbulb className="text-5xl mb-4 text-yellow-400" />,
-              title: "Our Vision",
-              content: "To revolutionize the job application process through innovative technology.",
-            },
-            {
-              icon: <FaUsers className="text-5xl mb-4 text-green-400" />,
-              title: "Our Team",
-              content: "A diverse group of AI experts, HR professionals, and software engineers.",
-            },
-            {
-              icon: <FaHandshake className="text-5xl mb-4 text-purple-400" />,
-              title: "Our Values",
-              content: "Innovation, integrity, and commitment to user success.",
-            },
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
-              className="bg-gray-800 p-8 rounded-lg text-center flex flex-col items-center shadow-lg transition-all duration-300"
-            >
-              {item.icon}
-              <h2 className="text-2xl font-semibold mb-4 text-blue-300">{item.title}</h2>
-              <p className="text-gray-300">{item.content}</p>
-            </motion.div>
-          ))}
+          <Grid container spacing={4}>
+            {aboutItems.map((item, index) => (
+              <Grid item xs={12} md={6} key={index}>
+                <motion.div
+                  whileHover={{ 
+                    scale: 1.03,
+                    boxShadow: theme.shadows[10]
+                  }}
+                >
+                  <Paper
+                    elevation={4}
+                    sx={{
+                      p: 4,
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      bgcolor: 'background.paper',
+                      transition: 'all 0.3s ease-in-out'
+                    }}
+                  >
+                    {item.icon}
+                    <Typography 
+                      variant="h4" 
+                      sx={{ 
+                        mb: 2,
+                        color: 'primary.main',
+                        fontWeight: 600
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography 
+                      variant="body1"
+                      sx={{ color: 'text.secondary' }}
+                    >
+                      {item.content}
+                    </Typography>
+                  </Paper>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
         </motion.div>
-      </main>
-    </div>
+      </Container>
+    </Box>
   );
 }

@@ -1,6 +1,16 @@
 'use client';
 
 import { StepProps } from '../types';
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  IconButton,
+  Paper,
+  Divider,
+} from '@mui/material';
+import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 
 export default function AdditionalInfo({ data, onArrayUpdate }: StepProps) {
   const handleArrayChange = (section: 'languages' | 'publications' | 'awards', index: number, value: string) => {
@@ -28,94 +38,58 @@ export default function AdditionalInfo({ data, onArrayUpdate }: StepProps) {
     });
   };
 
+  const renderSection = (
+    title: string,
+    section: 'languages' | 'publications' | 'awards',
+    placeholder: string
+  ) => (
+    <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+      <Typography variant="h6" sx={{ mb: 2, color: 'text.primary' }}>
+        {title}
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        {data.additionalSections[section].map((item, index) => (
+          <Box key={index} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <TextField
+              fullWidth
+              size="small"
+              placeholder={placeholder}
+              value={item}
+              onChange={(e) => handleArrayChange(section, index, e.target.value)}
+              variant="outlined"
+            />
+            <IconButton
+              color="error"
+              onClick={() => removeItem(section, index)}
+              size="small"
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        ))}
+        <Button
+          startIcon={<AddIcon />}
+          onClick={() => addItem(section)}
+          variant="text"
+          color="primary"
+          sx={{ alignSelf: 'flex-start' }}
+        >
+          Add {title}
+        </Button>
+      </Box>
+    </Paper>
+  );
+
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold mb-4">Additional Information</h2>
-      <div className="space-y-6">
-        {/* Languages */}
-        <div>
-          <h3 className="font-medium mb-2">Languages</h3>
-          {data.additionalSections.languages.map((lang, index) => (
-            <div key={index} className="flex gap-2 mb-2">
-              <input
-                type="text"
-                placeholder="Language"
-                value={lang}
-                onChange={(e) => handleArrayChange('languages', index, e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
-              <button
-                onClick={() => removeItem('languages', index)}
-                className="text-red-500 hover:text-red-700"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={() => addItem('languages')}
-            className="text-blue-500 hover:text-blue-700"
-          >
-            Add Language
-          </button>
-        </div>
-
-        {/* Publications */}
-        <div>
-          <h3 className="font-medium mb-2">Publications</h3>
-          {data.additionalSections.publications.map((pub, index) => (
-            <div key={index} className="flex gap-2 mb-2">
-              <input
-                type="text"
-                placeholder="Publication"
-                value={pub}
-                onChange={(e) => handleArrayChange('publications', index, e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
-              <button
-                onClick={() => removeItem('publications', index)}
-                className="text-red-500 hover:text-red-700"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={() => addItem('publications')}
-            className="text-blue-500 hover:text-blue-700"
-          >
-            Add Publication
-          </button>
-        </div>
-
-        {/* Awards */}
-        <div>
-          <h3 className="font-medium mb-2">Awards</h3>
-          {data.additionalSections.awards.map((award, index) => (
-            <div key={index} className="flex gap-2 mb-2">
-              <input
-                type="text"
-                placeholder="Award"
-                value={award}
-                onChange={(e) => handleArrayChange('awards', index, e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
-              <button
-                onClick={() => removeItem('awards', index)}
-                className="text-red-500 hover:text-red-700"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={() => addItem('awards')}
-            className="text-blue-500 hover:text-blue-700"
-          >
-            Add Award
-          </button>
-        </div>
-      </div>
-    </div>
+    <Box>
+      <Typography variant="h5" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
+        Additional Information
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        {renderSection('Languages', 'languages', 'Enter language')}
+        {renderSection('Publications', 'publications', 'Enter publication')}
+        {renderSection('Awards', 'awards', 'Enter award')}
+      </Box>
+    </Box>
   );
 } 

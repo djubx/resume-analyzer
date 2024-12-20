@@ -1,6 +1,17 @@
 'use client';
 
 import { StepProps, WorkExperience as WorkExperienceType } from '../types';
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Grid,
+  Paper,
+  IconButton,
+  Divider,
+} from '@mui/material';
+import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 
 export default function WorkExperience({ data, onArrayUpdate, onArrayItemAdd, onArrayItemRemove }: StepProps) {
   const handleExperienceChange = (index: number, field: keyof WorkExperienceType, value: string) => {
@@ -28,10 +39,15 @@ export default function WorkExperience({ data, onArrayUpdate, onArrayItemAdd, on
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Work Experience</h2>
-        <button
+    <Box>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 600 }}>
+          Work Experience
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon />}
           onClick={() => onArrayItemAdd('workExperience', {
             jobTitle: '',
             companyName: '',
@@ -39,78 +55,105 @@ export default function WorkExperience({ data, onArrayUpdate, onArrayItemAdd, on
             dates: '',
             responsibilities: [''],
           })}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Add Experience
-        </button>
-      </div>
-      {data.workExperience.map((exp, index) => (
-        <div key={index} className="border p-4 rounded-lg space-y-4">
-          <div className="flex justify-end">
-            <button
-              onClick={() => onArrayItemRemove('workExperience', index)}
-              className="text-red-500 hover:text-red-700"
-            >
-              Remove
-            </button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Job Title"
-              value={exp.jobTitle}
-              onChange={(e) => handleExperienceChange(index, 'jobTitle', e.target.value)}
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="text"
-              placeholder="Company Name"
-              value={exp.companyName}
-              onChange={(e) => handleExperienceChange(index, 'companyName', e.target.value)}
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="text"
-              placeholder="Location"
-              value={exp.location}
-              onChange={(e) => handleExperienceChange(index, 'location', e.target.value)}
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="text"
-              placeholder="Dates (e.g., Jan 2020 - Present)"
-              value={exp.dates}
-              onChange={(e) => handleExperienceChange(index, 'dates', e.target.value)}
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
-          <div className="space-y-2">
-            {exp.responsibilities.map((resp, respIndex) => (
-              <div key={respIndex} className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Responsibility"
-                  value={resp}
-                  onChange={(e) => handleResponsibilityChange(index, respIndex, e.target.value)}
-                  className="w-full p-2 border rounded-md"
+        </Button>
+      </Box>
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {data.workExperience.map((exp, index) => (
+          <Paper key={index} elevation={2} sx={{ p: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+              <IconButton
+                color="error"
+                onClick={() => onArrayItemRemove('workExperience', index)}
+                size="small"
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Job Title"
+                  variant="outlined"
+                  value={exp.jobTitle}
+                  onChange={(e) => handleExperienceChange(index, 'jobTitle', e.target.value)}
+                  placeholder="Enter your job title"
                 />
-                <button
-                  onClick={() => removeResponsibility(index, respIndex)}
-                  className="text-red-500 hover:text-red-700"
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Company Name"
+                  variant="outlined"
+                  value={exp.companyName}
+                  onChange={(e) => handleExperienceChange(index, 'companyName', e.target.value)}
+                  placeholder="Enter company name"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Location"
+                  variant="outlined"
+                  value={exp.location}
+                  onChange={(e) => handleExperienceChange(index, 'location', e.target.value)}
+                  placeholder="Enter location"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  label="Dates"
+                  variant="outlined"
+                  value={exp.dates}
+                  onChange={(e) => handleExperienceChange(index, 'dates', e.target.value)}
+                  placeholder="e.g., Jan 2020 - Present"
+                />
+              </Grid>
+            </Grid>
+
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="subtitle1" sx={{ mb: 2, color: 'text.primary' }}>
+                Responsibilities
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {exp.responsibilities.map((resp, respIndex) => (
+                  <Box key={respIndex} sx={{ display: 'flex', gap: 1 }}>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      value={resp}
+                      onChange={(e) => handleResponsibilityChange(index, respIndex, e.target.value)}
+                      placeholder="Enter responsibility"
+                      size="small"
+                    />
+                    <IconButton
+                      color="error"
+                      onClick={() => removeResponsibility(index, respIndex)}
+                      size="small"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
+                ))}
+                <Button
+                  startIcon={<AddIcon />}
+                  onClick={() => addResponsibility(index)}
+                  variant="text"
+                  color="primary"
+                  sx={{ alignSelf: 'flex-start' }}
                 >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button
-              onClick={() => addResponsibility(index)}
-              className="text-blue-500 hover:text-blue-700"
-            >
-              Add Responsibility
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
+                  Add Responsibility
+                </Button>
+              </Box>
+            </Box>
+          </Paper>
+        ))}
+      </Box>
+    </Box>
   );
 } 

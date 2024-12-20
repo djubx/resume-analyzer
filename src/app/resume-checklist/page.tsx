@@ -5,6 +5,17 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Cookies from 'js-cookie';
 import { FaCheckCircle, FaClipboardCheck, FaUserGraduate, FaTrophy, FaSearch, FaBullseye } from "react-icons/fa";
+import {
+  Box,
+  Typography,
+  Container,
+  List,
+  ListItem,
+  Checkbox,
+  Paper,
+  useTheme,
+  alpha,
+} from '@mui/material';
 
 interface ChecklistItem {
   text: string;
@@ -13,21 +24,35 @@ interface ChecklistItem {
 }
 
 const generalChecklistItems: ChecklistItem[] = [
-  { text: "Include contact information", checked: false, icon: <FaCheckCircle className="text-blue-400" /> },
-  { text: "Write a compelling summary or objective", checked: false, icon: <FaBullseye className="text-green-400" /> },
-  { text: "List relevant work experience", checked: false, icon: <FaClipboardCheck className="text-yellow-400" /> },
-  { text: "Highlight key skills", checked: false, icon: <FaCheckCircle className="text-purple-400" /> },
-  { text: "Include education details", checked: false, icon: <FaUserGraduate className="text-red-400" /> },
-  { text: "Add any certifications or awards", checked: false, icon: <FaTrophy className="text-orange-400" /> },
-  { text: "Proofread for errors", checked: false, icon: <FaSearch className="text-indigo-400" /> },
-  { text: "Tailor resume to job description", checked: false, icon: <FaClipboardCheck className="text-pink-400" /> },
-  { text: "Use action verbs", checked: false, icon: <FaCheckCircle className="text-teal-400" /> },
-  { text: "Quantify achievements where possible", checked: false, icon: <FaCheckCircle className="text-cyan-400" /> },
+  { text: "Include contact information", checked: false, icon: <FaCheckCircle /> },
+  { text: "Write a compelling summary or objective", checked: false, icon: <FaBullseye /> },
+  { text: "List relevant work experience", checked: false, icon: <FaClipboardCheck /> },
+  { text: "Highlight key skills", checked: false, icon: <FaCheckCircle /> },
+  { text: "Include education details", checked: false, icon: <FaUserGraduate /> },
+  { text: "Add any certifications or awards", checked: false, icon: <FaTrophy /> },
+  { text: "Proofread for errors", checked: false, icon: <FaSearch /> },
+  { text: "Tailor resume to job description", checked: false, icon: <FaClipboardCheck /> },
+  { text: "Use action verbs", checked: false, icon: <FaCheckCircle /> },
+  { text: "Quantify achievements where possible", checked: false, icon: <FaCheckCircle /> },
 ];
+
+const iconColors = {
+  contact: 'primary.main',
+  summary: 'success.main',
+  experience: 'warning.main',
+  skills: 'secondary.main',
+  education: 'error.main',
+  certifications: 'warning.dark',
+  proofread: 'info.main',
+  tailor: 'success.light',
+  verbs: 'primary.light',
+  achievements: 'secondary.light',
+};
 
 export default function ResumeChecklist() {
   const [generalChecklist, setGeneralChecklist] = useState<ChecklistItem[]>(generalChecklistItems);
   const [personalizedFeedback, setPersonalizedFeedback] = useState<ChecklistItem[]>([]);
+  const theme = useTheme();
 
   useEffect(() => {
     const savedGeneralChecklist = Cookies.get('resumeChecklist');
@@ -56,62 +81,139 @@ export default function ResumeChecklist() {
   };
 
   const renderChecklist = (items: ChecklistItem[], isPersonalized: boolean) => (
-    <ul className="space-y-4">
+    <List sx={{ '& > *': { mb: 2 } }}>
       {items.map((item, index) => (
-        <motion.li
+        <motion.div
           key={index}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="flex items-center bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
         >
-          <div className="flex items-center justify-center w-6 h-6 mr-4">
-            <input
-              type="checkbox"
-              id={`${isPersonalized ? 'personalized' : 'general'}-item-${index}`}
-              checked={item.checked}
-              onChange={() => handleCheckboxChange(index, isPersonalized)}
-              className="w-5 h-5 text-blue-500 rounded focus:ring-blue-500"
-            />
-          </div>
-          <label htmlFor={`${isPersonalized ? 'personalized' : 'general'}-item-${index}`} className="text-lg flex-grow flex items-center">
-            <span className="mr-3">{item.icon}</span>
-            {item.text}
-          </label>
-        </motion.li>
+          <Paper
+            elevation={2}
+            sx={{
+              bgcolor: 'background.paper',
+              '&:hover': {
+                boxShadow: theme.shadows[4],
+                bgcolor: alpha(theme.palette.primary.main, 0.05),
+              },
+              transition: 'all 0.3s',
+            }}
+          >
+            <ListItem
+              sx={{
+                p: 2,
+                borderRadius: 1,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Checkbox
+                checked={item.checked}
+                onChange={() => handleCheckboxChange(index, isPersonalized)}
+                color="primary"
+                sx={{ mr: 2 }}
+              />
+              <Box 
+                component="span" 
+                sx={{ 
+                  mr: 2,
+                  color: Object.values(iconColors)[index % Object.values(iconColors).length],
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {item.icon}
+              </Box>
+              <Typography variant="body1" sx={{ color: 'text.primary' }}>
+                {item.text}
+              </Typography>
+            </ListItem>
+          </Paper>
+        </motion.div>
       ))}
-    </ul>
+    </List>
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+    <Box sx={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column',
+      bgcolor: 'background.default',
+      color: 'text.primary'
+    }}>
       <Navbar />
-      <main className="flex-grow bg-gradient-to-br from-gray-800 to-gray-900 px-4 sm:px-6 lg:px-8 py-12">
+      <Container 
+        component="main" 
+        sx={{ 
+          flexGrow: 1,
+          py: 6,
+          maxWidth: 'lg',
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl mx-auto"
         >
-          <h1 className="text-5xl sm:text-6xl font-bold mb-8 text-shadow-lg text-blue-300">Resume Checklist</h1>
+          <Typography 
+            variant="h1" 
+            sx={{ 
+              mb: 4,
+              color: 'primary.main',
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+            }}
+          >
+            Resume Checklist
+          </Typography>
           
           {personalizedFeedback.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mb-12"
+              style={{ marginBottom: theme.spacing(6) }}
             >
-              <h2 className="text-3xl font-semibold mb-6 text-yellow-400">Personalized Feedback on Your Resume</h2>
+              <Typography 
+                variant="h3" 
+                sx={{ 
+                  mb: 3,
+                  color: 'warning.main',
+                  fontWeight: 'semibold',
+                }}
+              >
+                Personalized Feedback on Your Resume
+              </Typography>
               {renderChecklist(personalizedFeedback, true)}
-              <h3 className="text-2xl font-semibold mt-6 mb-4 text-green-400">Let's fix them one by one!</h3>
+              <Typography 
+                variant="h4" 
+                sx={{ 
+                  mt: 3,
+                  mb: 2,
+                  color: 'success.main',
+                  fontWeight: 'semibold',
+                }}
+              >
+                Let's fix them one by one!
+              </Typography>
             </motion.div>
           )}
 
-          <h2 className="text-3xl font-semibold mb-6 text-blue-300">General Resume Checklist</h2>
+          <Typography 
+            variant="h3" 
+            sx={{ 
+              mb: 3,
+              color: 'primary.main',
+              fontWeight: 'semibold',
+            }}
+          >
+            General Resume Checklist
+          </Typography>
           {renderChecklist(generalChecklist, false)}
         </motion.div>
-      </main>
-    </div>
+      </Container>
+    </Box>
   );
 }
