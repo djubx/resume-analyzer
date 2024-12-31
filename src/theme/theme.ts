@@ -2,24 +2,29 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: {
-      main: '#90caf9', // Light blue color similar to the current blue-300
-      light: '#e3f2fd',
-      dark: '#42a5f5',
+      main: '#009688', // Teal - Primary Color
+      light: '#33ab9f',
+      dark: '#00796B', // Hover State
     },
     secondary: {
-      main: '#ffd54f', // Yellow color similar to the current yellow-500
-      light: '#ffecb3',
-      dark: '#ffb300',
+      main: '#003366', // Navy Blue - Secondary Color
+      light: '#336699',
+      dark: '#002244',
+    },
+    info: {
+      main: '#66CCFF', // Light Blue - Accent Color
+      light: '#99ddff',
+      dark: '#33bbff',
     },
     background: {
-      default: '#121212', // Dark background similar to gray-900
-      paper: '#1e1e1e', // Slightly lighter dark similar to gray-800
+      default: '#FFFFFF', // White background
+      paper: '#F7F7F7', // Light Gray for backgrounds
     },
     text: {
-      primary: '#ffffff',
-      secondary: '#b0bec5',
+      primary: '#333333', // Dark Gray for text
+      secondary: '#666666',
     },
   },
   typography: {
@@ -27,14 +32,17 @@ const theme = createTheme({
     h1: {
       fontSize: '3.5rem',
       fontWeight: 700,
+      color: '#333333',
     },
     h2: {
       fontSize: '2.5rem',
       fontWeight: 600,
+      color: '#333333',
     },
     h3: {
       fontSize: '2rem',
       fontWeight: 600,
+      color: '#333333',
     },
     button: {
       textTransform: 'none',
@@ -49,13 +57,12 @@ const theme = createTheme({
         },
         containedPrimary: {
           '&:hover': {
-            backgroundColor: '#42a5f5',
+            backgroundColor: '#00796B',
           },
         },
         containedSecondary: {
-          color: '#121212',
           '&:hover': {
-            backgroundColor: '#ffb300',
+            backgroundColor: '#002244',
           },
         },
       },
@@ -64,6 +71,14 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
+          backgroundColor: '#F7F7F7',
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          background: 'linear-gradient(90deg, #003366, #336699, #66CCFF)',
         },
       },
     },
