@@ -55,7 +55,6 @@ export default function Navbar() {
       position="static" 
       elevation={0} 
       sx={{ 
-        bgcolor: 'background.paper',
         borderBottom: '1px solid',
         borderColor: 'divider',
       }}
