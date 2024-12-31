@@ -37,7 +37,7 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
 
   return (
     <Box sx={{ width: '100%', color: 'text.primary' }}>
-      <Typography variant="h2" sx={{ mb: 3, color: 'primary.main', fontWeight: 'bold' }}>
+      <Typography variant="h1" sx={{ mb: 3, color: 'primary.main', fontWeight: 'bold' }}>
         Analysis Results
       </Typography>
       
@@ -47,7 +47,7 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         transition={{ duration: 0.5 }}
       >
         <Box sx={{ mb: 4 }}>
-          <Typography variant="h3" sx={{ 
+          <Typography variant="h2" sx={{ 
             mb: 2, 
             color: 'success.main',
             display: 'flex',
@@ -88,7 +88,7 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         transition={{ duration: 0.5, delay: 0.2 }}
       >
         <Box sx={{ mb: 4 }}>
-          <Typography variant="h3" sx={{ 
+          <Typography variant="h2" sx={{ 
             mb: 2, 
             color: 'warning.main',
             display: 'flex',
@@ -109,7 +109,7 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
                   <Paper sx={{ p: 2, bgcolor: 'background.paper' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
                       <FaExclamationTriangle style={{ color: theme.palette.warning.main }} />
-                      <Typography variant="h6" sx={{ color: 'primary.main' }}>
+                      <Typography variant="h4" sx={{ color: 'primary.main' }}>
                         {issue.type}
                       </Typography>
                     </Box>
@@ -140,10 +140,10 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         transition={{ duration: 0.5, delay: 0.4 }}
       >
         <Paper sx={{ p: 3, mb: 4, bgcolor: 'background.paper' }}>
-          <Typography variant="h3" sx={{ mb: 1, color: 'primary.main' }}>
+          <Typography variant="h2" sx={{ mb: 1, color: 'primary.main' }}>
             Overall Score
           </Typography>
-          <Typography variant="h2" sx={{ color: 'primary.main', mb: 2, fontWeight: 'bold' }}>
+          <Typography variant="h1" sx={{ color: 'primary.main', mb: 2, fontWeight: 'bold' }}>
             {result.overallScore ?? 'N/A'}/100
           </Typography>
           <Button
@@ -166,7 +166,7 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         transition={{ duration: 0.5, delay: 0.6 }}
       >
         <Paper sx={{ p: 3, bgcolor: 'background.paper' }}>
-          <Typography variant="h3" sx={{ mb: 2, color: 'success.main' }}>
+          <Typography variant="h2" sx={{ mb: 2, color: 'success.main' }}>
             Next Steps
           </Typography>
           <List>

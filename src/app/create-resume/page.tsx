@@ -132,7 +132,7 @@ export default function CreateResume() {
                 case STEPS.UPLOAD:
                     return (
                         <>
-                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
                                 Upload Existing Resume
                             </Typography>
                             <UploadResume {...commonProps} onStepComplete={handleStepComplete} />
@@ -142,7 +142,7 @@ export default function CreateResume() {
                     return (
                         <>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                                <Typography variant="h4" sx={{ color: 'primary.main' }}>
+                                <Typography variant="h3" sx={{ color: 'primary.main' }}>
                                     Personal Information
                                 </Typography>
                                 <Button
@@ -160,7 +160,7 @@ export default function CreateResume() {
                 case STEPS.EXPERIENCE:
                     return (
                         <>
-                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
                                 Work Experience
                             </Typography>
                             <WorkExperience {...commonProps} />
@@ -169,7 +169,7 @@ export default function CreateResume() {
                 case STEPS.EDUCATION:
                     return (
                         <>
-                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
                                 Education
                             </Typography>
                             <Education {...commonProps} />
@@ -178,7 +178,7 @@ export default function CreateResume() {
                 case STEPS.SKILLS:
                     return (
                         <>
-                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
                                 Skills & Expertise
                             </Typography>
                             <Skills {...commonProps} />
@@ -187,7 +187,7 @@ export default function CreateResume() {
                 case STEPS.ADDITIONAL:
                     return (
                         <>
-                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
                                 Additional Information
                             </Typography>
                             <AdditionalInfo {...commonProps} />
@@ -196,7 +196,7 @@ export default function CreateResume() {
                 case STEPS.SUMMARY:
                     return (
                         <>
-                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
                                 Professional Summary
                             </Typography>
                             <Summary {...commonProps} />
@@ -205,7 +205,7 @@ export default function CreateResume() {
                 case STEPS.REVIEW:
                     return (
                         <>
-                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
                                 Review & Finalize
                             </Typography>
                             <Review
@@ -219,7 +219,7 @@ export default function CreateResume() {
                 case STEPS.TEMPLATE:
                     return (
                         <>
-                            <Typography variant="h4" sx={{ mb: 3, color: 'primary.main' }}>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
                                 Choose Your Template
                             </Typography>
                             <Typography variant="body1" sx={{ mb: 4, color: 'text.secondary' }}>
@@ -252,7 +252,7 @@ export default function CreateResume() {
                                                 <Box sx={{ mb: 2, overflow: 'hidden', borderRadius: 1 }}>
                                                     {createElement(template.component, { data: formData })}
                                                 </Box>
-                                                <Typography variant="h6" sx={{ mb: 1, color: 'primary.main' }}>
+                                                <Typography variant="h4" sx={{ mb: 1, color: 'primary.main' }}>
                                                     {template.name}
                                                 </Typography>
                                                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>

@@ -118,7 +118,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
           <Box sx={{ color: `${color}.main`, mr: 1 }}>
             {sectionIcons[title] || <FaChevronRight />}
           </Box>
-          <Typography variant="h6" sx={{ color: `${color}.main`, flexGrow: 1 }}>
+          <Typography variant="h4" sx={{ color: `${color}.main`, flexGrow: 1 }}>
             {title}
           </Typography>
           <motion.div
@@ -143,7 +143,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
 export default function ATSScoreResult({ parsedData }: ATSScoreResultProps) {
   return (
     <Box sx={{ bgcolor: 'background.default', p: 3, borderRadius: 2 }}>
-      <Typography variant="h2" sx={{ mb: 4, textAlign: 'center', color: 'primary.main', fontWeight: 'bold' }}>
+      <Typography variant="h1" sx={{ mb: 4, textAlign: 'center', color: 'primary.main', fontWeight: 'bold' }}>
         ATS Parsed Resume Data
       </Typography>
       <motion.div

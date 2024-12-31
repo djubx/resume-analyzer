@@ -43,10 +43,10 @@ export default function Home() {
           transition={{ duration: 0.8 }}
         >
           <Box sx={{ textAlign: 'center', mb: 10 }}>
-            <Typography variant="h1" sx={{ mb: 4, color: 'primary.main', fontWeight: 'bold' }}>
+            <Typography variant="h0" sx={{ mb: 4, color: 'primary.main', fontWeight: 'bold' }}>
               Transform Your Resume into a Job-Winning Asset with AI
             </Typography>
-            <Typography variant="h5" sx={{ mb: 4, color: 'text.secondary' }}>
+            <Typography variant="h4" sx={{ mb: 4, color: 'text.secondary' }}>
               Don't let your dream job slip away. Our AI-powered tools help you craft a resume that stands out and gets you hired faster.
             </Typography>
             <Button
@@ -108,7 +108,7 @@ export default function Home() {
                   >
                     <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
                       <Box sx={{ color: 'primary.main', fontSize: '3rem', mb: 2 }}>{feature.icon}</Box>
-                      <Typography variant="h5" component="h3" sx={{ mb: 2, color: 'primary.main' }}>
+                      <Typography variant="h3" component="h3" sx={{ mb: 2, color: 'primary.main' }}>
                         {feature.title}
                       </Typography>
                       <Typography variant="body1" color="text.secondary">
@@ -203,7 +203,7 @@ export default function Home() {
                 <Grid item xs={12} md={4} key={index}>
                   <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'background.paper' }}>
                     <Box sx={{ color: 'primary.main', fontSize: '2.5rem', mb: 2 }}>{item.icon}</Box>
-                    <Typography variant="h6" sx={{ mb: 1, color: 'primary.main' }}>{item.title}</Typography>
+                    <Typography variant="h4" sx={{ mb: 1, color: 'primary.main' }}>{item.title}</Typography>
                     <Typography variant="body2" color="text.secondary">{item.description}</Typography>
                   </Paper>
                 </Grid>
@@ -222,10 +222,10 @@ export default function Home() {
             <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
               Ready to Supercharge Your Job Search?
             </Typography>
-            <Typography variant="h6" sx={{ mb: 2, color: 'text.secondary' }}>
+            <Typography variant="h4" sx={{ mb: 2, color: 'text.secondary' }}>
               Join over 10,000 professionals who've landed their dream jobs with our AI tools.
             </Typography>
-            <Typography variant="h5" sx={{ mb: 4, color: 'secondary.main', fontWeight: 'bold' }}>
+            <Typography variant="h3" sx={{ mb: 4, color: 'secondary.main', fontWeight: 'bold' }}>
               15,000+ resumes improved and counting!
             </Typography>
             <Button
@@ -247,7 +247,7 @@ export default function Home() {
         <Container>
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ mb: 2, color: 'primary.main' }}>Quick Links</Typography>
+              <Typography variant="h4" sx={{ mb: 2, color: 'primary.main' }}>Quick Links</Typography>
               <List>
                 <ListItem component={Link} href="/blog" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
                   Resume Tips Blog
@@ -261,7 +261,7 @@ export default function Home() {
               </List>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ mb: 2, color: 'primary.main' }}>Legal</Typography>
+              <Typography variant="h4" sx={{ mb: 2, color: 'primary.main' }}>Legal</Typography>
               <List>
                 <ListItem component={Link} href="/privacy" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
                   Privacy Policy
@@ -272,7 +272,7 @@ export default function Home() {
               </List>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ mb: 2, color: 'primary.main' }}>Connect With Us</Typography>
+              <Typography variant="h4" sx={{ mb: 2, color: 'primary.main' }}>Connect With Us</Typography>
               <Typography variant="body2" color="text.secondary">
                 Stay updated on the latest resume trends and job search tips.
               </Typography>

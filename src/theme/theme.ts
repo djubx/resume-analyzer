@@ -28,25 +28,62 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h1: {
-      fontSize: '3.5rem',
+    fontFamily: '"Roboto", "Arial", sans-serif',
+    h0: {
+      fontFamily: '"Poppins", sans-serif',
+      fontSize: '44px',
       fontWeight: 700,
-      color: '#333333',
+      lineHeight: 1.2,
+    },
+    h1: {
+      fontFamily: '"Poppins", sans-serif',
+      fontSize: '32px',
+      fontWeight: 700,
+      lineHeight: 1.2,
     },
     h2: {
-      fontSize: '2.5rem',
+      fontFamily: '"Poppins", sans-serif',
+      fontSize: '28px',
       fontWeight: 600,
-      color: '#333333',
+      lineHeight: 1.3,
     },
     h3: {
-      fontSize: '2rem',
-      fontWeight: 600,
-      color: '#333333',
+      fontFamily: '"Poppins", sans-serif',
+      fontSize: '24px',
+      fontWeight: 400,
+      lineHeight: 1.3,
+    },
+    h4: {
+      fontFamily: '"Poppins", sans-serif',
+      fontSize: '18px',
+      fontWeight: 400,
+      lineHeight: 1.4,
+    },
+    body0: {
+      fontFamily: '"Roboto", sans-serif',
+      fontSize: '18px',
+      fontWeight: 700,
+      lineHeight: 1.5,
+    },
+    body1: {
+      fontFamily: '"Roboto", sans-serif',
+      fontSize: '16px',
+      fontWeight: 400,
+      lineHeight: 1.5,
+    },
+    body2: {
+      fontFamily: '"Roboto", sans-serif',
+      fontSize: '14px',
+      fontWeight: 400,
+      lineHeight: 1.6,
+    },
+    accent: {
+      fontFamily: '"Source Sans Pro", sans-serif',
     },
     button: {
       textTransform: 'none',
       fontWeight: 600,
+      fontFamily: '"Roboto", sans-serif',
     },
   },
   components: {
@@ -79,6 +116,15 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           background: 'linear-gradient(90deg, #003366, #336699, #66CCFF)',
+        },
+      },
+    },
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          h0: 'h1',
+          body0: 'p',
+          accent: 'span',
         },
       },
     },
