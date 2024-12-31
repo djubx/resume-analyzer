@@ -44,7 +44,7 @@ export default function AdditionalInfo({ data, onArrayUpdate }: StepProps) {
     placeholder: string
   ) => (
     <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
-      <Typography variant="h6" sx={{ mb: 2, color: 'text.primary' }}>
+      <Typography variant="h4" sx={{ mb: 2, color: 'text.primary' }}>
         {title}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -82,7 +82,7 @@ export default function AdditionalInfo({ data, onArrayUpdate }: StepProps) {
 
   return (
     <Box>
-      <Typography variant="h5" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
+      <Typography variant="h4" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
         Additional Information
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>

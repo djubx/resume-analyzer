@@ -1,168 +1,150 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Navbar from "@/components/Navbar";
-import { People, Lightbulb, RocketLaunch, Handshake } from "@mui/icons-material";
-import { 
-  Box,
-  Container,
-  Typography,
-  Grid,
-  Paper,
-  Link,
-  useTheme
-} from "@mui/material";
+import { Container, Typography, Grid, Paper, Box, Button } from '@mui/material';
+import { RocketLaunch, Lightbulb, People, Handshake } from '@mui/icons-material';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+
+interface Feature {
+  title: string;
+  description: string;
+  icon: JSX.Element;
+}
+
+const features: Feature[] = [
+  {
+    title: "Innovation",
+    description: "Leveraging cutting-edge AI technology to revolutionize resume optimization.",
+    icon: <RocketLaunch sx={{ fontSize: 48, mb: 2, color: 'primary.main' }} />,
+  },
+  {
+    title: "Smart Analysis",
+    description: "Advanced algorithms that understand what recruiters and ATS systems look for.",
+    icon: <Lightbulb sx={{ fontSize: 48, mb: 2, color: 'warning.main' }} />,
+  },
+  {
+    title: "User-Focused",
+    description: "Designed with real job seekers needs in mind.",
+    icon: <People sx={{ fontSize: 48, mb: 2, color: 'success.main' }} />,
+  },
+  {
+    title: "Results-Driven",
+    description: "Committed to helping you land your dream job.",
+    icon: <Handshake sx={{ fontSize: 48, mb: 2, color: 'secondary.main' }} />,
+  },
+];
 
 export default function About() {
-  const theme = useTheme();
-
-  const aboutItems = [
-    {
-      icon: <RocketLaunch sx={{ fontSize: 48, mb: 2, color: 'primary.main' }} />,
-      title: "Our Mission",
-      content: "To Empower job seekers with AI-driven insights for crafting perfect resumes.",
-    },
-    {
-      icon: <Lightbulb sx={{ fontSize: 48, mb: 2, color: 'warning.main' }} />,
-      title: "Our Vision",
-      content: "To revolutionize the job application process through innovative technology.",
-    },
-    {
-      icon: <People sx={{ fontSize: 48, mb: 2, color: 'success.main' }} />,
-      title: "Our Team",
-      content: "A diverse group of AI experts, HR professionals, and software engineers.",
-    },
-    {
-      icon: <Handshake sx={{ fontSize: 48, mb: 2, color: 'secondary.main' }} />,
-      title: "Our Values",
-      content: "Innovation, integrity, and commitment to user success.",
-    },
-  ];
-
   return (
-    <Box 
-      sx={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        flexDirection: 'column',
-        bgcolor: 'background.default',
-        color: 'text.primary'
-      }}
-    >
-      <Navbar />
-      <Container 
-        component="main" 
-        sx={{ 
-          flexGrow: 1, 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          py: 12
-        }}
+    <Container maxWidth="lg" sx={{ py: 8 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{ textAlign: 'center', marginBottom: theme.spacing(6) }}
-        >
-          <Typography 
-            variant="h1" 
-            sx={{ 
-              mb: 4,
-              fontSize: { xs: '3rem', sm: '4rem' },
-              fontWeight: 'bold',
-              color: 'primary.main'
-            }}
-          >
-            About Us
+        {/* Mission Section */}
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+          <Typography variant="h1" sx={{ mb: 3, color: 'primary.main', fontWeight: 'bold' }}>
+            Our Mission
           </Typography>
           <Typography 
-            variant="h5" 
+            variant="h4" 
             sx={{ 
               maxWidth: '600px',
               mx: 'auto',
-              mb: 2,
-              color: 'text.secondary'
+              mb: 6,
+              color: 'text.secondary',
+              textAlign: 'center',
             }}
           >
-            Resume Checkers is dedicated to helping job seekers optimize their resumes using cutting-edge AI technology.
+            To empower job seekers with AI-driven tools that transform their resumes into powerful assets for career success.
           </Typography>
-          <Typography 
-            variant="h6" 
-            sx={{ mb: 1 }}
-          >
-            <Box component="span" sx={{ fontWeight: 'bold' }}>CEO:</Box> Ranju Jha
-          </Typography>
-          <Link
-            href="https://www.linkedin.com/in/ranju-jha-a130a5319/"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              color: 'primary.main',
-              textDecoration: 'underline',
-              '&:hover': {
-                color: 'primary.light',
-              }
-            }}
-          >
-            LinkedIn Profile
-          </Link>
-        </motion.div>
+        </Box>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          style={{ width: '100%', maxWidth: '1200px' }}
-        >
-          <Grid container spacing={4}>
-            {aboutItems.map((item, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <motion.div
-                  whileHover={{ 
-                    scale: 1.03,
-                    boxShadow: theme.shadows[10]
+        {/* Values Grid */}
+        <Grid container spacing={4} sx={{ mb: 8 }}>
+          {features.map((feature, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2 }}
+              >
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 3,
+                    height: '100%',
+                    textAlign: 'center',
+                    bgcolor: 'background.paper',
+                    border: 1,
+                    borderColor: 'divider',
                   }}
                 >
-                  <Paper
-                    elevation={4}
-                    sx={{
-                      p: 4,
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      bgcolor: 'background.paper',
-                      transition: 'all 0.3s ease-in-out'
-                    }}
-                  >
-                    {item.icon}
-                    <Typography 
-                      variant="h4" 
-                      sx={{ 
-                        mb: 2,
-                        color: 'primary.main',
-                        fontWeight: 600
-                      }}
-                    >
-                      {item.title}
-                    </Typography>
-                    <Typography 
-                      variant="body1"
-                      sx={{ color: 'text.secondary' }}
-                    >
-                      {item.content}
-                    </Typography>
-                  </Paper>
-                </motion.div>
-              </Grid>
-            ))}
+                  {feature.icon}
+                  <Typography variant="h4" sx={{ mb: 1, color: 'primary.main' }}>
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {feature.description}
+                  </Typography>
+                </Paper>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+
+        {/* Team Section */}
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+          <Typography variant="h2" sx={{ mb: 3, color: 'primary.main' }}>
+            Our Team
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4, color: 'text.secondary' }}>
+            We're a dedicated team of professionals committed to helping you succeed in your career journey.
+          </Typography>
+          <Grid container spacing={4} justifyContent="center">
+            <Grid item xs={12} md={4}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 3,
+                  textAlign: 'center',
+                  bgcolor: 'background.paper',
+                  border: 1,
+                  borderColor: 'divider',
+                }}
+              >
+                <Typography variant="h4" sx={{ mb: 1 }}>
+                  <Box component="span" sx={{ fontWeight: 'bold' }}>CEO:</Box> Ranju Jha
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  15+ years of experience in HR and recruitment
+                </Typography>
+              </Paper>
+            </Grid>
           </Grid>
-        </motion.div>
-      </Container>
-    </Box>
+        </Box>
+
+        {/* Call to Action */}
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
+            Ready to Transform Your Resume?
+          </Typography>
+          <Button
+            component={Link}
+            href="/resume-analyzer"
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{ px: 4, py: 1.5 }}
+          >
+            Get Started Now
+          </Button>
+          <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
+            Join thousands of successful job seekers who've improved their resumes with our tools.
+          </Typography>
+        </Box>
+      </motion.div>
+    </Container>
   );
 }

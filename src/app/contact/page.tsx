@@ -96,11 +96,13 @@ export default function Contact() {
             Get in Touch
           </Typography>
           <Typography 
-            variant="h5" 
+            variant="h4" 
             sx={{ 
               maxWidth: '600px',
               mx: 'auto',
-              color: 'text.secondary'
+              mb: 6,
+              color: 'text.secondary',
+              textAlign: 'center',
             }}
           >
             We're excited to hear from you! Drop us a message and let's start a conversation.

@@ -74,11 +74,13 @@ export default function ATSScorePage() {
             ATS Score Check
           </Typography>
           <Typography 
-            variant="h5" 
+            variant="h4" 
             sx={{ 
               maxWidth: 'md',
               mx: 'auto',
+              mb: 6,
               color: 'text.secondary',
+              textAlign: 'center',
             }}
           >
             Upload your resume and get an instant ATS compatibility score.

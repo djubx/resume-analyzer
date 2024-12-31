@@ -166,7 +166,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
     >
       <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h6" sx={{ color: 'text.primary' }}>
+          <Typography variant="h4" sx={{ color: 'text.primary' }}>
             PDF Settings
           </Typography>
           <IconButton onClick={() => setShowPdfSettings(false)} size="small">
@@ -176,7 +176,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
 
         <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 3 }}>
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.primary' }}>
+            <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>
               Page Format
             </Typography>
             <Select
@@ -192,7 +192,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
           </Box>
 
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.primary' }}>
+            <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>
               Scale (0.1 - 2.0)
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -213,7 +213,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
 
           <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>
                 Margins
               </Typography>
               <Button
@@ -254,7 +254,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
           </Box>
 
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.primary' }}>
+            <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>
               Options
             </Typography>
             <FormGroup>
@@ -312,7 +312,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
       {/* Template Preview */}
       <Box sx={{ mb: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 600 }}>
+          <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 600 }}>
             Template Preview
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
@@ -337,7 +337,9 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
 
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>
-            {error}
+            <Typography variant="body2" sx={{ color: 'error.main' }}>
+              {error}
+            </Typography>
           </Alert>
         )}
 
@@ -391,7 +393,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
                   ),
                 }}
               >
-                <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+                <Typography variant="h4" sx={{ color: 'text.primary' }}>
                   {item.templateName}
                 </Typography>
                 {item.status === 'pending' && (

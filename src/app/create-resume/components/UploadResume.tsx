@@ -207,7 +207,7 @@ export default function UploadResume({
             icon={<FaExclamationCircle />}
             sx={{ mt: 3, textAlign: 'left' }}
           >
-            <Typography variant="subtitle2" sx={{ fontWeight: 'medium' }}>
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               {error}
             </Typography>
             <Typography variant="body2" sx={{ mt: 0.5 }}>

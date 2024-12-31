@@ -302,11 +302,11 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
               transition={{ delay: 0.5 }}
             >
               <Typography
-                variant="h6"
+                variant="h4"
                 sx={{
                   mt: 2,
                   fontWeight: 'bold',
-                  color: 'success.main'
+                  color: 'text.primary',
                 }}
               >
                 ATS Analysis Complete!

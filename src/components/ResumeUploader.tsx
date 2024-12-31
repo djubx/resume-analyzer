@@ -302,11 +302,11 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
               transition={{ delay: 0.5 }}
             >
               <Typography
-                variant="h6"
+                variant="h4"
                 sx={{
                   mt: 2,
                   fontWeight: 'bold',
-                  color: 'success.main'
+                  color: 'text.primary',
                 }}
               >
                 Analysis Complete!

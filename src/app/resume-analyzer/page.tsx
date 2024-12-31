@@ -92,11 +92,13 @@ export default function ResumeAnalyzer() {
             Resume Analyzer
           </Typography>
           <Typography 
-            variant="h5" 
+            variant="h4" 
             sx={{ 
               maxWidth: 'md',
               mx: 'auto',
+              mb: 6,
               color: 'text.secondary',
+              textAlign: 'center',
             }}
           >
             Upload your resume and get instant AI-powered feedback to improve your chances of landing that dream job.

@@ -170,7 +170,7 @@ export default function Home() {
                       <Typography variant="body1" sx={{ mb: 2, color: 'text.secondary' }}>
                         {testimonial.text}
                       </Typography>
-                      <Typography variant="subtitle1" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+                      <Typography variant="body1" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
                         - {testimonial.name}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">

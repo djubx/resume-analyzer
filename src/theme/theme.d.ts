@@ -1,5 +1,5 @@
 import '@mui/material/styles';
-import { TypographyProps } from '@mui/material/Typography';
+import '@mui/material/Typography';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
@@ -13,9 +13,20 @@ declare module '@mui/material/styles' {
     body0?: React.CSSProperties;
     accent?: React.CSSProperties;
   }
+
+  interface Palette {
+    gradient: {
+      main: string;
+    };
+  }
+
+  interface PaletteOptions {
+    gradient?: {
+      main: string;
+    };
+  }
 }
 
-// Update the Typography's variant prop options
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     h0: true;
