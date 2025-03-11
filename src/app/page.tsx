@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
+import FAQ from "@/components/FAQ";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -22,6 +23,7 @@ import {
 } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { FaFileAlt, FaChartLine, FaCheckCircle, FaListAlt } from 'react-icons/fa';
+import React from 'react';
 
 export default function Home() {
   const theme = useTheme();
@@ -50,25 +52,6 @@ export default function Home() {
       title: "ATS Score",
       description: "Get your resume's ATS compatibility score instantly.",
       href: "/resume-checklist"
-    }
-  ];
-
-  const faqs = [
-    {
-      question: "What is Resume Checkers?",
-      answer: "Resume Checkers is an AI-powered platform that helps you create, analyze, and optimize your resume for better job search success."
-    },
-    {
-      question: "How does Pass ATS Checker work?",
-      answer: "Our ATS checker analyzes your resume against common ATS systems and provides feedback to improve compatibility and visibility."
-    },
-    {
-      question: "Why use our Free Checklist?",
-      answer: "Our comprehensive checklist ensures your resume includes all essential elements for maximum impact and professionalism."
-    },
-    {
-      question: "What does the Analyzer feature do?",
-      answer: "The Analyzer provides detailed feedback on your resume's content, format, and effectiveness, with specific suggestions for improvement."
     }
   ];
 
@@ -252,23 +235,7 @@ export default function Home() {
       </Box>
 
       {/* FAQ Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h2" align="center" sx={{ mb: 6 }}>
-          Frequently Asked Questions
-        </Typography>
-        <Box sx={{ maxWidth: 800, mx: 'auto' }}>
-          {faqs.map((faq, index) => (
-            <Accordion key={index} sx={{ mb: 2 }}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h4">{faq.question}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1">{faq.answer}</Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Box>
-      </Container>
+      <FAQ />
 
       {/* CTA Section */}
       <Box sx={{ bgcolor: 'primary.main', color: 'white', py: 8 }}>
