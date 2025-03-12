@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import FAQ from "@/components/FAQ";
+import Services from "@/components/Services";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -27,33 +28,6 @@ import React from 'react';
 
 export default function Home() {
   const theme = useTheme();
-
-  const services = [
-    {
-      icon: <FaFileAlt />,
-      title: "AI Resume Analyzer",
-      description: "Get detailed insights from our AI to make your resume stand out.",
-      href: "/resume-analyzer"
-    },
-    {
-      icon: <FaChartLine />,
-      title: "Resume Builder",
-      description: "Create a professional resume with our easy-to-use builder.",
-      href: "/create-resume"
-    },
-    {
-      icon: <FaCheckCircle />,
-      title: "Beat the ATS",
-      description: "Optimize your resume to pass ATS filters with confidence.",
-      href: "/ats-score"
-    },
-    {
-      icon: <FaListAlt />,
-      title: "ATS Score",
-      description: "Get your resume's ATS compatibility score instantly.",
-      href: "/resume-checklist"
-    }
-  ];
 
   return (
     <Box sx={{ bgcolor: 'background.default' }}>
@@ -126,49 +100,7 @@ export default function Home() {
       </Box>
 
       {/* Services Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h2" align="center" sx={{ mb: 6 }}>
-          Our Services
-        </Typography>
-        <Grid container spacing={4}>
-          {services.map((service, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <Card
-                  component={Link}
-                  href={service.href}
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    textDecoration: 'none',
-                    transition: 'transform 0.2s',
-                    '&:hover': {
-                      transform: 'translateY(-8px)',
-                    },
-                  }}
-                >
-                  <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
-                    <Box sx={{ color: 'primary.main', fontSize: '2.5rem', mb: 2 }}>
-                      {service.icon}
-                    </Box>
-                    <Typography variant="h4" component="h3" sx={{ mb: 1 }}>
-                      {service.title}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                      {service.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      <Services />
 
       {/* Features Section */}
       <Box sx={{ bgcolor: 'background.paper', py: 8 }}>
