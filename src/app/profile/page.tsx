@@ -19,9 +19,12 @@ export default function ProfilePage() {
   }
 
   if (error) {
+    console.error('Auth0 error:', error);
+    // Redirect to the custom error page with the error message
+    router.push(`/auth-error?error=${encodeURIComponent(error.message)}`);
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Typography color="error">Error: {error.message}</Typography>
+        <CircularProgress />
       </Box>
     );
   }
