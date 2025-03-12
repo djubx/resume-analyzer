@@ -186,7 +186,11 @@ export default function About() {
                       elevation={0}
                       sx={{
                         p: 4,
-                        height: '100%',
+                        height: 320,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
                         textAlign: 'center',
                         bgcolor: 'background.paper',
                         borderRadius: '16px',
@@ -232,7 +236,10 @@ export default function About() {
                         sx={{ 
                           color: 'text.secondary',
                           fontSize: '1rem',
-                          lineHeight: 1.6
+                          lineHeight: 1.6,
+                          flexGrow: 1,
+                          display: 'flex',
+                          alignItems: 'center'
                         }}
                       >
                         {feature.description}
@@ -282,6 +289,10 @@ export default function About() {
                     elevation={0}
                     sx={{
                       p: 4,
+                      height: 350,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
                       textAlign: 'center',
                       bgcolor: 'background.paper',
                       borderRadius: '16px',
