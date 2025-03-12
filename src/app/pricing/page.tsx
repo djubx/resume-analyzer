@@ -383,7 +383,7 @@ export default function Pricing() {
       </Container>
       
       {/* FAQ Section */}
-      <Container maxWidth="md" sx={{ mb: 10 }}>
+      <Container maxWidth="md" sx={{ mb: 10, mt: 8 }}>
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
             component="h2"
@@ -403,7 +403,7 @@ export default function Pricing() {
               elevation={0}
               sx={{
                 p: 3,
-                height: 200,
+                height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '12px',
@@ -427,6 +427,7 @@ export default function Pricing() {
                 sx={{ 
                   color: 'text.secondary',
                   lineHeight: 1.6,
+                  flexGrow: 1,
                 }}
               >
                 We haven't set an end date yet! We want as many people as possible to benefit from our tools during this promotional period. We'll provide advance notice before ending the free access.
@@ -439,7 +440,7 @@ export default function Pricing() {
               elevation={0}
               sx={{
                 p: 3,
-                height: 200,
+                height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '12px',
@@ -463,6 +464,7 @@ export default function Pricing() {
                 sx={{ 
                   color: 'text.secondary',
                   lineHeight: 1.6,
+                  flexGrow: 1,
                 }}
               >
                 No! During this promotional period, you have unlimited access to all features across all plans. We want you to experience the full power of our platform without restrictions.
@@ -475,7 +477,7 @@ export default function Pricing() {
               elevation={0}
               sx={{
                 p: 3,
-                height: 200,
+                height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '12px',
@@ -499,6 +501,7 @@ export default function Pricing() {
                 sx={{ 
                   color: 'text.secondary',
                   lineHeight: 1.6,
+                  flexGrow: 1,
                 }}
               >
                 Absolutely not. We don't collect payment information during the free period. When the promotion ends, you'll have the option to subscribe to a paid plan if you wish to continue using premium features.
@@ -511,7 +514,7 @@ export default function Pricing() {
               elevation={0}
               sx={{
                 p: 3,
-                height: 200,
+                height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '12px',
@@ -535,6 +538,7 @@ export default function Pricing() {
                 sx={{ 
                   color: 'text.secondary',
                   lineHeight: 1.6,
+                  flexGrow: 1,
                 }}
               >
                 Yes, please do! We encourage you to share this opportunity with friends, colleagues, or anyone who might benefit from our resume tools. The more people we can help, the better!
