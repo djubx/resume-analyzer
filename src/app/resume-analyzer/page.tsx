@@ -113,7 +113,7 @@ export default function ResumeAnalyzer() {
             AI Resume Analyzer
           </Typography>
           <Typography 
-            variant="h5" 
+            variant="body1" 
             component="p"
             sx={{ 
               mb: 4,
@@ -171,7 +171,7 @@ export default function ResumeAnalyzer() {
                   </Box>
                 </Box>
                 <Typography 
-                  variant="h6" 
+                  variant="h4" 
                   align="center" 
                   sx={{ mb: 3 }}
                 >

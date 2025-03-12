@@ -64,7 +64,7 @@ export default function ResumeSteps({
             {title}
           </Typography>
           <Typography 
-            variant="h6" 
+            variant="body1" 
             component="p" 
             sx={{ 
               color: 'text.secondary',
@@ -111,7 +111,7 @@ export default function ResumeSteps({
                       zIndex: 2,
                     }}
                   >
-                    <Typography variant="h5" fontWeight="bold">
+                    <Typography variant="h4" fontWeight="bold">
                       {step.number}
                     </Typography>
                   </Box>
@@ -135,7 +135,7 @@ export default function ResumeSteps({
 
                   {/* Title */}
                   <Typography
-                    variant="h5"
+                    variant="h4"
                     sx={{
                       mb: 1,
                       fontWeight: 600,

@@ -223,7 +223,7 @@ export default function CareerStages() {
                       {stage.icon}
                     </Box>
                     <Typography
-                      variant="h5"
+                      variant="h4"
                       sx={{
                         mb: 2,
                         fontWeight: 600,
@@ -278,7 +278,7 @@ export default function CareerStages() {
                   Ready to supercharge your job search?
                 </Typography>
                 <Typography
-                  variant="h6"
+                  variant="body1"
                   sx={{
                     mb: 4,
                     fontWeight: 400,
@@ -345,7 +345,7 @@ export default function CareerStages() {
                     }}
                   >
                     <Typography
-                      variant="h6"
+                      variant="body1"
                       sx={{
                         mb: 2,
                         color: 'text.primary',
