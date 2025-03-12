@@ -21,6 +21,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AuthButtons from './AuthButtons';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -163,51 +164,7 @@ export default function Navbar() {
             
             {/* Auth Buttons */}
             <Box sx={{ display: 'flex', gap: 2, ml: 2 }}>
-              <Button
-                component={Link}
-                href="/login"
-                variant="outlined"
-                sx={{
-                  color: 'primary.main',
-                  borderColor: 'primary.main',
-                  textTransform: 'none',
-                  borderRadius: '100px',
-                  px: 3,
-                  py: 0.8,
-                  fontSize: '0.95rem',
-                  fontWeight: 500,
-                  borderWidth: '1.5px',
-                  '&:hover': {
-                    borderWidth: '1.5px',
-                    borderColor: 'primary.dark',
-                    backgroundColor: 'transparent',
-                  },
-                }}
-              >
-                Log in
-              </Button>
-              <Button
-                component={Link}
-                href="/signup"
-                variant="contained"
-                sx={{
-                  bgcolor: 'primary.main',
-                  color: 'white',
-                  textTransform: 'none',
-                  borderRadius: '100px',
-                  px: 3,
-                  py: 0.8,
-                  fontSize: '0.95rem',
-                  fontWeight: 500,
-                  boxShadow: 'none',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                    boxShadow: 'none',
-                  },
-                }}
-              >
-                Sign up
-              </Button>
+              <AuthButtons />
             </Box>
           </Box>
 
@@ -303,51 +260,7 @@ export default function Navbar() {
               </Box>
             ))}
             <Box sx={{ mt: 3, px: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <Button
-                component={Link}
-                href="/login"
-                variant="outlined"
-                fullWidth
-                sx={{
-                  color: 'primary.main',
-                  borderColor: 'primary.main',
-                  textTransform: 'none',
-                  borderRadius: '100px',
-                  py: 1,
-                  fontSize: '0.95rem',
-                  fontWeight: 500,
-                  borderWidth: '1.5px',
-                  '&:hover': {
-                    borderWidth: '1.5px',
-                    borderColor: 'primary.dark',
-                    backgroundColor: 'transparent',
-                  },
-                }}
-              >
-                Log in
-              </Button>
-              <Button
-                component={Link}
-                href="/signup"
-                variant="contained"
-                fullWidth
-                sx={{
-                  bgcolor: 'primary.main',
-                  color: 'white',
-                  textTransform: 'none',
-                  borderRadius: '100px',
-                  py: 1,
-                  fontSize: '0.95rem',
-                  fontWeight: 500,
-                  boxShadow: 'none',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                    boxShadow: 'none',
-                  },
-                }}
-              >
-                Sign up
-              </Button>
+              <AuthButtons />
             </Box>
           </List>
         </Box>
