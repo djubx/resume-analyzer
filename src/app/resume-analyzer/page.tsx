@@ -113,25 +113,27 @@ export default function ResumeAnalyzer() {
             AI Resume Analyzer
           </Typography>
           <Typography 
-            variant="body1" 
             component="p"
             sx={{ 
               mb: 4,
               color: 'text.secondary',
               maxWidth: '800px',
-              mx: 'auto'
+              mx: 'auto',
+              fontSize: '1.25rem',
+              lineHeight: 1.5
             }}
           >
             Our AI checks formatting, keywords and many more to help you shine
           </Typography>
           <Typography 
-            variant="body1" 
             component="p"
             sx={{ 
               mb: 6,
               color: 'text.secondary',
               maxWidth: '700px',
-              mx: 'auto'
+              mx: 'auto',
+              fontSize: '1.1rem',
+              lineHeight: 1.6
             }}
           >
             Upload your resume and receive instant, data-driven insights to refine your resume and stand out in today's job market
@@ -171,16 +173,23 @@ export default function ResumeAnalyzer() {
                   </Box>
                 </Box>
                 <Typography 
-                  variant="h4" 
-                  align="center" 
-                  sx={{ mb: 3 }}
+                  component="h3"
+                  sx={{ 
+                    mb: 3,
+                    fontSize: '1.25rem',
+                    fontWeight: 500
+                  }}
                 >
                   Drop your resume here or choose file
                 </Typography>
                 <Typography 
-                  variant="body2" 
-                  align="center" 
-                  sx={{ mb: 2, color: 'text.secondary' }}
+                  component="p"
+                  sx={{ 
+                    mb: 2, 
+                    color: 'text.secondary',
+                    fontSize: '0.875rem',
+                    textAlign: 'center'
+                  }}
                 >
                   PDF (Max 5MB)
                 </Typography>
