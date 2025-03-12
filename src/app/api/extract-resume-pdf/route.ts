@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ResumeData } from "@/app/create-resume/types";
-import openai from "@/utils/openai";
+import openai, { createChatCompletion } from "@/utils/openai";
 
 // Helper function to clean markdown JSON response
 function cleanJsonResponse(text: string): string {
@@ -106,19 +106,12 @@ Rules:
 Resume text to analyze:
 ${pdfText}`;
 
-    const response = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: "You are a helpful assistant that extracts structured information from resumes in JSON format."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      response_format: { type: "json_object" }
-    });
+    const response = await createChatCompletion([
+      {
+        role: "user",
+        content: prompt
+      }
+    ], true);
 
     const text = response.choices[0]?.message?.content || "";
     

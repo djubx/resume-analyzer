@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import openai from "@/utils/openai";
+import openai, { createChatCompletion } from "@/utils/openai";
 
 export async function POST(req: NextRequest) {
   if (!process.env.AZURE_OPENAI_API_KEY) {
@@ -19,19 +19,12 @@ export async function POST(req: NextRequest) {
 
     ${resumeText}`;
 
-    const response = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: "You are a helpful assistant that analyzes resumes and provides structured feedback in JSON format."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      response_format: { type: "json_object" }
-    });
+    const response = await createChatCompletion([
+      {
+        role: "user",
+        content: prompt
+      }
+    ], true);
 
     const text = response.choices[0]?.message?.content || "";
 
