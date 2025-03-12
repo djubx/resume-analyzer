@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FaUpload, FaCheckCircle } from "react-icons/fa";
 import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
@@ -25,6 +25,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
   const theme = useTheme();
 
   const calculateFileHash = async (file: File): Promise<string> => {
@@ -90,34 +91,28 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
     else return (bytes / 1048576).toFixed(1) + ' MB';
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const selectedFile = e.target.files[0];
-      setFile(selectedFile);
-      onNewUpload();
-      console.log("Resume file:", selectedFile, "Size:", formatFileSize(selectedFile.size));
-      await handleFileProcessing(selectedFile);
+  const analyzeResume = async (pdfText: string): Promise<any> => {
+    try {
+      const response = await fetch("/api/analyze-resume", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ resumeText: pdfText }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error analyzing resume");
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw error;
     }
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0];
-      setFile(droppedFile);
-      onNewUpload();
-      console.log("Resume file (dropped):", droppedFile, "Size:", formatFileSize(droppedFile.size));
-      await handleFileProcessing(droppedFile);
-    }
-  };
-
-  const handleFileProcessing = async (file: File, forceReanalyze: boolean = false) => {
+  const handleFileProcessing = useCallback(async (file: File, forceReanalyze: boolean = false) => {
     setIsProcessing(true);
     setStatus("Calculating file hash...");
     try {
@@ -157,28 +152,80 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
     } finally {
       setIsProcessing(false);
     }
-  };
+  }, [onAnalysisComplete, onError]);
 
-  const analyzeResume = async (pdfText: string): Promise<any> => {
-    try {
-      const response = await fetch("/api/analyze-resume", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ resumeText: pdfText }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Error analyzing resume");
-      }
-
-      return await response.json();
-    } catch (error) {
-      throw error;
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      onNewUpload();
+      console.log("Resume file:", selectedFile, "Size:", formatFileSize(selectedFile.size));
+      await handleFileProcessing(selectedFile);
     }
   };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      setFile(droppedFile);
+      onNewUpload();
+      console.log("Resume file (dropped):", droppedFile, "Size:", formatFileSize(droppedFile.size));
+      await handleFileProcessing(droppedFile);
+    }
+  };
+
+  // Check for pending resume file in localStorage when component mounts
+  useEffect(() => {
+    const checkPendingFile = async () => {
+      try {
+        const pendingFileInfo = localStorage.getItem('pendingResumeFile');
+        const pendingFileData = localStorage.getItem('pendingResumeData');
+        
+        if (pendingFileInfo && pendingFileData) {
+          const fileInfo = JSON.parse(pendingFileInfo);
+          
+          // Convert base64 data to File object
+          const byteString = atob(pendingFileData.split(',')[1]);
+          const mimeString = pendingFileData.split(',')[0].split(':')[1].split(';')[0];
+          const ab = new ArrayBuffer(byteString.length);
+          const ia = new Uint8Array(ab);
+          
+          for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+          }
+          
+          const blob = new Blob([ab], { type: mimeString });
+          const restoredFile = new File([blob], fileInfo.name, { 
+            type: fileInfo.type,
+            lastModified: fileInfo.lastModified
+          });
+          
+          // Clear localStorage
+          localStorage.removeItem('pendingResumeFile');
+          localStorage.removeItem('pendingResumeData');
+          
+          // Process the file
+          setFile(restoredFile);
+          onNewUpload();
+          await handleFileProcessing(restoredFile);
+        }
+      } catch (error) {
+        console.error('Error processing pending file:', error);
+        // Clear localStorage in case of error
+        localStorage.removeItem('pendingResumeFile');
+        localStorage.removeItem('pendingResumeData');
+      }
+    };
+    
+    checkPendingFile();
+  }, [handleFileProcessing, onNewUpload]);
 
   return (
     <Box sx={{ mb: 4, position: 'relative' }}>
@@ -249,72 +296,26 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
           )}
           {isProcessing && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CircularProgress size={20} color="primary" />
-              <Typography variant="body2" sx={{ color: 'primary.main' }}>
-                Processing resume...
+              <CircularProgress size={16} />
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                Processing...
               </Typography>
             </Box>
           )}
         </Box>
-        {file && (
-          <Button
-            onClick={() => handleFileProcessing(file, true)}
-            variant="contained"
-            color="primary"
-            disabled={isProcessing}
-            sx={{ ml: 2 }}
-          >
-            Force Re-analyze
-          </Button>
-        )}
+        <AnimatePresence>
+          {showAnimation && (
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <FaCheckCircle style={{ fontSize: '2rem', color: theme.palette.success.main }} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Box>
-
-      <AnimatePresence>
-        {showAnimation && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: alpha(theme.palette.background.paper, 0.9),
-              borderRadius: theme.shape.borderRadius,
-            }}
-          >
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              style={{ color: theme.palette.success.main, fontSize: '3rem' }}
-            >
-              <FaCheckCircle />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Typography
-                variant="h4"
-                sx={{
-                  mt: 2,
-                  fontWeight: 'bold',
-                  color: 'text.primary',
-                }}
-              >
-                Analysis Complete!
-              </Typography>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </Box>
   );
 }

@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from "framer-motion";
+import { useRouter } from 'next/navigation';
+import { FaUpload } from "react-icons/fa";
 import {
   Box,
   Container,
@@ -11,6 +13,7 @@ import {
   Paper,
   Button,
   useTheme,
+  alpha,
 } from '@mui/material';
 import { School, Work, Business } from '@mui/icons-material';
 
@@ -40,6 +43,110 @@ const defaultCareerStages: CareerStage[] = [
 
 export default function CareerStages() {
   const theme = useTheme();
+  const router = useRouter();
+  const [file, setFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return bytes + ' bytes';
+    else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    else return (bytes / 1048576).toFixed(1) + ' MB';
+  };
+
+  const storeFileAndRedirect = async (selectedFile: File) => {
+    try {
+      // Store file information in localStorage
+      const fileInfo = {
+        name: selectedFile.name,
+        size: selectedFile.size,
+        type: selectedFile.type,
+        lastModified: selectedFile.lastModified,
+      };
+      
+      // Convert file to base64 for storage
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          // Store file info and redirect
+          localStorage.setItem('pendingResumeFile', JSON.stringify(fileInfo));
+          localStorage.setItem('pendingResumeData', e.target.result as string);
+          
+          // Redirect to resume analyzer page
+          router.push('/resume-analyzer');
+        }
+      };
+      reader.readAsDataURL(selectedFile);
+    } catch (error) {
+      console.error('Error storing file:', error);
+      // Redirect anyway
+      router.push('/resume-analyzer');
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      
+      // Check file size (max 5MB)
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB limit. Please select a smaller file.');
+        return;
+      }
+      
+      // Check file type
+      if (selectedFile.type !== 'application/pdf') {
+        alert('Only PDF files are supported.');
+        return;
+      }
+      
+      storeFileAndRedirect(selectedFile);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      setFile(droppedFile);
+      
+      // Check file size (max 5MB)
+      if (droppedFile.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB limit. Please select a smaller file.');
+        return;
+      }
+      
+      // Check file type
+      if (droppedFile.type !== 'application/pdf') {
+        alert('Only PDF files are supported.');
+        return;
+      }
+      
+      storeFileAndRedirect(droppedFile);
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
     <>
@@ -224,35 +331,66 @@ export default function CareerStages() {
                       />
                     </Box>
                   </Box>
-                  <Typography
-                    variant="h6"
+                  
+                  <Box
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
                     sx={{
-                      mb: 2,
-                      color: 'text.primary',
-                    }}
-                  >
-                    Drop your resume here or choose file
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mb: 3,
-                      color: 'text.secondary',
-                    }}
-                  >
-                    PDF (Max 5MB)
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      py: 1.5,
-                      px: 4,
+                      border: `2px dashed ${isDragging ? theme.palette.primary.main : 'transparent'}`,
                       borderRadius: '8px',
-                      fontWeight: 500,
+                      p: 2,
+                      transition: 'all 0.2s ease',
+                      bgcolor: isDragging ? alpha(theme.palette.primary.main, 0.05) : 'transparent',
                     }}
                   >
-                    Upload Resume
-                  </Button>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        mb: 2,
+                        color: 'text.primary',
+                      }}
+                    >
+                      Drop your resume here or choose file
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        mb: 3,
+                        color: 'text.secondary',
+                      }}
+                    >
+                      PDF (Max 5MB)
+                    </Typography>
+                    
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      onChange={handleFileChange}
+                      style={{ display: 'none' }}
+                      ref={fileInputRef}
+                    />
+                    
+                    <Button
+                      variant="contained"
+                      onClick={handleButtonClick}
+                      sx={{
+                        py: 1.5,
+                        px: 4,
+                        borderRadius: '8px',
+                        fontWeight: 500,
+                      }}
+                      startIcon={<FaUpload />}
+                    >
+                      Upload Resume
+                    </Button>
+                    
+                    {file && (
+                      <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
+                        Selected: {file.name} ({formatFileSize(file.size)})
+                      </Typography>
+                    )}
+                  </Box>
                 </Paper>
               </motion.div>
             </Grid>
