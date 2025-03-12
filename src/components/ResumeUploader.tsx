@@ -228,13 +228,13 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
   }, [handleFileProcessing, onNewUpload]);
 
   return (
-    <Box sx={{ mb: 4, position: 'relative' }}>
+    <Box sx={{ position: 'relative' }}>
       <Box
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}
       >
-        <label htmlFor="dropzone-file">
+        <label htmlFor="dropzone-file" style={{ width: '100%' }}>
           <Paper
             elevation={0}
             sx={{
@@ -243,7 +243,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
-              height: '16rem',
+              height: '12rem',
               border: `2px dashed ${theme.palette.primary.main}`,
               borderRadius: 2,
               bgcolor: alpha(theme.palette.primary.main, 0.05),
@@ -255,11 +255,11 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
             }}
           >
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3 }}>
-              <FaUpload style={{ fontSize: '2.5rem', marginBottom: '0.75rem', color: theme.palette.primary.main }} />
-              <Typography variant="body1" sx={{ mb: 1, color: 'primary.main' }}>
+              <FaUpload style={{ fontSize: '2rem', marginBottom: '0.75rem', color: theme.palette.primary.main }} />
+              <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
                 <Box component="span" sx={{ fontWeight: 600 }}>Click to upload</Box> or drag and drop
               </Typography>
-              <Typography variant="caption" sx={{ color: 'primary.main' }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                 PDF (MAX. 5MB)
               </Typography>
             </Box>
@@ -275,7 +275,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
       </Box>
 
       {file && (
-        <Typography variant="body2" sx={{ mt: 1, color: 'primary.main' }}>
+        <Typography variant="body2" sx={{ mt: 1, color: 'primary.main', textAlign: 'center' }}>
           {file.name} ({formatFileSize(file.size)})
         </Typography>
       )}
@@ -316,6 +316,21 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
           )}
         </AnimatePresence>
       </Box>
+
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={() => document.getElementById('dropzone-file')?.click()}
+        sx={{
+          mt: 2,
+          py: 1.5,
+          borderRadius: '8px',
+        }}
+        disabled={isProcessing}
+      >
+        {isProcessing ? 'Processing...' : 'Upload Resume'}
+      </Button>
     </Box>
   );
 }

@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import ResumeUploader from "@/components/ResumeUploader";
 import ResumeAnalysis from "@/components/ResumeAnalysis";
 import Navbar from "@/components/Navbar";
+import ResumeSteps from "@/components/ResumeSteps";
+import Services from "@/components/Services";
+import FAQ from "@/components/FAQ";
 import Cookies from 'js-cookie';
 import { FaFileAlt, FaChartLine } from "react-icons/fa";
 import {
@@ -15,6 +18,7 @@ import {
   Paper,
   Alert,
   useTheme,
+  alpha,
 } from '@mui/material';
 
 interface AnalysisResult {
@@ -54,6 +58,28 @@ export default function ResumeAnalyzer() {
     Cookies.remove('personalizedFeedback');
   };
 
+  // Filter services to exclude the AI Resume Analyzer
+  const filteredServices = [
+    {
+      icon: <FaFileAlt />,
+      title: "Resume Builder",
+      description: "Craft your resume with tools tailored to your career goals.",
+      href: "/create-resume"
+    },
+    {
+      icon: <FaFileAlt />,
+      title: "Resume Checklist",
+      description: "Ensure your resume covers all essential elements",
+      href: "/resume-checklist"
+    },
+    {
+      icon: <FaChartLine />,
+      title: "ATS Score",
+      description: "Optimize your resume to pass 95% of ATS filters",
+      href: "/ats-score"
+    }
+  ];
+
   return (
     <Box sx={{ 
       minHeight: '100vh', 
@@ -63,82 +89,126 @@ export default function ResumeAnalyzer() {
       color: 'text.primary'
     }}>
       <Navbar />
-      <Container 
-        component="main" 
+      
+      {/* Hero Section */}
+      <Box 
         sx={{ 
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'start',
-          py: 6,
+          pt: 10, 
+          pb: 6, 
+          textAlign: 'center',
+          background: 'linear-gradient(180deg, rgba(240, 248, 245, 0.8) 0%, rgba(255, 255, 255, 0) 100%)'
         }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{ textAlign: 'center', marginBottom: theme.spacing(6) }}
-        >
+        <Container maxWidth="md">
           <Typography 
             variant="h1" 
+            component="h1"
             sx={{ 
-              mb: 4,
+              mb: 2,
               color: 'primary.main',
-              fontWeight: 'bold',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+              fontWeight: 700,
+              fontSize: { xs: '2.5rem', md: '3.5rem' }
             }}
           >
-            Resume Analyzer
+            AI Resume Analyzer
           </Typography>
           <Typography 
-            variant="h4" 
+            variant="h5" 
+            component="p"
             sx={{ 
-              maxWidth: 'md',
-              mx: 'auto',
+              mb: 4,
+              color: 'text.secondary',
+              maxWidth: '800px',
+              mx: 'auto'
+            }}
+          >
+            Our AI checks formatting, keywords and many more to help you shine
+          </Typography>
+          <Typography 
+            variant="body1" 
+            component="p"
+            sx={{ 
               mb: 6,
               color: 'text.secondary',
-              textAlign: 'center',
+              maxWidth: '700px',
+              mx: 'auto'
             }}
           >
-            Upload your resume and get instant AI-powered feedback to improve your chances of landing that dream job.
+            Upload your resume and receive instant, data-driven insights to refine your resume and stand out in today's job market
           </Typography>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          style={{ width: '100%', maxWidth: '42rem' }}
-        >
-          <Paper 
-            elevation={8}
-            sx={{ 
-              p: 4,
-              bgcolor: 'background.paper',
-              borderRadius: 2,
-            }}
-          >
+          
+          {/* Resume Uploader Card */}
+          <Box sx={{ maxWidth: '500px', mx: 'auto', mb: 8 }}>
             {!analysisResult ? (
-              <Box sx={{ textAlign: 'center' }}>
-                <FaFileAlt style={{ 
-                  fontSize: '3rem', 
-                  color: theme.palette.primary.main,
-                  marginBottom: theme.spacing(2),
-                }} />
+              <Paper 
+                elevation={0}
+                sx={{ 
+                  p: 4,
+                  bgcolor: 'background.paper',
+                  borderRadius: 2,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+              >
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  mb: 2 
+                }}>
+                  <Box
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: '50%',
+                      bgcolor: alpha(theme.palette.primary.main, 0.1),
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'primary.main',
+                    }}
+                  >
+                    <FaFileAlt style={{ fontSize: '1.75rem' }} />
+                  </Box>
+                </Box>
+                <Typography 
+                  variant="h6" 
+                  align="center" 
+                  sx={{ mb: 3 }}
+                >
+                  Drop your resume here or choose file
+                </Typography>
+                <Typography 
+                  variant="body2" 
+                  align="center" 
+                  sx={{ mb: 2, color: 'text.secondary' }}
+                >
+                  PDF (Max 5MB)
+                </Typography>
                 <ResumeUploader 
                   onAnalysisComplete={handleAnalysisComplete} 
                   onError={handleError} 
                   onNewUpload={handleNewUpload}
                 />
-              </Box>
+              </Paper>
             ) : (
-              <Box>
-                <FaChartLine style={{ 
-                  fontSize: '3rem', 
-                  color: theme.palette.success.main,
-                  marginBottom: theme.spacing(2),
-                }} />
+              <Paper 
+                elevation={2}
+                sx={{ 
+                  p: 4,
+                  bgcolor: 'background.paper',
+                  borderRadius: 2,
+                }}
+              >
+                <Box sx={{ textAlign: 'center', mb: 3 }}>
+                  <FaChartLine style={{ 
+                    fontSize: '3rem', 
+                    color: theme.palette.success.main,
+                    marginBottom: theme.spacing(2),
+                  }} />
+                  <Typography variant="h4" sx={{ mb: 2 }}>
+                    Analysis Complete
+                  </Typography>
+                </Box>
                 <ResumeAnalysis result={analysisResult} />
                 <Box sx={{ mt: 3, textAlign: 'center' }}>
                   <Button
@@ -153,7 +223,7 @@ export default function ResumeAnalyzer() {
                     Analyze Another Resume
                   </Button>
                 </Box>
-              </Box>
+              </Paper>
             )}
             {error && (
               <motion.div
@@ -168,9 +238,21 @@ export default function ResumeAnalyzer() {
                 </Alert>
               </motion.div>
             )}
-          </Paper>
-        </motion.div>
-      </Container>
+          </Box>
+        </Container>
+      </Box>
+      
+      {/* Steps Section */}
+      <ResumeSteps />
+      
+      {/* More Services Section */}
+      <Services 
+        title="More Services" 
+        services={filteredServices}
+      />
+      
+      {/* FAQ Section */}
+      <FAQ />
     </Box>
   );
 }
