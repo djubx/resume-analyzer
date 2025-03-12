@@ -32,7 +32,7 @@ const defaultServices = [
   {
     icon: <FaFileAlt />,
     title: "AI Resume Analyzer",
-    description: "Get personalized insights to make your resume stand out",
+    description: "Insights to make your resume stand out",
     href: "/resume-analyzer"
   },
   {

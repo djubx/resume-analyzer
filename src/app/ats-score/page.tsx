@@ -18,21 +18,25 @@ import {
 
 export default function ATSScorePage() {
   const [atsParsedData, setAtsParsedData] = useState<any>(null);
+  const [documentId, setDocumentId] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
 
-  const handleAtsParsedData = (data: any) => {
+  const handleAtsParsedData = (data: any, docId?: string) => {
     setAtsParsedData(data);
+    setDocumentId(docId);
     setError(null);
   };
 
   const handleError = (errorMessage: string) => {
     setError(errorMessage);
     setAtsParsedData(null);
+    setDocumentId(undefined);
   };
 
   const handleNewUpload = () => {
     setAtsParsedData(null);
+    setDocumentId(undefined);
     setError(null);
   };
 
@@ -71,7 +75,7 @@ export default function ATSScorePage() {
               textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
             }}
           >
-            ATS Score Check
+            Resume Profile Creator
           </Typography>
           <Typography 
             variant="h4" 
@@ -83,7 +87,7 @@ export default function ATSScorePage() {
               textAlign: 'center',
             }}
           >
-            Upload your resume and get an instant ATS compatibility score.
+            Upload your resume to analyze it and create a shareable profile.
           </Typography>
         </motion.div>
 
@@ -121,7 +125,7 @@ export default function ATSScorePage() {
                   color: theme.palette.success.main,
                   marginBottom: theme.spacing(2),
                 }} />
-                <ATSScoreResult parsedData={atsParsedData} />
+                <ATSScoreResult parsedData={atsParsedData} documentId={documentId} />
                 <Box sx={{ mt: 3, textAlign: 'center' }}>
                   <Button
                     component={motion.button}

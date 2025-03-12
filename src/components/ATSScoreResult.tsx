@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaChevronDown, FaChevronRight, FaUser, FaBriefcase, FaGraduationCap, FaCogs, FaCertificate, FaProjectDiagram, FaHandsHelping, FaUsers, FaGlobe } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import ShareableProfileLink from './ShareableProfileLink';
 import {
   Box,
   Typography,
@@ -13,10 +14,13 @@ import {
   useTheme,
   alpha,
   PaletteColor,
+  Divider,
 } from '@mui/material';
 
 interface ATSScoreResultProps {
   parsedData: any;
+  documentId?: string;
+  hideContactInfo?: boolean;
 }
 
 type SectionColor = 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
@@ -140,21 +144,36 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
   );
 };
 
-export default function ATSScoreResult({ parsedData }: ATSScoreResultProps) {
+export default function ATSScoreResult({ parsedData, documentId, hideContactInfo = false }: ATSScoreResultProps) {
   return (
     <Box sx={{ bgcolor: 'background.default', p: 3, borderRadius: 2 }}>
       <Typography variant="h1" sx={{ mb: 4, textAlign: 'center', color: 'primary.main', fontWeight: 'bold' }}>
-        ATS Parsed Resume Data
+        Resume Analysis Results
       </Typography>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ staggerChildren: 0.1 }}
       >
-        {Object.entries(parsedData).map(([key, value]) => (
-          <RenderSection key={key} title={key} content={value} />
-        ))}
+        {Object.entries(parsedData)
+          .filter(([key]) => !hideContactInfo || key !== 'contactInformation')
+          .map(([key, value]) => (
+            <RenderSection key={key} title={key} content={value} />
+          ))}
       </motion.div>
+
+      {documentId && (
+        <>
+          <Divider sx={{ my: 4 }} />
+          <ShareableProfileLink 
+            atsScoreId={documentId} 
+            contactInfo={{
+              fullName: parsedData.contactInformation?.fullName || null,
+              email: parsedData.contactInformation?.email || null
+            }}
+          />
+        </>
+      )}
     </Box>
   );
 }

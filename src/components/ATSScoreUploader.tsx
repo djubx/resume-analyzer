@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 
 interface ATSScoreUploaderProps {
-  onParsedData: (data: any) => void;
+  onParsedData: (data: any, documentId?: string) => void;
   onError: (error: string) => void;
   onNewUpload: () => void;
 }
@@ -130,7 +130,7 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
           setShowAnimation(true);
           setTimeout(() => {
             setShowAnimation(false);
-            onParsedData(existingAnalysis.analysisResult);
+            onParsedData(existingAnalysis.analysisResult, existingAnalysis._id);
           }, 1000);
           return;
         }
@@ -143,13 +143,13 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
       const analysisResult = await analyzeResume(pdfText ?? "");
 
       setStatus("Uploading resume...");
-      await uploadToSanity(file, pdfText ?? "", analysisResult, fileHash);
+      const doc = await uploadToSanity(file, pdfText ?? "", analysisResult, fileHash);
       console.log("ATS Analysis result:", analysisResult, fileHash);
 
       setShowAnimation(true);
       setTimeout(() => {
         setShowAnimation(false);
-        onParsedData(analysisResult);
+        onParsedData(analysisResult, doc._id);
       }, 1000);
     } catch (error) {
       console.error('Error processing file:', error);
