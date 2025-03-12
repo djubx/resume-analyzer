@@ -6,6 +6,7 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import FAQ from "@/components/FAQ";
 import Services from "@/components/Services";
+import WhyChooseUs from "@/components/WhyChooseUs";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -102,69 +103,8 @@ export default function Home() {
       {/* Services Section */}
       <Services />
 
-      {/* Features Section */}
-      <Box sx={{ bgcolor: 'background.paper', py: 8 }}>
-        <Container maxWidth="lg">
-          <Typography variant="h2" align="center" sx={{ mb: 6 }}>
-            Why Choose Us?
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {/* AI Resume Analyzer */}
-            <Paper sx={{ p: 4, borderRadius: 2 }}>
-              <Grid container spacing={4} alignItems="center">
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h3" sx={{ mb: 2 }}>
-                    AI Resume Analyzer
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    Get instant feedback on your resume with our advanced AI analysis. Understand what works and what needs improvement.
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Image
-                    src="/analyzer-preview.png"
-                    alt="AI Resume Analyzer"
-                    width={500}
-                    height={300}
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      borderRadius: '8px',
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-
-            {/* Resume Builder */}
-            <Paper sx={{ p: 4, borderRadius: 2 }}>
-              <Grid container spacing={4} alignItems="center" direction="row-reverse">
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h3" sx={{ mb: 2 }}>
-                    Resume Builder
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 3 }}>
-                    Create professional resumes with our intuitive builder. Choose from expert-designed templates and customize to your needs.
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Image
-                    src="/builder-preview.png"
-                    alt="Resume Builder"
-                    width={500}
-                    height={300}
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      borderRadius: '8px',
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-          </Box>
-        </Container>
-      </Box>
+      {/* Why Choose Us Section */}
+      <WhyChooseUs />
 
       {/* FAQ Section */}
       <FAQ />
