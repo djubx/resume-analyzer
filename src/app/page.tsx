@@ -7,6 +7,8 @@ import Navbar from "@/components/Navbar";
 import FAQ from "@/components/FAQ";
 import Services from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import CareerStages from "@/components/CareerStages";
+import Testimonials from "@/components/Testimonials";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -105,6 +107,12 @@ export default function Home() {
 
       {/* Why Choose Us Section */}
       <WhyChooseUs />
+
+      {/* Career Stages Section */}
+      <CareerStages />
+
+      {/* Testimonials Section */}
+      <Testimonials />
 
       {/* FAQ Section */}
       <FAQ />
