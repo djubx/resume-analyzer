@@ -1,18 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-// Initialize the Gemini API client
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-
-// Reusable model instance
-const model = genAI.getGenerativeModel({
-  model: process.env.GEMINI_MODEL || "",
-  generationConfig: { responseMimeType: "application/json" }
-});
+import openai from "@/utils/openai";
 
 export async function POST(req: NextRequest) {
-  if (!process.env.GEMINI_API_KEY) {
-    console.error("GEMINI_API_KEY is not set");
+  if (!process.env.AZURE_OPENAI_API_KEY) {
+    console.error("AZURE_OPENAI_API_KEY is not set");
     return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
@@ -23,21 +14,33 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Use Gemini API to analyze the resume
+    // Use OpenAI API to analyze the resume
     const prompt = `Analyze the following resume content and provide feedback in JSON format. Include sections for 'issues' (array of objects with 'type', 'description', and 'suggestion'), 'strengths' (array of strings), and 'overallScore' (number between 0 and 100). Here's the resume content:
 
     ${resumeText}`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const response = await openai.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful assistant that analyzes resumes and provides structured feedback in JSON format."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      response_format: { type: "json_object" }
+    });
+
+    const text = response.choices[0]?.message?.content || "";
 
     let analysisResult;
     try {
       console.log("Analysis result:", text);
       analysisResult = JSON.parse(text);
     } catch (parseError) {
-      console.error("Error parsing Gemini API response:", parseError);
+      console.error("Error parsing OpenAI API response:", parseError);
       return NextResponse.json({ error: "Invalid response from AI model", aiResponse: text }, { status: 500 });
     }
 
