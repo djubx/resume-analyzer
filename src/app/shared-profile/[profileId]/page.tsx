@@ -341,15 +341,6 @@ export default function SharedProfilePage() {
                 </Tooltip>
               </Box>
             )}
-            
-            {!loading && profileData && (
-              <Chip 
-                label={`Created: ${new Date(profileData.createdAt).toLocaleDateString()}`}
-                variant="outlined"
-                size="small"
-                sx={{ mb: 2 }}
-              />
-            )}
           </Box>
 
           {loading ? (

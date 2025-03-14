@@ -49,6 +49,19 @@ const sectionColors: { [key: string]: SectionColor } = {
   additionalSections: 'warning',
 };
 
+// Define the order of sections to display
+const sectionOrder = [
+  'contactInformation',
+  'workExperience',
+  'education',
+  'skills',
+  'certifications',
+  'projects',
+  'volunteerExperience',
+  'professionalAssociations',
+  'additionalSections'
+];
+
 const RenderSection = ({ title, content }: { title: string; content: any }) => {
   const [isOpen, setIsOpen] = useState(true);
   const theme = useTheme();
@@ -59,26 +72,25 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
     if (Array.isArray(data)) {
       return (
         <Box 
-          component="ol" 
+          component="ul" 
           sx={{ 
             pl: depth > 0 ? 4 : 2, 
             mt: depth > 0 ? 1 : 0,
             width: '100%',
-            counterReset: 'item',
             listStyleType: 'none',
             '& > li': {
               display: 'block',
               position: 'relative',
               pl: 2,
-              mb: 1,
+              mb: 1.5,
               '&:before': {
-                content: 'counter(item) "."',
-                counterIncrement: 'item',
+                content: '"•"',
                 position: 'absolute',
                 left: -5,
                 top: 0,
                 color: 'primary.main',
                 fontWeight: 'bold',
+                fontSize: '1.2rem',
               }
             }
           }}
@@ -183,10 +195,15 @@ export default function ATSScoreResult({ parsedData, documentId, hideContactInfo
         transition={{ staggerChildren: 0.1 }}
         style={{ width: '100%' }}
       >
-        {Object.entries(parsedData)
-          .filter(([key]) => !hideContactInfo || key !== 'contactInformation')
-          .map(([key, value]) => (
-            <RenderSection key={key} title={key} content={value} />
+        {sectionOrder
+          .filter(key => 
+            // Only include sections that exist in the parsed data
+            parsedData.hasOwnProperty(key) && 
+            // Apply the hide contact info filter if needed
+            (!hideContactInfo || key !== 'contactInformation')
+          )
+          .map(key => (
+            <RenderSection key={key} title={key} content={parsedData[key]} />
           ))}
       </motion.div>
 

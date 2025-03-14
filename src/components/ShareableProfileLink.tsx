@@ -45,33 +45,75 @@ export default function ShareableProfileLink({ atsScoreId, contactInfo }: Sharea
   const handleGenerateLink = async () => {
     setIsGenerating(true);
     try {
-      // Generate a unique profile ID
-      const newProfileId = generateRandomId();
-      setProfileId(newProfileId);
+      // First, check if a shareable profile already exists for this ATS score
+      const existingProfileQuery = `*[_type == "shareableProfile" && atsScoreRef._ref == $atsScoreId][0]{
+        profileId,
+        _id,
+        customizations
+      }`;
       
-      // Create a new shareable profile document in Sanity
-      const shareableProfile = await client.create({
-        _type: 'shareableProfile',
-        profileId: newProfileId,
-        createdAt: new Date().toISOString(),
-        atsScoreRef: {
-          _type: 'reference',
-          _ref: atsScoreId
-        },
-        isPublic: true,
-        customizations: {
-          theme: 'default',
-          showContactInfo,
-          highlightedSections: []
+      const existingProfile = await client.fetch(existingProfileQuery, { atsScoreId });
+      
+      let newProfileId;
+      let profileDocId;
+      
+      if (existingProfile) {
+        // Use the existing profile
+        newProfileId = existingProfile.profileId;
+        profileDocId = existingProfile._id;
+        
+        // Update the contact info setting if it's different
+        if (existingProfile.customizations?.showContactInfo !== showContactInfo) {
+          await client.patch(profileDocId)
+            .set({
+              'customizations.showContactInfo': showContactInfo
+            })
+            .commit();
         }
-      });
+        
+        setProfileId(newProfileId);
+      } else {
+        // Create a new shareable profile
+        newProfileId = generateRandomId();
+        setProfileId(newProfileId);
+        
+        // Create a new shareable profile document in Sanity
+        const shareableProfile = await client.create({
+          _type: 'shareableProfile',
+          profileId: newProfileId,
+          createdAt: new Date().toISOString(),
+          atsScoreRef: {
+            _type: 'reference',
+            _ref: atsScoreId
+          },
+          isPublic: true,
+          customizations: {
+            theme: 'default',
+            showContactInfo,
+            highlightedSections: []
+          }
+        });
+      }
 
       // Generate the shareable link
       const baseUrl = window.location.origin;
       const shareUrl = `${baseUrl}/shared-profile/${newProfileId}`;
       
       setProfileLink(shareUrl);
-      showSnackbar('Profile link generated successfully!', 'success');
+      
+      // Automatically copy to clipboard
+      navigator.clipboard.writeText(shareUrl)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+          const message = existingProfile ? 'Profile link retrieved and copied to clipboard!' : 'Profile link created and copied to clipboard!';
+          showSnackbar(message, 'success');
+        })
+        .catch(err => {
+          console.error('Failed to copy link: ', err);
+          const message = existingProfile ? 'Profile link retrieved! Click the copy button to copy it.' : 'Profile link created! Click the copy button to copy it.';
+          showSnackbar(message, 'success');
+        });
     } catch (error) {
       console.error('Error generating shareable profile:', error);
       showSnackbar('Failed to generate profile link. Please try again.', 'error');
@@ -205,7 +247,7 @@ export default function ShareableProfileLink({ atsScoreId, contactInfo }: Sharea
               },
             }}
           >
-            {isGenerating ? 'Generating Link...' : 'Generate Shareable Link'}
+            {isGenerating ? 'Processing...' : 'Get Shareable Link'}
           </Button>
         ) : (
           <Box sx={{ mt: 2 }}>
