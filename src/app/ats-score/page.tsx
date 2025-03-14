@@ -51,6 +51,7 @@ export default function ATSScorePage() {
       <Navbar />
       <Container 
         component="main" 
+        maxWidth="lg"
         sx={{ 
           flexGrow: 1,
           display: 'flex',
@@ -58,13 +59,14 @@ export default function ATSScorePage() {
           alignItems: 'center',
           justifyContent: 'start',
           py: 6,
+          width: '100%'
         }}
       >
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          style={{ textAlign: 'center', marginBottom: theme.spacing(6) }}
+          style={{ textAlign: 'center', marginBottom: theme.spacing(6), width: '100%' }}
         >
           <Typography 
             variant="h1" 
@@ -95,7 +97,7 @@ export default function ATSScorePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
-          style={{ width: '100%', maxWidth: '42rem' }}
+          style={{ width: '100%', maxWidth: '800px' }}
         >
           <Paper 
             elevation={8}
@@ -103,10 +105,11 @@ export default function ATSScorePage() {
               p: 4,
               bgcolor: 'background.paper',
               borderRadius: 2,
+              width: '100%'
             }}
           >
             {!atsParsedData ? (
-              <Box sx={{ textAlign: 'center' }}>
+              <Box sx={{ textAlign: 'center', width: '100%' }}>
                 <FaCloudUploadAlt style={{ 
                   fontSize: '3rem', 
                   color: theme.palette.primary.main,
@@ -119,12 +122,14 @@ export default function ATSScorePage() {
                 />
               </Box>
             ) : (
-              <Box>
-                <FaChartBar style={{ 
-                  fontSize: '3rem', 
-                  color: theme.palette.success.main,
-                  marginBottom: theme.spacing(2),
-                }} />
+              <Box sx={{ width: '100%' }}>
+                <Box sx={{ textAlign: 'center', mb: 3 }}>
+                  <FaChartBar style={{ 
+                    fontSize: '3rem', 
+                    color: theme.palette.success.main,
+                    marginBottom: theme.spacing(2),
+                  }} />
+                </Box>
                 <ATSScoreResult parsedData={atsParsedData} documentId={documentId} />
                 <Box sx={{ mt: 3, textAlign: 'center' }}>
                   <Button

@@ -228,7 +228,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
   }, [handleFileProcessing, onNewUpload]);
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative', width: '100%' }}>
       <Box
         onDragOver={handleDragOver}
         onDrop={handleDrop}
@@ -243,7 +243,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
-              height: '12rem',
+              height: '15rem',
               border: `2px dashed ${theme.palette.primary.main}`,
               borderRadius: 2,
               bgcolor: alpha(theme.palette.primary.main, 0.05),
@@ -254,12 +254,12 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
               transition: 'background-color 0.3s',
             }}
           >
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3 }}>
-              <FaUpload style={{ fontSize: '2rem', marginBottom: '0.75rem', color: theme.palette.primary.main }} />
-              <Typography variant="body1" sx={{ mb: 1, color: 'text.primary' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3, width: '100%' }}>
+              <FaUpload style={{ fontSize: '2.5rem', marginBottom: '1rem', color: theme.palette.primary.main }} />
+              <Typography variant="body1" sx={{ mb: 1, color: 'text.primary', fontSize: '1.2rem' }}>
                 <Box component="span" sx={{ fontWeight: 600 }}>Click to upload</Box> or drag and drop
               </Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.9rem' }}>
                 PDF (MAX. 5MB)
               </Typography>
             </Box>
@@ -275,12 +275,12 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
       </Box>
 
       {file && (
-        <Typography variant="body2" sx={{ mt: 1, color: 'primary.main', textAlign: 'center' }}>
+        <Typography variant="body2" sx={{ mt: 1, color: 'primary.main', textAlign: 'center', width: '100%' }}>
           {file.name} ({formatFileSize(file.size)})
         </Typography>
       )}
 
-      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {status && (
             <Typography
@@ -326,6 +326,7 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
           mt: 2,
           py: 1.5,
           borderRadius: '8px',
+          fontSize: '1.1rem'
         }}
         disabled={isProcessing}
       >

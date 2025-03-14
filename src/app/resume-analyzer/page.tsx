@@ -96,10 +96,11 @@ export default function ResumeAnalyzer() {
           pt: 10, 
           pb: 6, 
           textAlign: 'center',
-          background: 'linear-gradient(180deg, rgba(240, 248, 245, 0.8) 0%, rgba(255, 255, 255, 0) 100%)'
+          background: 'linear-gradient(180deg, rgba(240, 248, 245, 0.8) 0%, rgba(255, 255, 255, 0) 100%)',
+          width: '100%'
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Typography 
             variant="h1" 
             component="h1"
@@ -140,7 +141,7 @@ export default function ResumeAnalyzer() {
           </Typography>
           
           {/* Resume Uploader Card */}
-          <Box sx={{ maxWidth: '500px', mx: 'auto', mb: 8 }}>
+          <Box sx={{ maxWidth: '800px', mx: 'auto', mb: 8, width: '100%' }}>
             {!analysisResult ? (
               <Paper 
                 elevation={0}
@@ -150,6 +151,7 @@ export default function ResumeAnalyzer() {
                   borderRadius: 2,
                   border: '1px solid',
                   borderColor: 'divider',
+                  width: '100%'
                 }}
               >
                 <Box sx={{ 
@@ -206,6 +208,7 @@ export default function ResumeAnalyzer() {
                   p: 4,
                   bgcolor: 'background.paper',
                   borderRadius: 2,
+                  width: '100%'
                 }}
               >
                 <Box sx={{ textAlign: 'center', mb: 3 }}>

@@ -58,19 +58,43 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
   const renderContent = (data: any, depth: number = 0) => {
     if (Array.isArray(data)) {
       return (
-        <List sx={{ pl: depth > 0 ? 2 : 0, mt: depth > 0 ? 1 : 0 }}>
+        <Box 
+          component="ol" 
+          sx={{ 
+            pl: depth > 0 ? 4 : 2, 
+            mt: depth > 0 ? 1 : 0,
+            width: '100%',
+            counterReset: 'item',
+            listStyleType: 'none',
+            '& > li': {
+              display: 'block',
+              position: 'relative',
+              pl: 2,
+              mb: 1,
+              '&:before': {
+                content: 'counter(item) "."',
+                counterIncrement: 'item',
+                position: 'absolute',
+                left: -5,
+                top: 0,
+                color: 'primary.main',
+                fontWeight: 'bold',
+              }
+            }
+          }}
+        >
           {data.map((item, index) => (
-            <ListItem key={index} sx={{ color: 'text.secondary', display: 'list-item' }}>
-              <ListItemText primary={renderContent(item, depth + 1)} />
-            </ListItem>
+            <Box component="li" key={index} sx={{ color: 'text.secondary' }}>
+              {renderContent(item, depth + 1)}
+            </Box>
           ))}
-        </List>
+        </Box>
       );
     } else if (typeof data === 'object' && data !== null) {
       return (
-        <Box sx={{ pl: depth > 0 ? 2 : 0, mt: depth > 0 ? 1 : 0 }}>
+        <Box sx={{ pl: depth > 0 ? 2 : 0, mt: depth > 0 ? 1 : 0, width: '100%' }}>
           {Object.entries(data).map(([key, value]) => (
-            <Box key={key} sx={{ mb: 1 }}>
+            <Box key={key} sx={{ mb: 1, width: '100%' }}>
               <Typography component="span" sx={{ fontWeight: 'medium', color: 'primary.main', mr: 1 }}>
                 {key}:
               </Typography>
@@ -95,6 +119,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
+      style={{ width: '100%' }}
     >
       <Paper
         sx={{
@@ -104,6 +129,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
           borderRadius: 1,
           border: 1,
           borderColor: 'divider',
+          width: '100%'
         }}
       >
         <Box
@@ -117,6 +143,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
             },
             borderRadius: 1,
             p: 1,
+            width: '100%'
           }}
         >
           <Box sx={{ color: `${color}.main`, mr: 1 }}>
@@ -134,8 +161,8 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
             </IconButton>
           </motion.div>
         </Box>
-        <Collapse in={isOpen}>
-          <Box sx={{ mt: 2 }}>
+        <Collapse in={isOpen} sx={{ width: '100%' }}>
+          <Box sx={{ mt: 2, width: '100%' }}>
             {renderContent(content)}
           </Box>
         </Collapse>
@@ -146,7 +173,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
 
 export default function ATSScoreResult({ parsedData, documentId, hideContactInfo = false }: ATSScoreResultProps) {
   return (
-    <Box sx={{ bgcolor: 'background.default', p: 3, borderRadius: 2 }}>
+    <Box sx={{ bgcolor: 'background.default', p: 3, borderRadius: 2, width: '100%' }}>
       <Typography variant="h1" sx={{ mb: 4, textAlign: 'center', color: 'primary.main', fontWeight: 'bold' }}>
         Resume Analysis Results
       </Typography>
@@ -154,6 +181,7 @@ export default function ATSScoreResult({ parsedData, documentId, hideContactInfo
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ staggerChildren: 0.1 }}
+        style={{ width: '100%' }}
       >
         {Object.entries(parsedData)
           .filter(([key]) => !hideContactInfo || key !== 'contactInformation')
