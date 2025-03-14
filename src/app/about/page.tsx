@@ -262,7 +262,7 @@ export default function About() {
                 fontWeight: 600
               }}
             >
-              Our Team
+              Future Roadmap
             </Typography>
             <Typography 
               component="p" 
@@ -275,7 +275,7 @@ export default function About() {
                 lineHeight: 1.6
               }}
             >
-              We're a dedicated team of professionals committed to helping you succeed in your career journey.
+              Our vision is to create the ultimate platform for all your job hunting needs. Here's what we're building towards:
             </Typography>
             <Grid container spacing={4} justifyContent="center">
               <Grid item xs={12} md={4}>
@@ -283,7 +283,7 @@ export default function About() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.5, delay: 0 }}
                 >
                   <Paper
                     elevation={0}
@@ -327,16 +327,7 @@ export default function About() {
                         borderColor: alpha(theme.palette.primary.main, 0.2)
                       }}
                     >
-                      <Typography 
-                        variant="h3" 
-                        component="span" 
-                        sx={{ 
-                          color: 'primary.main',
-                          fontWeight: 700
-                        }}
-                      >
-                        RJ
-                      </Typography>
+                      <RocketLaunch sx={{ fontSize: 48, color: 'primary.main' }} />
                     </Box>
                     <Typography 
                       variant="h4" 
@@ -347,7 +338,7 @@ export default function About() {
                         fontSize: '1.5rem'
                       }}
                     >
-                      Ranju Jha
+                      AI Interview Coach
                     </Typography>
                     <Typography 
                       component="p" 
@@ -358,7 +349,7 @@ export default function About() {
                         fontSize: '1.125rem'
                       }}
                     >
-                      CEO & Founder
+                      Coming Q1 2025
                     </Typography>
                     <Typography 
                       component="p" 
@@ -368,7 +359,181 @@ export default function About() {
                         lineHeight: 1.6
                       }}
                     >
-                      15+ years of experience in HR and recruitment, passionate about helping job seekers succeed.
+                      Practice interviews with our AI coach that simulates real interview scenarios and provides personalized feedback.
+                    </Typography>
+                  </Paper>
+                </motion.div>
+              </Grid>
+              
+              <Grid item xs={12} md={4}>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 4,
+                      height: 350,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      bgcolor: 'background.paper',
+                      borderRadius: '16px',
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      overflow: 'hidden',
+                      position: 'relative'
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '6px',
+                        background: 'linear-gradient(90deg, #00A896 0%, #02C39A 100%)'
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        width: 120,
+                        height: 120,
+                        borderRadius: '50%',
+                        bgcolor: alpha(theme.palette.secondary.main, 0.1),
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        mx: 'auto',
+                        mb: 3,
+                        border: '4px solid',
+                        borderColor: alpha(theme.palette.secondary.main, 0.2)
+                      }}
+                    >
+                      <Handshake sx={{ fontSize: 48, color: 'secondary.main' }} />
+                    </Box>
+                    <Typography 
+                      variant="h4" 
+                      component="h3" 
+                      sx={{ 
+                        mb: 1,
+                        fontWeight: 600,
+                        fontSize: '1.5rem'
+                      }}
+                    >
+                      Job Match AI
+                    </Typography>
+                    <Typography 
+                      component="p" 
+                      sx={{ 
+                        mb: 2,
+                        color: 'secondary.main',
+                        fontWeight: 500,
+                        fontSize: '1.125rem'
+                      }}
+                    >
+                      Coming Q2 2025
+                    </Typography>
+                    <Typography 
+                      component="p" 
+                      sx={{ 
+                        color: 'text.secondary',
+                        fontSize: '1rem',
+                        lineHeight: 1.6
+                      }}
+                    >
+                      AI-powered job matching that finds the perfect opportunities based on your skills, experience, and career goals.
+                    </Typography>
+                  </Paper>
+                </motion.div>
+              </Grid>
+              
+              <Grid item xs={12} md={4}>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 4,
+                      height: 350,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      bgcolor: 'background.paper',
+                      borderRadius: '16px',
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      overflow: 'hidden',
+                      position: 'relative'
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '6px',
+                        background: 'linear-gradient(90deg, #00A896 0%, #02C39A 100%)'
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        width: 120,
+                        height: 120,
+                        borderRadius: '50%',
+                        bgcolor: alpha(theme.palette.warning.main, 0.1),
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        mx: 'auto',
+                        mb: 3,
+                        border: '4px solid',
+                        borderColor: alpha(theme.palette.warning.main, 0.2)
+                      }}
+                    >
+                      <Lightbulb sx={{ fontSize: 48, color: 'warning.main' }} />
+                    </Box>
+                    <Typography 
+                      variant="h4" 
+                      component="h3" 
+                      sx={{ 
+                        mb: 1,
+                        fontWeight: 600,
+                        fontSize: '1.5rem'
+                      }}
+                    >
+                      Career Path Planner
+                    </Typography>
+                    <Typography 
+                      component="p" 
+                      sx={{ 
+                        mb: 2,
+                        color: 'warning.main',
+                        fontWeight: 500,
+                        fontSize: '1.125rem'
+                      }}
+                    >
+                      Coming Q3 2025
+                    </Typography>
+                    <Typography 
+                      component="p" 
+                      sx={{ 
+                        color: 'text.secondary',
+                        fontSize: '1rem',
+                        lineHeight: 1.6
+                      }}
+                    >
+                      Strategic tools to map your career journey and identify essential skills for growth.
                     </Typography>
                   </Paper>
                 </motion.div>
