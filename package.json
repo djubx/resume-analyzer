@@ -27,7 +27,7 @@
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.468.0",
     "md5": "^2.3.0",
-    "next": "14.2.7",
+    "next": "14.2.33",
     "next-sanity": "^9.4.7",
     "openai": "^4.87.3",
     "pdf-parse": "^1.1.1",
