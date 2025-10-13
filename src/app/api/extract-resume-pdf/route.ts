@@ -34,8 +34,8 @@ interface VolunteerExperience {
 }
 
 export async function POST(req: NextRequest) {
-  if (!process.env.AZURE_OPENAI_API_KEY) {
-    console.error("AZURE_OPENAI_API_KEY is not set");
+  if (!process.env.WORKER_API_KEY) {
+    console.error("WORKER_API_KEY is not set");
     return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 

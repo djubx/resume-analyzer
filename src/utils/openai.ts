@@ -1,24 +1,36 @@
-import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources';
 
-// Initialize the Azure OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.AZURE_OPENAI_API_KEY,
-  baseURL: `${process.env.AZURE_OPENAI_ENDPOINT}/openai/deployments/${process.env.AZURE_OPENAI_DEPLOYMENT}`,
-  defaultQuery: { 'api-version': process.env.AZURE_OPENAI_API_VERSION },
-  defaultHeaders: { 'api-key': process.env.AZURE_OPENAI_API_KEY },
-});
+const WORKER_PROXY_URL = process.env.WORKER_PROXY_URL || 'https://azure-openai-proxy.ball-breaker.workers.dev/api/chat';
+const WORKER_API_KEY = process.env.WORKER_API_KEY || '';
 
-// Helper function to create chat completions with the default model
+// Helper function to create chat completions via Cloudflare Worker proxy
 export async function createChatCompletion(
   messages: ChatCompletionMessageParam[],
   jsonResponse: boolean = false
 ) {
-  return openai.chat.completions.create({
-    model: process.env.AZURE_OPENAI_DEPLOYMENT || "gpt-4o-mini",
-    messages,
-    response_format: jsonResponse ? { type: "json_object" } : undefined
+  const response = await fetch(WORKER_PROXY_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-worker': WORKER_API_KEY,
+    },
+    body: JSON.stringify({
+      messages,
+      response_format: jsonResponse ? { type: "json_object" } : undefined,
+    }),
   });
+
+  if (!response.ok) {
+    throw new Error(`Worker proxy error: ${response.status}`);
+  }
+
+  return await response.json();
 }
 
-export default openai; 
+export default {
+  chat: {
+    completions: {
+      create: createChatCompletion
+    }
+  }
+}; 
