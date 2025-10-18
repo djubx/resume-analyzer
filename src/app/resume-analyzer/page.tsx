@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ResumeUploader from "@/components/ResumeUploader";
 import ResumeAnalysis from "@/components/ResumeAnalysis";
@@ -9,6 +9,7 @@ import ResumeSteps from "@/components/ResumeSteps";
 import Services from "@/components/Services";
 import FAQ from "@/components/FAQ";
 import Cookies from 'js-cookie';
+import { trackPageView } from "@/lib/amplitude";
 import { FaFileAlt, FaChartLine } from "react-icons/fa";
 import {
   Box,
@@ -35,6 +36,10 @@ export default function ResumeAnalyzer() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
+
+  useEffect(() => {
+    trackPageView('Resume Analyzer');
+  }, []);
 
   const handleAnalysisComplete = (result: AnalysisResult) => {
     setAnalysisResult(result);

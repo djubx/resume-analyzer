@@ -4,6 +4,7 @@ import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
 import { motion, AnimatePresence } from "framer-motion";
 import md5 from "md5";
+import { trackResumeUpload, trackAnalysisComplete, trackAnalysisError } from '@/lib/amplitude';
 import {
   Box,
   Typography,
@@ -115,6 +116,8 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
   const handleFileProcessing = useCallback(async (file: File, forceReanalyze: boolean = false) => {
     setIsProcessing(true);
     setStatus("Calculating file hash...");
+    const startTime = Date.now();
+
     try {
       const fileHash = await calculateFileHash(file);
       
@@ -126,6 +129,15 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
           setTimeout(() => {
             setShowAnimation(false);
             onAnalysisComplete(existingAnalysis.analysisResult);
+
+            // Track cached analysis retrieval
+            const cachedDuration = Date.now() - startTime;
+            trackAnalysisComplete(
+              'Resume Analyzer',
+              existingAnalysis.analysisResult?.overallScore || 0,
+              cachedDuration,
+              true
+            );
           }, 1000);
           return;
         }
@@ -145,9 +157,23 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
       setTimeout(() => {
         setShowAnimation(false);
         onAnalysisComplete(analysisResult);
+
+        // Track successful analysis
+        const duration = Date.now() - startTime;
+        trackAnalysisComplete(
+          'Resume Analyzer',
+          analysisResult.overallScore || 0,
+          duration,
+          false
+        );
       }, 1000);
     } catch (error) {
       console.error('Error processing file:', error);
+
+      // Track analysis error
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      trackAnalysisError('Resume Analyzer', 'Processing Error', errorMessage);
+
       onError(error instanceof Error ? error.message : "Error processing resume. Please try again.");
     } finally {
       setIsProcessing(false);
@@ -160,6 +186,10 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
       setFile(selectedFile);
       onNewUpload();
       console.log("Resume file:", selectedFile, "Size:", formatFileSize(selectedFile.size));
+
+      // Track resume upload
+      trackResumeUpload('Resume Analyzer', selectedFile.size, selectedFile.type);
+
       await handleFileProcessing(selectedFile);
     }
   };
@@ -177,6 +207,10 @@ export default function ResumeUploader({ onAnalysisComplete, onError, onNewUploa
       setFile(droppedFile);
       onNewUpload();
       console.log("Resume file (dropped):", droppedFile, "Size:", formatFileSize(droppedFile.size));
+
+      // Track resume upload
+      trackResumeUpload('Resume Analyzer', droppedFile.size, droppedFile.type);
+      
       await handleFileProcessing(droppedFile);
     }
   };

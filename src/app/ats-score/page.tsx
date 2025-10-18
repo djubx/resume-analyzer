@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import ATSScoreUploader from "@/components/ATSScoreUploader";
@@ -15,12 +15,17 @@ import {
   Alert,
   useTheme,
 } from '@mui/material';
+import { trackPageView } from "@/lib/amplitude";
 
 export default function ATSScorePage() {
   const [atsParsedData, setAtsParsedData] = useState<any>(null);
   const [documentId, setDocumentId] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
+
+  useEffect(() => {
+    trackPageView('ATS Score');
+  }, []);
 
   const handleAtsParsedData = (data: any, docId?: string) => {
     setAtsParsedData(data);

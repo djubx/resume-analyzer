@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { createClient } from '@sanity/client';
 import { Email, Person, Chat, Send } from "@mui/icons-material";
@@ -15,6 +15,7 @@ import {
   Paper,
   useTheme
 } from "@mui/material";
+import { track } from '@/lib/analytics';
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -27,7 +28,14 @@ const client = createClient({
 export default function Contact() {
   const [formStatus, setFormStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [startTime, setStartTime] = useState<number>(Date.now());
   const theme = useTheme();
+
+  // Track page view on mount
+  useEffect(() => {
+    track('Contact Page Viewed', {});
+    setStartTime(Date.now());
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,11 +54,30 @@ export default function Contact() {
 
     try {
       const result = await client.create(contactData);
+      const duration = Date.now() - startTime;
+      
+      // Track successful submission
+      track('Contact Form Submitted', {
+        success: true,
+        duration_ms: duration,
+        message_length: contactData.message.length,
+      });
+      
       setFormStatus("Thank you for your message. We'll get back to you soon!");
       form.reset();
     } catch (error) {
+      const duration = Date.now() - startTime;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      
+      // Track failed submission
+      track('Contact Form Submitted', {
+        success: false,
+        duration_ms: duration,
+        error: errorMessage,
+      });
+      
       console.error('Error submitting form:', error);
-      setFormStatus(`Error: ${error instanceof Error ? error.message : String(error)}`);
+      setFormStatus(`Error: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }

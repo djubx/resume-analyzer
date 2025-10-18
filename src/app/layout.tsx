@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from '@/theme/theme';
 import Auth0Provider from '@/components/Auth0Provider';
+import { Amplitude } from '@/lib/amplitude';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Amplitude />
         <Auth0Provider>
           <ThemeProvider theme={theme}>
             <CssBaseline />

@@ -4,6 +4,7 @@ import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
 import { motion, AnimatePresence } from "framer-motion";
 import md5 from "md5";
+import { trackResumeUpload, trackAnalysisComplete, trackAnalysisError } from "@/lib/amplitude";
 import {
   Box,
   Typography,
@@ -120,17 +121,25 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
   const handleFileProcessing = async (file: File, forceReanalyze: boolean = false) => {
     setIsUploading(true);
     setStatus("Calculating file hash...");
+    const startTime = Date.now();
+    
     try {
+      // Track resume upload
+      trackResumeUpload('ATS Score', file.size, file.type);
+      
       const fileHash = await calculateFileHash(file);
       
       if (!forceReanalyze) {
         const existingAnalysis = await checkExistingAnalysis(fileHash);
         if (existingAnalysis) {
+          const duration = Date.now() - startTime;
           setStatus("Using existing ATS analysis...");
           setShowAnimation(true);
           setTimeout(() => {
             setShowAnimation(false);
             onParsedData(existingAnalysis.analysisResult, existingAnalysis._id);
+            // Track cached analysis
+            trackAnalysisComplete('ATS Score', 0, duration, true);
           }, 1000);
           return;
         }
@@ -139,21 +148,47 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
       setStatus("Extracting text from PDF...");
       const pdfText = await extractTextFromPDF(file, "clean");
 
+      // Check if PDF is likely scanned/image-based
+      const textLength = (pdfText ?? "").trim().length;
+      const lowerText = (pdfText ?? "").toLowerCase();
+      const isScanned = textLength < 100 || 
+                       lowerText.includes('camscanner') ||
+                       lowerText.includes('adobe scan') ||
+                       lowerText.includes('scanner');
+
+      if (isScanned) {
+        throw new Error(
+          "⚠️ This appears to be a scanned document. " +
+          "For best results, please export your resume as a text-based PDF from Word, Google Docs, or similar. " +
+          "Alternatively, try our Resume Analyzer tool which may work better with scanned documents. " +
+          "We're working on adding OCR support!"
+        );
+      }
+
       setStatus("Analyzing resume...");
       const analysisResult = await analyzeResume(pdfText ?? "");
 
       setStatus("Uploading resume...");
       const doc = await uploadToSanity(file, pdfText ?? "", analysisResult, fileHash);
+      
+      const duration = Date.now() - startTime;
       console.log("ATS Analysis result:", analysisResult, fileHash);
 
       setShowAnimation(true);
       setTimeout(() => {
         setShowAnimation(false);
         onParsedData(analysisResult, doc._id);
+        // Track successful analysis
+        trackAnalysisComplete('ATS Score', 0, duration, false);
       }, 1000);
     } catch (error) {
       console.error('Error processing file:', error);
-      onError(error instanceof Error ? error.message : "Error processing resume. Please try again.");
+      const errorMessage = error instanceof Error ? error.message : "Error processing resume. Please try again.";
+      
+      // Track error
+      trackAnalysisError('ATS Score', 'Processing Error', errorMessage);
+      
+      onError(errorMessage);
     } finally {
       setIsUploading(false);
     }
