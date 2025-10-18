@@ -42,7 +42,6 @@ export default function CreateResume() {
     const [currentStep, setCurrentStep] = useState<StepType>(STEPS.UPLOAD);
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
     const [formData, setFormData] = useState<ResumeData>(emptyResumeData);
-    const [useDefaultData, setUseDefaultData] = useState(false);
     const [progressWidth, setProgressWidth] = useState(0);
     const theme = useTheme();
 
@@ -99,11 +98,6 @@ export default function CreateResume() {
         }));
     };
 
-    const toggleDefaultData = () => {
-        setFormData(useDefaultData ? emptyResumeData : defaultResumeData);
-        setUseDefaultData(!useDefaultData);
-    };
-
     const handleStepClick = (stepIndex: number) => {
         const currentIdx = STEP_ORDER.indexOf(currentStep);
         if (stepIndex <= currentIdx + 1) {
@@ -141,19 +135,9 @@ export default function CreateResume() {
                 case STEPS.PERSONAL:
                     return (
                         <>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                                <Typography variant="h3" sx={{ color: 'primary.main' }}>
-                                    Personal Information
-                                </Typography>
-                                <Button
-                                    onClick={toggleDefaultData}
-                                    variant="outlined"
-                                    color="primary"
-                                    startIcon={<Icon path={useDefaultData ? ICONS.CLEAR_SAMPLE : ICONS.LOAD_SAMPLE} />}
-                                >
-                                    {useDefaultData ? 'Clear Sample Data' : 'Load Sample Data'}
-                                </Button>
-                            </Box>
+                            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
+                                Personal Information
+                            </Typography>
                             <PersonalInfo {...commonProps} />
                         </>
                     );
