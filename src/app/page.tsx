@@ -61,6 +61,24 @@ export default function Home() {
                 <Typography variant="h4" sx={{ mb: 4, color: 'text.secondary' }}>
                   Transform your resume into a job-winning masterpiece with our AI-powered tools.
                 </Typography>
+                
+                {/* Product Hunt Badge */}
+                <Box sx={{ mb: 3 }}>
+                  <a 
+                    href="https://www.producthunt.com/products/resume-checkers?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-resume&#0045;checkers" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img 
+                      src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=resume-checkers&theme=light" 
+                      alt="Resume&#0032;Checkers - AI&#0045;powered&#0032;resume&#0032;analysis&#0032;and&#0032;builder | Product Hunt" 
+                      style={{ width: '250px', height: '54px' }} 
+                      width="250" 
+                      height="54" 
+                    />
+                  </a>
+                </Box>
+
                 <Button
                   component={Link}
                   href="/resume-analyzer"
