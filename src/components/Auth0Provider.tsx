@@ -8,5 +8,15 @@ interface Auth0ProviderProps {
 }
 
 export default function Auth0Provider({ children }: Auth0ProviderProps) {
-  return <UserProvider>{children}</UserProvider>;
+  return (
+    <UserProvider
+      // Optimize SWR configuration for faster initial load
+      fetcher={async (url: string) => {
+        const response = await fetch(url);
+        return response.ok ? response.json() : undefined;
+      }}
+    >
+      {children}
+    </UserProvider>
+  );
 } 
