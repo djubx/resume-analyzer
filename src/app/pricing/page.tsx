@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import {
   Box,
   Container,
@@ -614,6 +615,9 @@ export default function Pricing() {
           </motion.div>
         </Container>
       </Box>
+
+      {/* Footer */}
+      <Footer />
     </Box>
   );
 } 

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import FAQ from "@/components/FAQ";
 import Services from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
@@ -166,6 +167,9 @@ export default function Home() {
           </Box>
         </Container>
       </Box>
+
+      {/* Footer */}
+      <Footer />
     </Box>
   );
 }
