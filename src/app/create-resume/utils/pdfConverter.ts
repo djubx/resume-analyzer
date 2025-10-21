@@ -81,7 +81,7 @@ export const generatePDF = async (elementId: string, fileName: string, config: P
         `;
 
         // Make the API call to convert HTML to PDF
-        const response = await fetch('http://20.193.143.179:4000/convert-to-pdf', {
+        const response = await fetch('https://api.resumecheckers.com/convert-to-pdf', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ export const generateAllPDFs = async (elementId: string, data: any, templates: a
                     `;
 
                     // Make the API call
-                    const response = await fetch('http://20.193.143.179:4000/convert-to-pdf', {
+                    const response = await fetch('https://api.resumecheckers.com/convert-to-pdf', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
