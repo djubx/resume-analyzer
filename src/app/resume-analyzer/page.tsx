@@ -85,14 +85,66 @@ export default function ResumeAnalyzer() {
     }
   ];
 
+  // JSON-LD Structured Data
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://resumecheckers.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "AI Resume Analyzer",
+        "item": "https://resumecheckers.com/resume-analyzer"
+      }
+    ]
+  };
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AI Resume Analyzer",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://resumecheckers.com/resume-analyzer",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "AI-powered resume analysis",
+      "Instant feedback on resume quality",
+      "Detailed suggestions for improvement",
+      "Overall resume score",
+      "Strength and weakness identification"
+    ],
+    "description": "Free AI-powered resume analyzer that provides instant feedback on your resume quality, identifies issues, and suggests improvements to help you land your dream job."
+  };
+
   return (
-    <Box sx={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
+    <Box sx={{
+      minHeight: '100vh',
+      display: 'flex',
       flexDirection: 'column',
       bgcolor: 'background.default',
       color: 'text.primary'
     }}>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+
       <Navbar />
       
       {/* Hero Section */}

@@ -295,9 +295,10 @@ export default function ResumeChecklist() {
             alignItems: 'center',
             mb: 4 
           }}>
-            <Typography 
-              variant="h1" 
-              sx={{ 
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{
                 color: 'primary.main',
                 fontWeight: 'bold',
                 textShadow: '2px 2px 4px rgba(0,0,0,0.3)',

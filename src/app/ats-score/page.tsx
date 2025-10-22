@@ -45,14 +45,66 @@ export default function ATSScorePage() {
     setError(null);
   };
 
+  // JSON-LD Structured Data
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://resumecheckers.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "ATS Resume Scanner",
+        "item": "https://resumecheckers.com/ats-score"
+      }
+    ]
+  };
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ATS Resume Scanner & Profile Creator",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://resumecheckers.com/ats-score",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "ATS compatibility analysis",
+      "Resume data extraction",
+      "Shareable resume profile creation",
+      "Professional resume parsing",
+      "Contact information extraction"
+    ],
+    "description": "Free ATS resume scanner that analyzes your resume for Applicant Tracking System compatibility and creates a shareable professional profile."
+  };
+
   return (
-    <Box sx={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
+    <Box sx={{
+      minHeight: '100vh',
+      display: 'flex',
       flexDirection: 'column',
       bgcolor: 'background.default',
       color: 'text.primary'
     }}>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+
       <Navbar />
       <Container 
         component="main" 
@@ -73,9 +125,10 @@ export default function ATSScorePage() {
           transition={{ duration: 0.8 }}
           style={{ textAlign: 'center', marginBottom: theme.spacing(6), width: '100%' }}
         >
-          <Typography 
-            variant="h1" 
-            sx={{ 
+          <Typography
+            variant="h1"
+            component="h1"
+            sx={{
               mb: 4,
               color: 'primary.main',
               fontWeight: 'bold',

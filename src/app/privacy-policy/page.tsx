@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
       <Navbar />
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Paper elevation={0} sx={{ p: { xs: 3, md: 6 }, bgcolor: 'white' }}>
-          <Typography variant="h1" sx={{ mb: 4, fontSize: { xs: '2rem', md: '2.5rem' } }}>
+          <Typography variant="h1" component="h1" sx={{ mb: 4, fontSize: { xs: '2rem', md: '2.5rem' } }}>
             Privacy Policy
           </Typography>
 

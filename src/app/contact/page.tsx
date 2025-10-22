@@ -111,9 +111,10 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
           style={{ textAlign: 'center', marginBottom: theme.spacing(6) }}
         >
-          <Typography 
-            variant="h1" 
-            sx={{ 
+          <Typography
+            variant="h1"
+            component="h1"
+            sx={{
               mb: 4,
               fontSize: { xs: '3rem', sm: '4rem' },
               fontWeight: 'bold',

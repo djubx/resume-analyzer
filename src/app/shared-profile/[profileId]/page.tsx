@@ -301,9 +301,10 @@ export default function SharedProfilePage() {
             alignItems: 'center',
             position: 'relative'
           }}>
-            <Typography 
-              variant="h1" 
-              sx={{ 
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{
                 mb: 2,
                 textAlign: 'center',
                 color: 'primary.main',

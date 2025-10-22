@@ -281,8 +281,62 @@ export default function CreateResumeV2() {
     }
   };
 
+  // JSON-LD Structured Data
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://resumecheckers.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Resume Builder",
+        "item": "https://resumecheckers.com/create-resume"
+      }
+    ]
+  };
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Resume Builder - Free Professional Resume Creator",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://resumecheckers.com/create-resume",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "50+ professional resume templates",
+      "Real-time preview",
+      "PDF download",
+      "ATS-friendly templates",
+      "One-click template switching",
+      "AI resume data extraction",
+      "Shareable resume links"
+    ],
+    "description": "Free professional resume builder with 50+ ATS-friendly templates. Create, customize, and download your resume in minutes with real-time preview and instant PDF generation."
+  };
+
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+
       <Navbar />
 
       {/* Main Split Screen Layout */}
@@ -299,7 +353,7 @@ export default function CreateResumeV2() {
         >
           {/* Header */}
           <Box sx={{ mb: 3 }}>
-            <Typography variant="h1" sx={{ mb: 1, fontSize: '2rem' }}>
+            <Typography variant="h1" component="h1" sx={{ mb: 1, fontSize: '2rem' }}>
               Create Your Resume
             </Typography>
             <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
