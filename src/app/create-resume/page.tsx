@@ -316,9 +316,26 @@ export default function CreateResumeV2() {
                   Upload PDF
                 </Button>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   startIcon={<PaletteIcon />}
                   onClick={() => setTemplateDialogOpen(true)}
+                  sx={{
+                    animation: 'pulse 2s ease-in-out infinite',
+                    '@keyframes pulse': {
+                      '0%, 100%': {
+                        boxShadow: '0 0 0 0 rgba(0, 150, 136, 0.7)',
+                        transform: 'scale(1)'
+                      },
+                      '50%': {
+                        boxShadow: '0 0 0 10px rgba(0, 150, 136, 0)',
+                        transform: 'scale(1.05)'
+                      },
+                    },
+                    '&:hover': {
+                      animation: 'none',
+                      transform: 'scale(1.05)',
+                    }
+                  }}
                 >
                   Change Template
                 </Button>
