@@ -32,6 +32,12 @@ export default function RefundPolicy() {
             of Record. Paddle is responsible for handling all refund requests, payment disputes, and billing
             inquiries.
           </Typography>
+          <Typography variant="body1" paragraph>
+            Your purchase is subject to{' '}
+            <a href="https://www.paddle.com/legal/checkout-buyer-terms" target="_blank" rel="noopener noreferrer" style={{ color: '#009688', textDecoration: 'underline' }}>
+              Paddle's Buyer Terms
+            </a>, which include important consumer rights and refund provisions. This Refund Policy complies with and supplements Paddle's terms.
+          </Typography>
 
           {/* Nature of Service */}
           <Typography variant="h2" sx={{ mt: 4, mb: 2, fontSize: '1.5rem' }}>
@@ -132,18 +138,35 @@ export default function RefundPolicy() {
           </Typography>
 
           <Typography variant="h3" sx={{ mt: 3, mb: 1.5, fontSize: '1.2rem' }}>
-            4.3 7-Day Money-Back Guarantee (First Subscription Only)
+            4.3 14-Day Money-Back Guarantee
           </Typography>
           <Typography variant="body1" paragraph>
-            For <strong>first-time subscribers</strong>, we offer a 7-day money-back guarantee:
+            In compliance with Paddle's Buyer Terms, we offer a <strong>14-day money-back guarantee</strong>:
           </Typography>
           <Typography component="div" variant="body1" sx={{ pl: 2 }}>
             <ul>
-              <li>If you cancel within 7 days of your initial subscription purchase, you may request a full refund</li>
-              <li>This applies only if you have not extensively used premium features</li>
-              <li>This guarantee applies once per customer and only to the first subscription purchase</li>
-              <li>Subscription renewals are not eligible for the 7-day guarantee</li>
+              <li>You have the right to cancel your purchase within 14 days without giving any reason</li>
+              <li>The cancellation period expires 14 days after the day of purchase</li>
+              <li>To exercise your right to cancel, you must inform us (or Paddle) of your decision before the 14-day period expires</li>
+              <li>If approved, we will reimburse all payments received from you within 14 days using the same payment method</li>
             </ul>
+          </Typography>
+
+          <Typography variant="h3" sx={{ mt: 3, mb: 1.5, fontSize: '1.2rem' }}>
+            4.4 Exception to 14-Day Right to Cancel
+          </Typography>
+          <Typography variant="body1" paragraph>
+            <strong>Important:</strong> Your right to cancel does <strong>not apply</strong> to digital content that has been delivered and consumed:
+          </Typography>
+          <Typography component="div" variant="body1" sx={{ pl: 2 }}>
+            <ul>
+              <li>If you have downloaded, streamed, or otherwise acquired and used our digital services (resume analysis, ATS scanning, resume building, etc.)</li>
+              <li>By using our services immediately after purchase, you acknowledge that you lose your right of withdrawal once the service has been delivered</li>
+              <li>This exception is in accordance with consumer protection laws for digital content</li>
+            </ul>
+          </Typography>
+          <Typography variant="body1" paragraph>
+            This means if you purchase our services and immediately use them (upload a resume, run an analysis, create a resume, etc.), the 14-day cancellation right no longer applies as the digital content has been delivered and consumed.
           </Typography>
 
           {/* How to Request a Refund */}
@@ -189,9 +212,45 @@ export default function RefundPolicy() {
             </ul>
           </Typography>
 
+          {/* Model Cancellation Form */}
+          <Typography variant="h2" sx={{ mt: 4, mb: 2, fontSize: '1.5rem' }}>
+            6. Model Cancellation Form
+          </Typography>
+          <Typography variant="body1" paragraph>
+            To exercise your right to cancel within the 14-day period, you may use the following model cancellation form (though it is not obligatory):
+          </Typography>
+          <Box sx={{ mt: 3, mb: 4, p: 3, bgcolor: 'grey.50', borderRadius: 1, border: '1px solid #ddd' }}>
+            <Typography variant="body2" sx={{ fontFamily: 'monospace', whiteSpace: 'pre-line' }}>
+              To: Resume Checkers / Paddle Support Team
+              <br /><br />
+              I/We (*) hereby give notice that I/We (*) cancel my/our (*) contract for the following service:
+              <br /><br />
+              Service name: _______________________
+              <br />
+              Ordered on: _______________________
+              <br />
+              Order number: _______________________
+              <br /><br />
+              Name of consumer(s): _______________________
+              <br />
+              Email address: _______________________
+              <br />
+              Address: _______________________
+              <br /><br />
+              Signature (only if this form is sent on paper): _______________________
+              <br />
+              Date: _______________________
+              <br /><br />
+              (*) Delete as appropriate
+            </Typography>
+          </Box>
+          <Typography variant="body1" paragraph>
+            You can send this form via email to support@resumecheckers.com or contact Paddle directly through your order receipt.
+          </Typography>
+
           {/* Refund Processing */}
           <Typography variant="h2" sx={{ mt: 4, mb: 2, fontSize: '1.5rem' }}>
-            6. Refund Processing Timeline
+            7. Refund Processing Timeline
           </Typography>
           <Typography variant="body1" paragraph>
             If your refund request is approved:
@@ -210,7 +269,7 @@ export default function RefundPolicy() {
 
           {/* Partial Refunds */}
           <Typography variant="h2" sx={{ mt: 4, mb: 2, fontSize: '1.5rem' }}>
-            7. Partial Refunds
+            8. Partial Refunds
           </Typography>
           <Typography variant="body1" paragraph>
             In certain circumstances, we may offer partial refunds:
@@ -228,7 +287,7 @@ export default function RefundPolicy() {
 
           {/* Chargebacks */}
           <Typography variant="h2" sx={{ mt: 4, mb: 2, fontSize: '1.5rem' }}>
-            8. Chargebacks and Disputes
+            9. Chargebacks and Disputes
           </Typography>
           <Typography variant="body1" paragraph>
             We strongly encourage you to contact us before initiating a chargeback with your bank or credit card
@@ -248,7 +307,7 @@ export default function RefundPolicy() {
 
           {/* Exceptions */}
           <Typography variant="h2" sx={{ mt: 4, mb: 2, fontSize: '1.5rem' }}>
-            9. Exceptions and Special Circumstances
+            10. Exceptions and Special Circumstances
           </Typography>
           <Typography variant="body1" paragraph>
             We understand that exceptional circumstances may arise. While this policy outlines our standard
@@ -262,7 +321,7 @@ export default function RefundPolicy() {
 
           {/* Contact Information */}
           <Typography variant="h2" sx={{ mt: 4, mb: 2, fontSize: '1.5rem' }}>
-            10. Contact Information
+            11. Contact Information
           </Typography>
           <Typography variant="body1" paragraph>
             For questions about this Refund Policy or to request a refund, please contact:
@@ -275,7 +334,7 @@ export default function RefundPolicy() {
 
           {/* Changes to Policy */}
           <Typography variant="h2" sx={{ mt: 4, mb: 2, fontSize: '1.5rem' }}>
-            11. Changes to This Refund Policy
+            12. Changes to This Refund Policy
           </Typography>
           <Typography variant="body1" paragraph>
             We may update this Refund Policy from time to time. Any changes will be posted on this page with an
@@ -289,10 +348,10 @@ export default function RefundPolicy() {
               Quick Summary
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.primary' }}>
-              ✅ <strong>7-Day Money-Back Guarantee</strong> for first-time subscribers<br />
+              ✅ <strong>14-Day Money-Back Guarantee</strong> in compliance with Paddle's Buyer Terms<br />
               ✅ <strong>Full refunds</strong> for technical failures or duplicate charges<br />
               ✅ <strong>Processed by Paddle</strong> as Merchant of Record<br />
-              ❌ <strong>No refunds</strong> for change of mind or after service is used<br />
+              ❌ <strong>No refunds</strong> after digital content has been used or consumed<br />
               ❌ <strong>No employment guarantees</strong> - we provide tools, not career outcomes<br />
               ⏱️ <strong>2-3 business days</strong> for review, 5-10 days for processing
             </Typography>
