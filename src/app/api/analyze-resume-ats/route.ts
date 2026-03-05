@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+import openai, { createChatCompletion } from "@/utils/openai";
 
 export async function POST(req: NextRequest) {
-  if (!process.env.GEMINI_API_KEY) {
-    console.error("GEMINI_API_KEY is not set");
+  if (!process.env.WORKER_API_KEY) {
+    console.error("WORKER_API_KEY is not set");
     return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
@@ -16,11 +14,6 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const model = genAI.getGenerativeModel({
-      model: process.env.GEMINI_MODEL || "",
-      generationConfig: { responseMimeType: "application/json" }
-    });
-
     const prompt = `Analyze the following resume content and extract information for each section in JSON format. Include the following sections:
 
     {
@@ -74,16 +67,21 @@ export async function POST(req: NextRequest) {
 
     ${resumeText}`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const response = await createChatCompletion([
+      {
+        role: "user",
+        content: prompt
+      }
+    ], true);
+
+    const text = response.choices[0]?.message?.content || "";
     
     let analysisResult;
     try {
       console.log("ATS Analysis result:", text);
       analysisResult = JSON.parse(text);
     } catch (parseError) {
-      console.error("Error parsing Gemini API response:", parseError);
+      console.error("Error parsing OpenAI API response:", parseError);
       return NextResponse.json({ error: "Invalid response from AI model", aiResponse: text }, { status: 500 });
     }
 

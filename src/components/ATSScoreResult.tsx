@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaChevronDown, FaChevronRight, FaUser, FaBriefcase, FaGraduationCap, FaCogs, FaCertificate, FaProjectDiagram, FaHandsHelping, FaUsers, FaGlobe } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import ShareableProfileLink from './ShareableProfileLink';
 import {
   Box,
   Typography,
@@ -13,10 +14,13 @@ import {
   useTheme,
   alpha,
   PaletteColor,
+  Divider,
 } from '@mui/material';
 
 interface ATSScoreResultProps {
   parsedData: any;
+  documentId?: string;
+  hideContactInfo?: boolean;
 }
 
 type SectionColor = 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info';
@@ -45,6 +49,19 @@ const sectionColors: { [key: string]: SectionColor } = {
   additionalSections: 'warning',
 };
 
+// Define the order of sections to display
+const sectionOrder = [
+  'contactInformation',
+  'workExperience',
+  'education',
+  'skills',
+  'certifications',
+  'projects',
+  'volunteerExperience',
+  'professionalAssociations',
+  'additionalSections'
+];
+
 const RenderSection = ({ title, content }: { title: string; content: any }) => {
   const [isOpen, setIsOpen] = useState(true);
   const theme = useTheme();
@@ -54,19 +71,42 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
   const renderContent = (data: any, depth: number = 0) => {
     if (Array.isArray(data)) {
       return (
-        <List sx={{ pl: depth > 0 ? 2 : 0, mt: depth > 0 ? 1 : 0 }}>
+        <Box 
+          component="ul" 
+          sx={{ 
+            pl: depth > 0 ? 4 : 2, 
+            mt: depth > 0 ? 1 : 0,
+            width: '100%',
+            listStyleType: 'none',
+            '& > li': {
+              display: 'block',
+              position: 'relative',
+              pl: 2,
+              mb: 1.5,
+              '&:before': {
+                content: '"•"',
+                position: 'absolute',
+                left: -5,
+                top: 0,
+                color: 'primary.main',
+                fontWeight: 'bold',
+                fontSize: '1.2rem',
+              }
+            }
+          }}
+        >
           {data.map((item, index) => (
-            <ListItem key={index} sx={{ color: 'text.secondary', display: 'list-item' }}>
-              <ListItemText primary={renderContent(item, depth + 1)} />
-            </ListItem>
+            <Box component="li" key={index} sx={{ color: 'text.secondary' }}>
+              {renderContent(item, depth + 1)}
+            </Box>
           ))}
-        </List>
+        </Box>
       );
     } else if (typeof data === 'object' && data !== null) {
       return (
-        <Box sx={{ pl: depth > 0 ? 2 : 0, mt: depth > 0 ? 1 : 0 }}>
+        <Box sx={{ pl: depth > 0 ? 2 : 0, mt: depth > 0 ? 1 : 0, width: '100%' }}>
           {Object.entries(data).map(([key, value]) => (
-            <Box key={key} sx={{ mb: 1 }}>
+            <Box key={key} sx={{ mb: 1, width: '100%' }}>
               <Typography component="span" sx={{ fontWeight: 'medium', color: 'primary.main', mr: 1 }}>
                 {key}:
               </Typography>
@@ -91,6 +131,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
+      style={{ width: '100%' }}
     >
       <Paper
         sx={{
@@ -100,6 +141,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
           borderRadius: 1,
           border: 1,
           borderColor: 'divider',
+          width: '100%'
         }}
       >
         <Box
@@ -113,6 +155,7 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
             },
             borderRadius: 1,
             p: 1,
+            width: '100%'
           }}
         >
           <Box sx={{ color: `${color}.main`, mr: 1 }}>
@@ -130,8 +173,8 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
             </IconButton>
           </motion.div>
         </Box>
-        <Collapse in={isOpen}>
-          <Box sx={{ mt: 2 }}>
+        <Collapse in={isOpen} sx={{ width: '100%' }}>
+          <Box sx={{ mt: 2, width: '100%' }}>
             {renderContent(content)}
           </Box>
         </Collapse>
@@ -140,21 +183,42 @@ const RenderSection = ({ title, content }: { title: string; content: any }) => {
   );
 };
 
-export default function ATSScoreResult({ parsedData }: ATSScoreResultProps) {
+export default function ATSScoreResult({ parsedData, documentId, hideContactInfo = false }: ATSScoreResultProps) {
   return (
-    <Box sx={{ bgcolor: 'background.default', p: 3, borderRadius: 2 }}>
+    <Box sx={{ bgcolor: 'background.default', p: 3, borderRadius: 2, width: '100%' }}>
       <Typography variant="h1" sx={{ mb: 4, textAlign: 'center', color: 'primary.main', fontWeight: 'bold' }}>
-        ATS Parsed Resume Data
+        Resume Analysis Results
       </Typography>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ staggerChildren: 0.1 }}
+        style={{ width: '100%' }}
       >
-        {Object.entries(parsedData).map(([key, value]) => (
-          <RenderSection key={key} title={key} content={value} />
-        ))}
+        {sectionOrder
+          .filter(key => 
+            // Only include sections that exist in the parsed data
+            parsedData.hasOwnProperty(key) && 
+            // Apply the hide contact info filter if needed
+            (!hideContactInfo || key !== 'contactInformation')
+          )
+          .map(key => (
+            <RenderSection key={key} title={key} content={parsedData[key]} />
+          ))}
       </motion.div>
+
+      {documentId && (
+        <>
+          <Divider sx={{ my: 4 }} />
+          <ShareableProfileLink 
+            atsScoreId={documentId} 
+            contactInfo={{
+              fullName: parsedData.contactInformation?.fullName || null,
+              email: parsedData.contactInformation?.email || null
+            }}
+          />
+        </>
+      )}
     </Box>
   );
 }

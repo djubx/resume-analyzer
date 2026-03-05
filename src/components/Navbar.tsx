@@ -1,80 +1,176 @@
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { FaBars, FaTimes, FaHome, FaFileAlt, FaChartBar, FaClipboardList, FaInfoCircle, FaEnvelope, FaFileSignature } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { motion } from "framer-motion";
 import {
   AppBar,
   Toolbar,
-  Typography,
   Button,
   IconButton,
   Box,
   Drawer,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   useTheme,
   Container,
+  Menu,
+  MenuItem,
 } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AuthButtons from './AuthButtons';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [servicesAnchorEl, setServicesAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
 
+  const handleServicesClick = (event: React.MouseEvent<HTMLElement>) => {
+    setServicesAnchorEl(event.currentTarget);
+  };
+
+  const handleServicesClose = () => {
+    setServicesAnchorEl(null);
+  };
+
   const navItems = [
-    { href: "/", label: "Home", icon: <FaHome /> },
-    { href: "/create-resume", label: "Create Resume", icon: <FaFileSignature /> },
-    { href: "/resume-analyzer", label: "Analyze", icon: <FaFileAlt /> },
-    { href: "/ats-score", label: "ATS Score", icon: <FaChartBar /> },
-    { href: "/resume-checklist", label: "Checklist", icon: <FaClipboardList /> },
-    { href: "/about", label: "About", icon: <FaInfoCircle /> },
-    { href: "/contact", label: "Contact", icon: <FaEnvelope /> },
+    { href: "/", label: "Home" },
+    { 
+      label: "Services",
+      children: [
+        { href: "/resume-analyzer", label: "Resume Analyzer" },
+        { href: "/ats-score", label: "ATS Score" },
+        { href: "/resume-checklist", label: "Resume Checklist" },
+        { href: "/create-resume", label: "Create Resume" },
+      ]
+    },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/about", label: "About us" },
   ];
 
   return (
-    <AppBar position="static" sx={{ bgcolor: 'background.paper' }}>
+    <AppBar 
+      position="static" 
+      elevation={3} 
+      sx={{ 
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      }}
+    >
       <Container maxWidth="lg">
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography
-            variant="h6"
-            component={Link}
-            href="/"
-            sx={{
-              color: 'primary.main',
-              textDecoration: 'none',
-              fontWeight: 'bold',
-              fontSize: '1.5rem',
-            }}
-          >
-            Resume Checkers
-          </Typography>
+        <Toolbar sx={{ justifyContent: 'space-between', py: 1.5, minHeight: '64px' }}>
+          {/* Logo */}
+          <Box component={Link} href="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <Image
+              src="/logo.png"
+              alt="Resume Checkers Logo"
+              width={180}
+              height={40}
+              priority
+              style={{ height: 'auto' }}
+            />
+          </Box>
 
           {/* Desktop Navigation */}
-          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 2 }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4, alignItems: 'center' }}>
             {navItems.map((item) => (
-              <Button
-                key={item.href}
-                component={Link}
-                href={item.href}
-                startIcon={item.icon}
-                sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
-                  },
-                }}
-              >
-                {item.label}
-              </Button>
+              <Box key={item.label}>
+                {item.children ? (
+                  <>
+                    <Button
+                      onClick={handleServicesClick}
+                      endIcon={<KeyboardArrowDownIcon />}
+                      sx={{
+                        color: 'text.primary',
+                        textTransform: 'none',
+                        fontSize: '1rem',
+                        fontWeight: 400,
+                        px: 0.5,
+                        '&:hover': {
+                          color: 'primary.main',
+                          background: 'none',
+                        },
+                      }}
+                    >
+                      {item.label}
+                    </Button>
+                    <Menu
+                      anchorEl={servicesAnchorEl}
+                      open={Boolean(servicesAnchorEl)}
+                      onClose={handleServicesClose}
+                      elevation={1}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                      sx={{
+                        '& .MuiPaper-root': {
+                          mt: 1,
+                          minWidth: 180,
+                          boxShadow: theme.shadows[1],
+                        }
+                      }}
+                    >
+                      {item.children.map((child) => (
+                        <MenuItem
+                          key={child.href}
+                          component={Link}
+                          href={child.href}
+                          onClick={handleServicesClose}
+                          sx={{
+                            color: 'text.primary',
+                            fontSize: '0.95rem',
+                            py: 1,
+                            '&:hover': {
+                              color: 'primary.main',
+                              backgroundColor: 'action.hover',
+                            },
+                          }}
+                        >
+                          {child.label}
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </>
+                ) : (
+                  <Button
+                    component={Link}
+                    href={item.href}
+                    sx={{
+                      color: 'text.primary',
+                      textTransform: 'none',
+                      fontSize: '1rem',
+                      fontWeight: 400,
+                      px: 0.5,
+                      '&:hover': {
+                        color: 'primary.main',
+                        background: 'none',
+                      },
+                    }}
+                  >
+                    {item.label}
+                  </Button>
+                )}
+              </Box>
             ))}
+            
+            {/* Auth Buttons */}
+            <Box sx={{ display: 'flex', gap: 2, ml: 2 }}>
+              <AuthButtons />
+            </Box>
           </Box>
 
           {/* Mobile Menu Icon */}
           <IconButton
-            sx={{ display: { sm: 'none' }, color: 'text.secondary' }}
+            sx={{ display: { md: 'none' }, color: 'text.primary' }}
             onClick={() => setIsOpen(true)}
             edge="end"
           >
@@ -89,9 +185,9 @@ export default function Navbar() {
         open={isOpen}
         onClose={() => setIsOpen(false)}
         sx={{
-          display: { sm: 'none' },
+          display: { md: 'none' },
           '& .MuiDrawer-paper': {
-            width: 240,
+            width: 280,
             bgcolor: 'background.paper',
           },
         }}
@@ -99,31 +195,73 @@ export default function Navbar() {
         <Box sx={{ p: 2 }}>
           <IconButton
             onClick={() => setIsOpen(false)}
-            sx={{ mb: 2, color: 'text.secondary' }}
+            sx={{ mb: 2, color: 'text.primary' }}
           >
             <FaTimes />
           </IconButton>
           <List>
             {navItems.map((item) => (
-              <ListItem
-                key={item.href}
-                component={Link}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    color: 'primary.main',
-                    bgcolor: 'action.hover',
-                  },
-                }}
-              >
-                <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItem>
+              <Box key={item.label}>
+                {item.children ? (
+                  <>
+                    <ListItem sx={{ color: 'text.primary', fontWeight: 500 }}>
+                      <ListItemText 
+                        primary={item.label}
+                        primaryTypographyProps={{
+                          fontSize: '1rem',
+                          fontWeight: 500
+                        }}
+                      />
+                    </ListItem>
+                    {item.children.map((child) => (
+                      <ListItem
+                        key={child.href}
+                        component={Link}
+                        href={child.href}
+                        onClick={() => setIsOpen(false)}
+                        sx={{
+                          pl: 4,
+                          color: 'text.secondary',
+                          '&:hover': {
+                            color: 'primary.main',
+                          },
+                        }}
+                      >
+                        <ListItemText 
+                          primary={child.label}
+                          primaryTypographyProps={{
+                            fontSize: '0.95rem'
+                          }}
+                        />
+                      </ListItem>
+                    ))}
+                  </>
+                ) : (
+                  <ListItem
+                    component={Link}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    sx={{
+                      color: 'text.primary',
+                      '&:hover': {
+                        color: 'primary.main',
+                      },
+                    }}
+                  >
+                    <ListItemText 
+                      primary={item.label}
+                      primaryTypographyProps={{
+                        fontSize: '1rem',
+                        fontWeight: 500
+                      }}
+                    />
+                  </ListItem>
+                )}
+              </Box>
             ))}
+            <Box sx={{ mt: 3, px: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <AuthButtons />
+            </Box>
           </List>
         </Box>
       </Drawer>

@@ -28,6 +28,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# test files
+test_resumes/
+
 # vercel
 .vercel
 
@@ -36,3 +39,4 @@ yarn-error.log*
 next-env.d.ts
 
 package-lock.json
+.cursorignore

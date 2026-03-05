@@ -41,7 +41,7 @@ export default function WorkExperience({ data, onArrayUpdate, onArrayItemAdd, on
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 600 }}>
+        <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 600 }}>
           Work Experience
         </Typography>
         <Button
@@ -117,7 +117,7 @@ export default function WorkExperience({ data, onArrayUpdate, onArrayItemAdd, on
             </Grid>
 
             <Box sx={{ mt: 3 }}>
-              <Typography variant="subtitle1" sx={{ mb: 2, color: 'text.primary' }}>
+              <Typography variant="body1" sx={{ mb: 2, color: 'text.primary' }}>
                 Responsibilities
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

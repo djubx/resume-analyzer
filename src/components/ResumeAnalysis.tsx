@@ -37,7 +37,7 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
 
   return (
     <Box sx={{ width: '100%', color: 'text.primary' }}>
-      <Typography variant="h1" sx={{ mb: 3, color: 'primary.main', fontWeight: 'bold' }}>
+      <Typography variant="h1" sx={{ mb: 3, color: 'primary.main', fontWeight: 'bold', textAlign: 'center' }}>
         Analysis Results
       </Typography>
       
@@ -45,8 +45,9 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        style={{ width: '100%' }}
       >
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 4, width: '100%' }}>
           <Typography variant="h2" sx={{ 
             mb: 2, 
             color: 'success.main',
@@ -57,13 +58,14 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
             <FaStar /> Strengths
           </Typography>
           {result.strengths && result.strengths.length > 0 ? (
-            <List>
+            <List sx={{ width: '100%' }}>
               {result.strengths.map((strength, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
+                  style={{ width: '100%' }}
                 >
                   <ListItem>
                     <ListItemText 
@@ -86,8 +88,9 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
+        style={{ width: '100%' }}
       >
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 4, width: '100%' }}>
           <Typography variant="h2" sx={{ 
             mb: 2, 
             color: 'warning.main',
@@ -98,15 +101,16 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
             <FaExclamationTriangle /> Areas for Improvement
           </Typography>
           {result.issues && result.issues.length > 0 ? (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}>
               {result.issues.map((issue, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
+                  style={{ width: '100%' }}
                 >
-                  <Paper sx={{ p: 2, bgcolor: 'background.paper' }}>
+                  <Paper sx={{ p: 2, bgcolor: 'background.paper', width: '100%' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
                       <FaExclamationTriangle style={{ color: theme.palette.warning.main }} />
                       <Typography variant="h4" sx={{ color: 'primary.main' }}>
@@ -138,8 +142,9 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
+        style={{ width: '100%' }}
       >
-        <Paper sx={{ p: 3, mb: 4, bgcolor: 'background.paper' }}>
+        <Paper sx={{ p: 3, mb: 4, bgcolor: 'background.paper', width: '100%' }}>
           <Typography variant="h2" sx={{ mb: 1, color: 'primary.main' }}>
             Overall Score
           </Typography>
@@ -164,12 +169,13 @@ export default function ResumeAnalysis({ result }: ResumeAnalysisProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
+        style={{ width: '100%' }}
       >
-        <Paper sx={{ p: 3, bgcolor: 'background.paper' }}>
+        <Paper sx={{ p: 3, bgcolor: 'background.paper', width: '100%' }}>
           <Typography variant="h2" sx={{ mb: 2, color: 'success.main' }}>
             Next Steps
           </Typography>
-          <List>
+          <List sx={{ width: '100%' }}>
             {[
               'Review the areas for improvement and suggestions above.',
               'Use the Resume Checklist to track your progress.',

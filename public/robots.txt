@@ -1,4 +1,32 @@
+# Resume Checkers - Robots.txt
+# https://resumecheckers.com
+
 User-agent: *
 Allow: /
 
+# Disallow private and administrative areas
+Disallow: /api/
+Disallow: /studio/
+Disallow: /profile/
+Disallow: /_next/
+Disallow: /admin/
+
+# Disallow dynamic/shareable profile pages from search indexing
+# (These are user-specific and should be accessed via direct links only)
+Disallow: /shared-profile/
+
+# Allow public pages
+Allow: /
+Allow: /resume-analyzer
+Allow: /ats-score
+Allow: /create-resume
+Allow: /resume-checklist
+Allow: /pricing
+Allow: /about
+Allow: /contact
+Allow: /terms
+Allow: /privacy-policy
+Allow: /refund-policy
+
+# Sitemap location
 Sitemap: https://resumecheckers.com/sitemap.xml

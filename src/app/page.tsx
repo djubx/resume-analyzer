@@ -1,285 +1,240 @@
 "use client";
 
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { FaFileAlt, FaChartLine, FaClipboardCheck, FaExclamationTriangle, FaCheckCircle, FaQuoteLeft, FaGraduationCap, FaBriefcase, FaUserTie } from "react-icons/fa";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import FAQ from "@/components/FAQ";
+import Services from "@/components/Services";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import CareerStages from "@/components/CareerStages";
+import Testimonials from "@/components/Testimonials";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 import {
+  Box,
   Container,
   Typography,
   Button,
   Grid,
-  Box,
   Paper,
+  useTheme,
   Card,
   CardContent,
-  CardActions,
-  Avatar,
-  useTheme,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
+import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { FaFileAlt, FaChartLine, FaCheckCircle, FaListAlt } from 'react-icons/fa';
+import React from 'react';
 
 export default function Home() {
   const theme = useTheme();
 
+  // JSON-LD Structured Data
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Resume Checkers",
+    "url": "https://resumecheckers.com",
+    "logo": "https://resumecheckers.com/logo.png",
+    "description": "AI-powered resume checker and ATS scanner helping job seekers optimize their resumes for success.",
+    "sameAs": [
+      "https://twitter.com/resumecheckers",
+      "https://www.linkedin.com/company/resumecheckers"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Support",
+      "url": "https://resumecheckers.com/contact"
+    }
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Resume Checkers",
+    "url": "https://resumecheckers.com",
+    "description": "Free AI Resume Checker & ATS Scanner - Analyze your resume instantly",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://resumecheckers.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Resume Checkers - AI Resume Analyzer",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "1247"
+    },
+    "description": "AI-powered resume checker and ATS scanner. Analyze your resume, check ATS compatibility, and build professional resumes with 50+ templates."
+  };
+
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default', color: 'text.primary' }}>
+    <Box sx={{ bgcolor: 'background.default' }}>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+
       <SpeedInsights />
       <Analytics />
       <Navbar />
-      
-      <Container component="main" sx={{ flexGrow: 1, py: 8 }}>
-        {/* Enhanced Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Box sx={{ textAlign: 'center', mb: 10 }}>
-            <Typography variant="h0" sx={{ mb: 4, color: 'primary.main', fontWeight: 'bold' }}>
-              Transform Your Resume into a Job-Winning Asset with AI
-            </Typography>
-            <Typography variant="h4" sx={{ mb: 4, color: 'text.secondary' }}>
-              Don't let your dream job slip away. Our AI-powered tools help you craft a resume that stands out and gets you hired faster.
-            </Typography>
-            <Button
-              component={Link}
-              href="/resume-analyzer"
-              variant="contained"
-              color="secondary"
-              size="large"
-              sx={{ py: 2, px: 4, fontSize: '1.2rem' }}
-            >
-              Get Instant Feedback Now
-            </Button>
-          </Box>
-        </motion.div>
-
-        {/* Our solutions */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-        >
-          <Box sx={{ textAlign: 'center', mb: 10 }}>
-            <Typography variant="h2" sx={{ mb: 6, color: 'primary.main', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FaCheckCircle style={{ marginRight: '0.5rem', color: theme.palette.success.main }} />
-              Powerful Tools for Resume Success
-            </Typography>
-            <Grid container spacing={4}>
-              {[
-                { 
-                  icon: <FaFileAlt />, 
-                  title: "AI Resume Checker", 
-                  description: "Get personalized insights to make your resume stand out",
-                  link: "/resume-analyzer"
-                },
-                { 
-                  icon: <FaChartLine />, 
-                  title: "ATS Score", 
-                  description: "Optimize your resume to pass 95% of ATS filters",
-                  link: "/ats-score"
-                },
-                { 
-                  icon: <FaClipboardCheck />, 
-                  title: "Resume Checklist", 
-                  description: "Ensure your resume covers all essential elements",
-                  link: "/resume-checklist"
-                },
-              ].map((feature, index) => (
-                <Grid item xs={12} md={4} key={index}>
-                  <Card
-                    component={motion.div}
-                    whileHover={{ scale: 1.05 }}
-                    sx={{ 
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      bgcolor: 'background.paper',
-                      '&:hover': { boxShadow: theme.shadows[10] }
-                    }}
+      {/* Hero Section */}
+      <Box
+        sx={{
+          background: 'linear-gradient(135deg, #f0f7ff 0%, #e6f3ff 100%)',
+          pt: { xs: 8, md: 12 },
+          pb: { xs: 8, md: 12 },
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <Container maxWidth="lg">
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <Typography variant="h1" component="h1" sx={{ mb: 3, color: 'primary.main' }}>
+                  Craft Your Resume
+                </Typography>
+                <Typography variant="h4" sx={{ mb: 4, color: 'text.secondary' }}>
+                  Transform your resume into a job-winning masterpiece with our AI-powered tools.
+                </Typography>
+                
+                {/* Product Hunt Badge */}
+                <Box sx={{ mb: 3 }}>
+                  <a 
+                    href="https://www.producthunt.com/products/resume-checkers?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-resume&#0045;checkers" 
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
-                      <Box sx={{ color: 'primary.main', fontSize: '3rem', mb: 2 }}>{feature.icon}</Box>
-                      <Typography variant="h3" component="h3" sx={{ mb: 2, color: 'primary.main' }}>
-                        {feature.title}
-                      </Typography>
-                      <Typography variant="body1" color="text.secondary">
-                        {feature.description}
-                      </Typography>
-                    </CardContent>
-                    <CardActions sx={{ justifyContent: 'center', pb: 3 }}>
-                      <Button
-                        component={Link}
-                        href={feature.link}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Get Started
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </motion.div>
-
-        {/* Testimonials */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 1 }}
-        >
-          <Box sx={{ mb: 10 }}>
-            <Typography variant="h3" sx={{ mb: 6, textAlign: 'center', color: 'primary.main' }}>
-              Success Stories
-            </Typography>
-            <Grid container spacing={4}>
-              {[
-                { name: "John D.", position: "Marketing Director at Tech Giant", text: "Landed my dream job at a Fortune 500 company!", image: "/john.png" },
-                { name: "Sarah M.", position: "Senior Software Engineer", text: "50% increase in interview callbacks!", image: "/sarah.png" },
-                { name: "Alex K.", position: "Data Analyst at Startup", text: "Secured my first job right out of college!", image: "/alex.png" },
-              ].map((testimonial, index) => (
-                <Grid item xs={12} md={6} key={index}>
-                  <Paper
-                    sx={{
-                      p: 3,
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      bgcolor: 'background.paper',
-                      '&:hover': { borderColor: 'primary.main' },
-                      border: 1,
-                      borderColor: 'divider'
-                    }}
-                  >
-                    <Avatar
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      sx={{ width: 64, height: 64, mr: 2 }}
+                    <img 
+                      src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=resume-checkers&theme=light" 
+                      alt="Resume&#0032;Checkers - AI&#0045;powered&#0032;resume&#0032;analysis&#0032;and&#0032;builder | Product Hunt" 
+                      style={{ width: '250px', height: '54px' }} 
+                      width="250" 
+                      height="54" 
                     />
-                    <Box>
-                      <FaQuoteLeft style={{ color: theme.palette.primary.main, marginBottom: '1rem', fontSize: '1.5rem' }} />
-                      <Typography variant="body1" sx={{ mb: 2, color: 'text.secondary' }}>
-                        {testimonial.text}
-                      </Typography>
-                      <Typography variant="subtitle1" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                        - {testimonial.name}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {testimonial.position}
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </motion.div>
+                  </a>
+                </Box>
 
-        {/* Career Stage Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
-        >
-          <Box sx={{ mb: 10 }}>
-            <Typography variant="h3" sx={{ mb: 4, textAlign: 'center', color: 'primary.main' }}>
-              Tailored for Every Career Stage
-            </Typography>
-            <Grid container spacing={3}>
-              {[
-                { icon: <FaGraduationCap />, title: "New Graduates", description: "Stand out in entry-level job applications" },
-                { icon: <FaBriefcase />, title: "Mid-Career Professionals", description: "Highlight your growing expertise and achievements" },
-                { icon: <FaUserTie />, title: "Executives", description: "Showcase your leadership and industry impact" },
-              ].map((item, index) => (
-                <Grid item xs={12} md={4} key={index}>
-                  <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'background.paper' }}>
-                    <Box sx={{ color: 'primary.main', fontSize: '2.5rem', mb: 2 }}>{item.icon}</Box>
-                    <Typography variant="h4" sx={{ mb: 1, color: 'primary.main' }}>{item.title}</Typography>
-                    <Typography variant="body2" color="text.secondary">{item.description}</Typography>
-                  </Paper>
-                </Grid>
-              ))}
+                <Button
+                  component={Link}
+                  href="/resume-analyzer"
+                  variant="contained"
+                  size="large"
+                  sx={{
+                    py: 1.5,
+                    px: 4,
+                    fontSize: '1.1rem',
+                  }}
+                >
+                  Get Started
+                </Button>
+              </motion.div>
             </Grid>
-          </Box>
-        </motion.div>
-
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3, duration: 0.8 }}
-        >
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography variant="h3" sx={{ mb: 3, color: 'primary.main' }}>
-              Ready to Supercharge Your Job Search?
-            </Typography>
-            <Typography variant="h4" sx={{ mb: 2, color: 'text.secondary' }}>
-              Join over 10,000 professionals who've landed their dream jobs with our AI tools.
-            </Typography>
-            <Typography variant="h3" sx={{ mb: 4, color: 'secondary.main', fontWeight: 'bold' }}>
-              15,000+ resumes improved and counting!
-            </Typography>
-            <Button
-              component={Link}
-              href="/resume-analyzer"
-              variant="contained"
-              color="secondary"
-              size="large"
-              sx={{ py: 2, px: 4 }}
-            >
-              Get Insights Now
-            </Button>
-          </Box>
-        </motion.div>
-      </Container>
-
-      {/* Footer */}
-      <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
-        <Container>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h4" sx={{ mb: 2, color: 'primary.main' }}>Quick Links</Typography>
-              <List>
-                <ListItem component={Link} href="/blog" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-                  Resume Tips Blog
-                </ListItem>
-                <ListItem component={Link} href="/resources" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-                  Free Resources
-                </ListItem>
-                <ListItem component={Link} href="/about" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-                  About Us
-                </ListItem>
-              </List>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h4" sx={{ mb: 2, color: 'primary.main' }}>Legal</Typography>
-              <List>
-                <ListItem component={Link} href="/privacy" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-                  Privacy Policy
-                </ListItem>
-                <ListItem component={Link} href="/terms" sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}>
-                  Terms of Service
-                </ListItem>
-              </List>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h4" sx={{ mb: 2, color: 'primary.main' }}>Connect With Us</Typography>
-              <Typography variant="body2" color="text.secondary">
-                Stay updated on the latest resume trends and job search tips.
-              </Typography>
+            <Grid item xs={12} md={6}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <Box sx={{ position: 'relative' }}>
+                  <Image
+                    src="/dashboard-preview.png"
+                    alt="Resume Analysis Dashboard"
+                    width={600}
+                    height={400}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      borderRadius: '12px',
+                      boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                    }}
+                  />
+                </Box>
+              </motion.div>
             </Grid>
           </Grid>
         </Container>
       </Box>
+
+      {/* Services Section */}
+      <Services />
+
+      {/* Why Choose Us Section */}
+      <WhyChooseUs />
+
+      {/* Career Stages Section */}
+      <CareerStages />
+
+      {/* Testimonials Section */}
+      <Testimonials />
+
+      {/* FAQ Section */}
+      <FAQ />
+
+      {/* CTA Section */}
+      <Box sx={{ bgcolor: 'primary.main', color: 'white', py: 8 }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="h2" sx={{ mb: 3, color: 'white' }}>
+              Ready to supercharge your job search?
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4, color: 'white' }}>
+              Join over 10,000 professionals who've landed their dream jobs with our AI tools.
+            </Typography>
+            <Button
+              component={Link}
+              href="/resume-analyzer"
+              variant="contained"
+              size="large"
+              sx={{
+                bgcolor: 'white',
+                color: 'primary.main',
+                '&:hover': {
+                  bgcolor: 'grey.100',
+                },
+                py: 1.5,
+                px: 4,
+                fontSize: '1.1rem',
+              }}
+            >
+              Get Started Now
+            </Button>
+          </Box>
+        </Container>
+      </Box>
+
+      {/* Footer */}
+      <Footer />
     </Box>
   );
 }

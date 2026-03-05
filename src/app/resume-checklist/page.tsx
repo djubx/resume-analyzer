@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Cookies from 'js-cookie';
 import { FaCheckCircle, FaClipboardCheck, FaUserGraduate, FaTrophy, FaSearch, FaBullseye, FaSync } from "react-icons/fa";
+import { track } from '@/lib/analytics';
 import {
   Box,
   Typography,
@@ -103,6 +104,15 @@ export default function ResumeChecklist() {
   const theme = useTheme();
 
   useEffect(() => {
+    // Track page view
+    track('Checklist Page Viewed', {
+      hasPersonalizedFeedback: personalizedFeedback.length > 0,
+      personalizedItemsCount: personalizedFeedback.length,
+      generalItemsCount: generalChecklist.length
+    });
+  }, []);
+
+  useEffect(() => {
     const savedGeneralChecklist = Cookies.get('resumeChecklist');
     if (savedGeneralChecklist) {
       const parsedChecklist: StoredChecklistItem[] = JSON.parse(savedGeneralChecklist);
@@ -129,8 +139,19 @@ export default function ResumeChecklist() {
   const handleCheckboxChange = (index: number, isPersonalized: boolean) => {
     if (isPersonalized) {
       const newPersonalizedFeedback = [...personalizedFeedback];
-      newPersonalizedFeedback[index].checked = !newPersonalizedFeedback[index].checked;
+      const wasChecked = newPersonalizedFeedback[index].checked;
+      newPersonalizedFeedback[index].checked = !wasChecked;
       setPersonalizedFeedback(newPersonalizedFeedback);
+
+      // Track checkbox interaction
+      track('Checklist Item Toggled', {
+        isPersonalized: true,
+        itemText: newPersonalizedFeedback[index].text,
+        checked: !wasChecked,
+        itemIndex: index,
+        totalItems: personalizedFeedback.length,
+        completedItems: newPersonalizedFeedback.filter(item => item.checked).length
+      });
       
       // Store only serializable data
       const storedFeedback: StoredChecklistItem[] = newPersonalizedFeedback.map((item, idx) => ({
@@ -141,8 +162,19 @@ export default function ResumeChecklist() {
       Cookies.set('personalizedFeedback', JSON.stringify(storedFeedback), { expires: 30 });
     } else {
       const newGeneralChecklist = [...generalChecklist];
-      newGeneralChecklist[index].checked = !newGeneralChecklist[index].checked;
+      const wasChecked = newGeneralChecklist[index].checked;
+      newGeneralChecklist[index].checked = !wasChecked;
       setGeneralChecklist(newGeneralChecklist);
+
+      // Track checkbox interaction
+      track('Checklist Item Toggled', {
+        isPersonalized: false,
+        itemText: newGeneralChecklist[index].text,
+        checked: !wasChecked,
+        itemIndex: index,
+        totalItems: generalChecklist.length,
+        completedItems: newGeneralChecklist.filter(item => item.checked).length
+      });
       
       // Store only serializable data
       const storedChecklist: StoredChecklistItem[] = newGeneralChecklist.map((item, idx) => ({
@@ -263,9 +295,10 @@ export default function ResumeChecklist() {
             alignItems: 'center',
             mb: 4 
           }}>
-            <Typography 
-              variant="h1" 
-              sx={{ 
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{
                 color: 'primary.main',
                 fontWeight: 'bold',
                 textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
@@ -338,6 +371,13 @@ export default function ResumeChecklist() {
                 variant="contained"
                 color="primary"
                 startIcon={<FaSync />}
+                onClick={() => {
+                  track('Reanalyze Resume Button Clicked', {
+                    fromPage: 'resume-checklist',
+                    personalizedItemsRemaining: personalizedFeedback.filter(item => !item.checked).length,
+                    generalItemsRemaining: generalChecklist.filter(item => !item.checked).length
+                  });
+                }}
                 sx={{
                   borderRadius: '50px',
                   px: 6,

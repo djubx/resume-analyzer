@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ResumeData } from "@/app/create-resume/types";
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+import openai, { createChatCompletion } from "@/utils/openai";
 
 // Helper function to clean markdown JSON response
 function cleanJsonResponse(text: string): string {
@@ -36,8 +34,8 @@ interface VolunteerExperience {
 }
 
 export async function POST(req: NextRequest) {
-  if (!process.env.GEMINI_API_KEY) {
-    console.error("GEMINI_API_KEY is not set");
+  if (!process.env.WORKER_API_KEY) {
+    console.error("WORKER_API_KEY is not set");
     return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
   }
 
@@ -48,11 +46,6 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const model = genAI.getGenerativeModel({
-      model: "gemini-pro",
-      generationConfig: { temperature: 0.2 }
-    });
-
     const prompt = `Analyze this resume text and extract information in the exact format shown below. The response should be a valid JSON object matching this structure precisely:
 
 {
@@ -113,9 +106,14 @@ Rules:
 Resume text to analyze:
 ${pdfText}`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const response = await createChatCompletion([
+      {
+        role: "user",
+        content: prompt
+      }
+    ], true);
+
+    const text = response.choices[0]?.message?.content || "";
     
     try {
       // Clean the response text before parsing

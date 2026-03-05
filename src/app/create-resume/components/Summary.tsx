@@ -11,7 +11,7 @@ import {
 export default function Summary({ data, onUpdate }: StepProps) {
   return (
     <Box>
-      <Typography variant="h5" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
+      <Typography variant="h4" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
         Professional Summary
       </Typography>
       <Paper elevation={2} sx={{ p: 3 }}>

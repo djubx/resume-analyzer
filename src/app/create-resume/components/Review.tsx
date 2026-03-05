@@ -38,14 +38,7 @@ interface ReviewProps {
 
 export default function Review({ data, selectedTemplate, templates, onTemplateSelect }: ReviewProps) {
   const [isGenerating, setIsGenerating] = useState(false);
-  const [isGeneratingAll, setIsGeneratingAll] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [generationProgress, setGenerationProgress] = useState<Array<{
-    templateId: string;
-    templateName: string;
-    status: 'pending' | 'success' | 'error';
-    error?: string;
-  }>>([]);
   const [showPdfSettings, setShowPdfSettings] = useState(false);
   const [pdfConfig, setPdfConfig] = useState<PDFConfig>({
     format: 'A4',
@@ -83,74 +76,6 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
     }
   };
 
-  const handleGenerateAllPDFs = async () => {
-    setError(null);
-    setIsGeneratingAll(true);
-    setGenerationProgress(templates.map(t => ({
-      templateId: t.id,
-      templateName: t.name,
-      status: 'pending'
-    })));
-
-    try {
-      const results = await generateAllPDFs('resume-template', data, templates, pdfConfig);
-      
-      setGenerationProgress(prev => 
-        prev.map(item => {
-          const result = results.find(r => {
-            if (r.status === 'fulfilled') {
-              const value = r.value as any;
-              return value.templateId === item.templateId;
-            }
-            return false;
-          });
-          
-          if (result?.status === 'fulfilled') {
-            const value = result.value as any;
-            return {
-              ...item,
-              status: value.success ? 'success' : 'error',
-              error: value.error
-            };
-          } else if (result?.status === 'rejected') {
-            return {
-              ...item,
-              status: 'error',
-              error: result.reason?.message || 'Unknown error'
-            };
-          }
-          return {
-            ...item,
-            status: 'error',
-            error: 'Template processing failed'
-          };
-        })
-      );
-
-      const failedCount = results.filter(r => 
-        r.status === 'rejected' || 
-        (r.status === 'fulfilled' && !(r.value as any).success)
-      ).length;
-
-      if (failedCount > 0) {
-        setError(`Failed to generate ${failedCount} template${failedCount > 1 ? 's' : ''}`);
-      }
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to generate PDFs');
-      console.error('Failed to generate PDFs:', error);
-      
-      setGenerationProgress(prev => 
-        prev.map(item => 
-          item.status === 'pending' 
-            ? { ...item, status: 'error', error: 'Generation process failed' }
-            : item
-        )
-      );
-    } finally {
-      setIsGeneratingAll(false);
-    }
-  };
-
   const PDFSettingsPanel = () => (
     <Drawer
       anchor="right"
@@ -166,7 +91,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
     >
       <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h6" sx={{ color: 'text.primary' }}>
+          <Typography variant="h4" sx={{ color: 'text.primary' }}>
             PDF Settings
           </Typography>
           <IconButton onClick={() => setShowPdfSettings(false)} size="small">
@@ -176,7 +101,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
 
         <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 3 }}>
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.primary' }}>
+            <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>
               Page Format
             </Typography>
             <Select
@@ -192,7 +117,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
           </Box>
 
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.primary' }}>
+            <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>
               Scale (0.1 - 2.0)
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -213,7 +138,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
 
           <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>
                 Margins
               </Typography>
               <Button
@@ -254,7 +179,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
           </Box>
 
           <Box>
-            <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.primary' }}>
+            <Typography variant="h4" sx={{ mb: 1, color: 'text.primary' }}>
               Options
             </Typography>
             <FormGroup>
@@ -312,7 +237,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
       {/* Template Preview */}
       <Box sx={{ mb: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 600 }}>
+          <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 600 }}>
             Template Preview
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
@@ -337,7 +262,9 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
 
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>
-            {error}
+            <Typography variant="body2" sx={{ color: 'error.main' }}>
+              {error}
+            </Typography>
           </Alert>
         )}
 
@@ -357,57 +284,6 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
             )}
           </Box>
         </Paper>
-      </Box>
-
-      {/* Generate All Templates */}
-      <Box sx={{ mt: 4 }}>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={handleGenerateAllPDFs}
-          disabled={isGeneratingAll}
-          startIcon={isGeneratingAll && <CircularProgress size={20} color="inherit" />}
-          fullWidth
-        >
-          {isGeneratingAll ? 'Generating All Templates...' : 'Generate All Templates'}
-        </Button>
-
-        {generationProgress.length > 0 && (
-          <Box sx={{ mt: 3 }}>
-            {generationProgress.map((item) => (
-              <Box
-                key={item.templateId}
-                sx={{
-                  p: 2,
-                  mb: 2,
-                  borderRadius: 1,
-                  bgcolor: alpha(
-                    item.status === 'success'
-                      ? theme.palette.success.main
-                      : item.status === 'error'
-                      ? theme.palette.error.main
-                      : theme.palette.warning.main,
-                    0.1
-                  ),
-                }}
-              >
-                <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                  {item.templateName}
-                </Typography>
-                {item.status === 'pending' && (
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Generating...
-                  </Typography>
-                )}
-                {item.status === 'error' && item.error && (
-                  <Typography variant="body2" sx={{ color: 'error.main' }}>
-                    Error: {item.error}
-                  </Typography>
-                )}
-              </Box>
-            ))}
-          </Box>
-        )}
       </Box>
 
       <PDFSettingsPanel />

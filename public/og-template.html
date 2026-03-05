@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Checkers - OG Image</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 630px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #003366 0%, #009688 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 80px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .left {
+            flex: 1;
+            z-index: 2;
+        }
+        
+        .title {
+            font-size: 72px;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 20px 0;
+            line-height: 1.1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 36px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.95);
+            margin: 0 0 40px 0;
+        }
+        
+        .features {
+            font-size: 24px;
+            color: white;
+            line-height: 1.8;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .check {
+            margin-right: 12px;
+            font-size: 28px;
+            color: #00ff88;
+        }
+        
+        .url {
+            position: absolute;
+            bottom: 40px;
+            left: 80px;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+        
+        .icon {
+            position: absolute;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 280px;
+            color: rgba(255, 255, 255, 0.15);
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <h1 class="title">Resume<br>Checkers</h1>
+            <p class="subtitle">AI-Powered Resume Analysis</p>
+            <div class="features">
+                <div class="feature">
+                    <span class="check">✓</span>
+                    <span>Instant AI Feedback</span>
+                </div>
+                <div class="feature">
+                    <span class="check">✓</span>
+                    <span>ATS Optimization</span>
+                </div>
+                <div class="feature">
+                    <span class="check">✓</span>
+                    <span>Professional Templates</span>
+                </div>
+            </div>
+        </div>
+        <div class="icon">📄</div>
+        <div class="url">resumecheckers.com</div>
+    </div>
+
+    <script>
+        // Automatically set document size for easy screenshotting
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.width = '1200px';
+            document.body.style.height = '630px';
+            console.log('OG Image template ready! Press F12 > Device Toolbar > Set to 1200x630 > Take screenshot');
+        });
+    </script>
+</body>
+</html>

@@ -4,6 +4,7 @@ import { client } from "@/sanity/lib/client";
 import extractTextFromPDF from "pdf-parser-client-side";
 import { motion, AnimatePresence } from "framer-motion";
 import md5 from "md5";
+import { trackResumeUpload, trackAnalysisComplete, trackAnalysisError } from "@/lib/amplitude";
 import {
   Box,
   Typography,
@@ -15,7 +16,7 @@ import {
 } from '@mui/material';
 
 interface ATSScoreUploaderProps {
-  onParsedData: (data: any) => void;
+  onParsedData: (data: any, documentId?: string) => void;
   onError: (error: string) => void;
   onNewUpload: () => void;
 }
@@ -120,17 +121,25 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
   const handleFileProcessing = async (file: File, forceReanalyze: boolean = false) => {
     setIsUploading(true);
     setStatus("Calculating file hash...");
+    const startTime = Date.now();
+    
     try {
+      // Track resume upload
+      trackResumeUpload('ATS Score', file.size, file.type);
+      
       const fileHash = await calculateFileHash(file);
       
       if (!forceReanalyze) {
         const existingAnalysis = await checkExistingAnalysis(fileHash);
         if (existingAnalysis) {
+          const duration = Date.now() - startTime;
           setStatus("Using existing ATS analysis...");
           setShowAnimation(true);
           setTimeout(() => {
             setShowAnimation(false);
-            onParsedData(existingAnalysis.analysisResult);
+            onParsedData(existingAnalysis.analysisResult, existingAnalysis._id);
+            // Track cached analysis
+            trackAnalysisComplete('ATS Score', 0, duration, true);
           }, 1000);
           return;
         }
@@ -139,21 +148,47 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
       setStatus("Extracting text from PDF...");
       const pdfText = await extractTextFromPDF(file, "clean");
 
+      // Check if PDF is likely scanned/image-based
+      const textLength = (pdfText ?? "").trim().length;
+      const lowerText = (pdfText ?? "").toLowerCase();
+      const isScanned = textLength < 100 || 
+                       lowerText.includes('camscanner') ||
+                       lowerText.includes('adobe scan') ||
+                       lowerText.includes('scanner');
+
+      if (isScanned) {
+        throw new Error(
+          "⚠️ This appears to be a scanned document. " +
+          "For best results, please export your resume as a text-based PDF from Word, Google Docs, or similar. " +
+          "Alternatively, try our Resume Analyzer tool which may work better with scanned documents. " +
+          "We're working on adding OCR support!"
+        );
+      }
+
       setStatus("Analyzing resume...");
       const analysisResult = await analyzeResume(pdfText ?? "");
 
       setStatus("Uploading resume...");
-      await uploadToSanity(file, pdfText ?? "", analysisResult, fileHash);
+      const doc = await uploadToSanity(file, pdfText ?? "", analysisResult, fileHash);
+      
+      const duration = Date.now() - startTime;
       console.log("ATS Analysis result:", analysisResult, fileHash);
 
       setShowAnimation(true);
       setTimeout(() => {
         setShowAnimation(false);
-        onParsedData(analysisResult);
+        onParsedData(analysisResult, doc._id);
+        // Track successful analysis
+        trackAnalysisComplete('ATS Score', 0, duration, false);
       }, 1000);
     } catch (error) {
       console.error('Error processing file:', error);
-      onError(error instanceof Error ? error.message : "Error processing resume. Please try again.");
+      const errorMessage = error instanceof Error ? error.message : "Error processing resume. Please try again.";
+      
+      // Track error
+      trackAnalysisError('ATS Score', 'Processing Error', errorMessage);
+      
+      onError(errorMessage);
     } finally {
       setIsUploading(false);
     }
@@ -181,13 +216,13 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
   };
 
   return (
-    <Box sx={{ mb: 4, position: 'relative' }}>
+    <Box sx={{ mb: 4, position: 'relative', width: '100%' }}>
       <Box
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}
       >
-        <label htmlFor="resume-file">
+        <label htmlFor="resume-file" style={{ width: '100%' }}>
           <Paper
             elevation={0}
             sx={{
@@ -207,12 +242,12 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
               transition: 'background-color 0.3s',
             }}
           >
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3 }}>
-              <FaUpload style={{ fontSize: '2.5rem', marginBottom: '0.75rem', color: theme.palette.primary.main }} />
-              <Typography variant="body1" sx={{ mb: 1, color: 'primary.main' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3, width: '100%' }}>
+              <FaUpload style={{ fontSize: '2.5rem', marginBottom: '1rem', color: theme.palette.primary.main }} />
+              <Typography variant="body1" sx={{ mb: 1, color: 'primary.main', fontSize: '1.2rem' }}>
                 <Box component="span" sx={{ fontWeight: 600 }}>Click to upload</Box> or drag and drop
               </Typography>
-              <Typography variant="caption" sx={{ color: 'primary.main' }}>
+              <Typography variant="caption" sx={{ color: 'primary.main', fontSize: '0.9rem' }}>
                 PDF (MAX. 5MB)
               </Typography>
             </Box>
@@ -228,12 +263,12 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
       </Box>
 
       {file && (
-        <Typography variant="body2" sx={{ mt: 1, color: 'primary.main' }}>
+        <Typography variant="body2" sx={{ mt: 1, color: 'primary.main', textAlign: 'center', width: '100%' }}>
           {file.name} ({formatFileSize(file.size)})
         </Typography>
       )}
 
-      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {status && (
             <Typography
@@ -269,6 +304,22 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
         )}
       </Box>
 
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={() => document.getElementById('resume-file')?.click()}
+        sx={{
+          mt: 2,
+          py: 1.5,
+          borderRadius: '8px',
+          fontSize: '1.1rem'
+        }}
+        disabled={isUploading}
+      >
+        {isUploading ? 'Processing...' : 'Upload Resume'}
+      </Button>
+
       <AnimatePresence>
         {showAnimation && (
           <motion.div
@@ -302,11 +353,11 @@ export default function ATSScoreUploader({ onParsedData, onError, onNewUpload }:
               transition={{ delay: 0.5 }}
             >
               <Typography
-                variant="h6"
+                variant="h4"
                 sx={{
                   mt: 2,
                   fontWeight: 'bold',
-                  color: 'success.main'
+                  color: 'text.primary',
                 }}
               >
                 ATS Analysis Complete!

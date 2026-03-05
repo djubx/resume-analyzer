@@ -15,15 +15,15 @@ import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 export default function Skills({ data, onArrayUpdate, onArrayItemAdd, onArrayItemRemove }: StepProps) {
   return (
     <Box>
-      <Typography variant="h5" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
+      <Typography variant="h4" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
         Skills & Certifications
       </Typography>
       
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         <Paper elevation={2} sx={{ p: 3 }}>
           <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" sx={{ mb: 2, color: 'text.primary' }}>
-              Skills
+            <Typography variant="h4" sx={{ mb: 2, color: 'text.primary' }}>
+              Technical Skills
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {data.skills.map((skill, index) => (
@@ -64,8 +64,8 @@ export default function Skills({ data, onArrayUpdate, onArrayItemAdd, onArrayIte
 
         <Paper elevation={2} sx={{ p: 3 }}>
           <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" sx={{ mb: 2, color: 'text.primary' }}>
-              Certifications
+            <Typography variant="h4" sx={{ mb: 2, color: 'text.primary' }}>
+              Soft Skills
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {data.certifications.map((cert, index) => (

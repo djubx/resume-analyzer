@@ -1,4 +1,30 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    h0: React.CSSProperties;
+    body0: React.CSSProperties;
+    accent: React.CSSProperties;
+  }
+
+  interface TypographyVariantsOptions {
+    h0?: React.CSSProperties;
+    body0?: React.CSSProperties;
+    accent?: React.CSSProperties;
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    h0: true;
+    body0: true;
+    accent: true;
+    h5: false;
+    h6: false;
+    subtitle1: false;
+    subtitle2: false;
+  }
+}
 
 const theme = createTheme({
   palette: {
@@ -115,7 +141,7 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(90deg, #003366, #336699, #66CCFF)',
+          backgroundColor: '#FFFFFF',
         },
       },
     },
@@ -131,4 +157,4 @@ const theme = createTheme({
   },
 });
 
-export default theme; 
+export default responsiveFontSizes(theme); 
