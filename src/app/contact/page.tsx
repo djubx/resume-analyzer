@@ -15,7 +15,7 @@ import {
   Paper,
   useTheme
 } from "@mui/material";
-import { track } from '@/lib/analytics';
+import { track } from '@/lib/amplitude';
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,

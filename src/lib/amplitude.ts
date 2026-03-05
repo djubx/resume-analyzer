@@ -1,24 +1,15 @@
 'use client';
-import * as amplitude from '@amplitude/analytics-browser';
+import * as amplitude from '@amplitude/unified';
+
+let isInitialized = false;
 
 function initAmplitude() {
-  if (typeof window !== 'undefined') {
-    const apiKey = process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY;
-
-    if (!apiKey) {
-      console.warn('Amplitude API key not found. Analytics will not be tracked.');
-      return;
-    }
-
-    amplitude.init(apiKey, {
-      autocapture: true,
-      defaultTracking: {
-        sessions: true,
-        pageViews: true,
-        formInteractions: true,
-        fileDownloads: true,
-      }
+  if (typeof window !== 'undefined' && !isInitialized) {
+    amplitude.initAll('ce035ba578cad02863ca59fc01a21ce', {
+      analytics: { autocapture: true },
+      sessionReplay: { sampleRate: 1 },
     });
+    isInitialized = true;
   }
 }
 
@@ -33,6 +24,9 @@ export const trackEvent = (eventName: string, eventProperties?: Record<string, a
     amplitude.track(eventName, eventProperties);
   }
 };
+
+// Alias for modules that import `track` directly
+export const track = trackEvent;
 
 export const trackPageView = (pageName: string, pageProperties?: Record<string, any>) => {
   if (typeof window !== 'undefined') {
