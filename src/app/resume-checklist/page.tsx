@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Cookies from 'js-cookie';
 import { FaCheckCircle, FaClipboardCheck, FaUserGraduate, FaTrophy, FaSearch, FaBullseye, FaSync } from "react-icons/fa";
-import { track } from '@/lib/analytics';
+import { track } from '@/lib/amplitude';
 import {
   Box,
   Typography,
