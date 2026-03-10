@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import openai, { createChatCompletion } from "@/utils/openai";
+import openai, { createChatCompletion, extractJsonFromResponse } from "@/utils/openai";
 
 export async function POST(req: NextRequest) {
   if (!process.env.WORKER_API_KEY) {
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     let analysisResult;
     try {
       console.log("ATS Analysis result:", text);
-      analysisResult = JSON.parse(text);
+      analysisResult = JSON.parse(extractJsonFromResponse(text));
     } catch (parseError) {
       console.error("Error parsing OpenAI API response:", parseError);
       return NextResponse.json({ error: "Invalid response from AI model", aiResponse: text }, { status: 500 });
