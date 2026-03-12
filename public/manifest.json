@@ -1,0 +1,16 @@
+{
+  "name": "Resume Checkers",
+  "short_name": "ResumeCheckers",
+  "description": "Free AI Resume Checker & ATS Scanner - Analyze your resume instantly",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#009688",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}

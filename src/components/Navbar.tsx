@@ -170,6 +170,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Icon */}
           <IconButton
+            aria-label="Open navigation menu"
             sx={{ display: { md: 'none' }, color: 'text.primary' }}
             onClick={() => setIsOpen(true)}
             edge="end"
@@ -194,6 +195,7 @@ export default function Navbar() {
       >
         <Box sx={{ p: 2 }}>
           <IconButton
+            aria-label="Close navigation menu"
             onClick={() => setIsOpen(false)}
             sx={{ mb: 2, color: 'text.primary' }}
           >

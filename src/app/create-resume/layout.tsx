@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Free Resume Builder | 50+ Professional Resume Templates',
-  description: 'Create a professional resume in minutes with our free resume builder. Choose from 50+ ATS-friendly templates, AI-powered suggestions, and instant PDF download. Build your perfect resume today.',
+  title: { absolute: 'Free Resume Builder | 50+ Professional Resume Templates' },
+  description: 'Create a professional resume in minutes. Choose from 50+ ATS-friendly templates with AI-powered suggestions and instant PDF download.',
   keywords: [
     'free resume builder',
     'resume templates',

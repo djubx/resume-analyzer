@@ -349,7 +349,7 @@ export default function About() {
                         fontSize: '1.125rem'
                       }}
                     >
-                      Coming Q1 2025
+                      Coming Q3 2026
                     </Typography>
                     <Typography 
                       component="p" 
@@ -436,7 +436,7 @@ export default function About() {
                         fontSize: '1.125rem'
                       }}
                     >
-                      Coming Q2 2025
+                      Coming Q4 2026
                     </Typography>
                     <Typography 
                       component="p" 
@@ -523,7 +523,7 @@ export default function About() {
                         fontSize: '1.125rem'
                       }}
                     >
-                      Coming Q3 2025
+                      Coming Q1 2027
                     </Typography>
                     <Typography 
                       component="p" 

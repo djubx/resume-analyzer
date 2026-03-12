@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Free ATS Resume Checker & Scanner | Check ATS Compatibility',
-  description: 'Check if your resume is ATS-friendly with our free ATS resume scanner. Get instant ATS compatibility score, keyword analysis, and formatting recommendations to beat applicant tracking systems.',
+  title: { absolute: 'Free ATS Resume Checker & Scanner | Check ATS Compatibility' },
+  description: 'Check if your resume is ATS-friendly. Get instant ATS score, keyword analysis, and formatting recommendations to beat applicant tracking systems.',
   keywords: [
     'ATS resume checker',
     'ATS scanner',

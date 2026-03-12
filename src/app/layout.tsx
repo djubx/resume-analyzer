@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: 'Resume Checkers | Free AI Resume Checker & ATS Scanner',
     template: '%s | Resume Checkers'
   },
-  description: 'Free AI Resume Checker & ATS Scanner - Analyze your resume instantly with our AI-powered tool. Get your resume score, ATS compatibility check, and expert feedback in 60 seconds. 100% free resume analysis.',
+  description: 'Free AI Resume Checker & ATS Scanner. Get your resume score, ATS compatibility check, and expert feedback in 60 seconds. 100% free resume analysis.',
   keywords: [
     'AI resume checker',
     'resume ATS checker',
@@ -65,9 +65,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://resumecheckers.com',
   },
-  verification: {
-    google: 'your-google-verification-code', // Add your Google Search Console verification code
-  },
+  manifest: '/manifest.json',
+};
+
+export const viewport = {
+  themeColor: '#009688',
 };
 
 export default function RootLayout({
@@ -78,8 +80,33 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <a
+          href="#main-content"
+          style={{
+            position: 'absolute',
+            left: '-9999px',
+            top: 'auto',
+            width: '1px',
+            height: '1px',
+            overflow: 'hidden',
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.left = '0';
+            e.currentTarget.style.width = 'auto';
+            e.currentTarget.style.height = 'auto';
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.left = '-9999px';
+            e.currentTarget.style.width = '1px';
+            e.currentTarget.style.height = '1px';
+          }}
+        >
+          Skip to main content
+        </a>
         <Providers>
-          {children}
+          <div id="main-content">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

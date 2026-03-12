@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Resume Checklist | Essential Resume Elements & Quality Check',
-  description: 'Free interactive resume checklist. Ensure your resume includes all essential elements, proper formatting, keywords, and best practices to pass ATS systems and impress recruiters.',
+  title: { absolute: 'Resume Checklist | Essential Resume Elements & Quality Check' },
+  description: 'Free interactive resume checklist. Ensure your resume covers all essential elements, best practices, and keywords to pass ATS systems and impress recruiters.',
   keywords: [
     'resume checklist',
     'resume quality check',
@@ -13,9 +13,17 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Resume Checklist | Essential Resume Elements & Quality Check',
-    description: 'Free interactive resume checklist. Ensure your resume includes all essential elements and best practices.',
+    description: 'Free interactive resume checklist. Ensure your resume covers all essential elements, best practices, and keywords.',
     url: 'https://resumecheckers.com/resume-checklist',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Resume Checklist - Essential Resume Elements',
+      },
+    ],
   },
   alternates: {
     canonical: 'https://resumecheckers.com/resume-checklist',

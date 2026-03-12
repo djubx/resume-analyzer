@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Free AI Resume Checker & Analyzer | Instant Resume Score',
-  description: 'Get instant AI-powered resume analysis and feedback. Upload your resume and receive a detailed score, ATS compatibility check, and expert recommendations to improve your job search success. 100% free.',
+  title: { absolute: 'Free AI Resume Checker & Analyzer | Instant Resume Score' },
+  description: 'Get instant AI-powered resume analysis. Upload your resume for a detailed score, ATS check, and expert recommendations to improve your job search. 100% free.',
   keywords: [
     'AI resume checker',
     'resume analyzer',
