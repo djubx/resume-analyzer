@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from '@/components/Providers';
+import SkipNav from '@/components/SkipNav';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -80,29 +81,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <a
-          href="#main-content"
-          style={{
-            position: 'absolute',
-            left: '-9999px',
-            top: 'auto',
-            width: '1px',
-            height: '1px',
-            overflow: 'hidden',
-          }}
-          onFocus={(e) => {
-            e.currentTarget.style.left = '0';
-            e.currentTarget.style.width = 'auto';
-            e.currentTarget.style.height = 'auto';
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.left = '-9999px';
-            e.currentTarget.style.width = '1px';
-            e.currentTarget.style.height = '1px';
-          }}
-        >
-          Skip to main content
-        </a>
+        <SkipNav />
         <Providers>
           <div id="main-content">
             {children}

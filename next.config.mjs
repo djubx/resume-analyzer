@@ -26,6 +26,12 @@ const nextConfig = {
     experimental: {
         serverComponentsExternalPackages: ['pdf-parse'],
     },
+    webpack: (config) => {
+        // pdfjs-dist optionally requires 'canvas' for Node environments.
+        // We don't use server-side PDF rendering, so stub it out.
+        config.resolve.alias.canvas = false;
+        return config;
+    },
     async headers() {
         return [
             {

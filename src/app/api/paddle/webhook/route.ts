@@ -2,6 +2,7 @@
  * Paddle Webhook Handler
  * ======================
  * Receives event notifications from Paddle and processes subscription/payment changes.
+ * Persists subscription state to Sanity so the app can gate features accordingly.
  *
  * WHAT YOU NEED TO DO IN THE PADDLE DASHBOARD
  * --------------------------------------------
@@ -15,30 +16,40 @@
  *      - transaction.payment_failed
  * 4. Copy the "Secret key" (starts with pdl_ntfset_...) into
  *    PADDLE_WEBHOOK_SECRET_KEY in your .env.local file.
- *
- * NOTE: Paddle sends webhooks with a signature header. This handler verifies
- * the signature before processing any event to prevent spoofing.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 import { getPaddleClient } from "@/lib/paddle";
 import { EventName } from "@paddle/paddle-node-sdk";
+import { createClient } from "next-sanity";
+
+const sanity = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
+  apiVersion: "2023-05-03",
+  useCdn: false,
+  token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
+});
+
+/** Map a Paddle price ID to a human-readable plan name */
+function resolvePlan(priceId: string): string {
+  const map: Record<string, string> = {
+    [process.env.NEXT_PUBLIC_PADDLE_PRO_MONTHLY_PRICE_ID ?? ""]: "pro_monthly",
+    [process.env.NEXT_PUBLIC_PADDLE_PRO_ANNUAL_PRICE_ID ?? ""]: "pro_annual",
+    [process.env.NEXT_PUBLIC_PADDLE_ENTERPRISE_MONTHLY_PRICE_ID ?? ""]: "enterprise_monthly",
+    [process.env.NEXT_PUBLIC_PADDLE_ENTERPRISE_ANNUAL_PRICE_ID ?? ""]: "enterprise_annual",
+  };
+  return map[priceId] ?? "unknown";
+}
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const webhookSecret = process.env.PADDLE_WEBHOOK_SECRET_KEY;
 
   if (!webhookSecret) {
-    console.error(
-      "PADDLE_WEBHOOK_SECRET_KEY is not set — " +
-        "see src/app/api/paddle/webhook/route.ts for setup instructions."
-    );
-    return NextResponse.json(
-      { error: "Webhook secret not configured" },
-      { status: 500 }
-    );
+    console.error("PADDLE_WEBHOOK_SECRET_KEY is not set.");
+    return NextResponse.json({ error: "Webhook secret not configured" }, { status: 500 });
   }
 
-  // Read the raw body (needed for signature verification)
   const rawBody = await req.text();
   const signature = req.headers.get("paddle-signature") ?? "";
 
@@ -53,62 +64,80 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   try {
     switch (event.eventType) {
-      case EventName.SubscriptionCreated:
-        /**
-         * TODO: A new subscription was created.
-         * - Save the subscription ID and customer ID in Sanity (or your DB).
-         * - Grant the user the features of their chosen plan.
-         * event.data contains: id, customerId, status, items (priceId, quantity), etc.
-         */
-        console.log("Subscription created:", event.data.id);
-        break;
+      case EventName.SubscriptionCreated: {
+        const sub = event.data;
+        const priceId = sub.items?.[0]?.price?.id ?? "";
+        const email = sub.customData && typeof sub.customData === 'object' && 'email' in sub.customData
+          ? String(sub.customData.email)
+          : undefined;
 
-      case EventName.SubscriptionUpdated:
-        /**
-         * TODO: Subscription was changed (plan upgrade/downgrade, renewal, pause, etc.)
-         * - Update the stored subscription record.
-         * - Adjust feature access accordingly.
-         */
-        console.log("Subscription updated:", event.data.id);
-        break;
+        await sanity.createOrReplace({
+          _type: "subscription",
+          _id: `subscription-${sub.id}`,
+          paddleSubscriptionId: sub.id,
+          paddleCustomerId: sub.customerId,
+          customerEmail: email,
+          priceId,
+          plan: resolvePlan(priceId),
+          status: sub.status,
+          currentPeriodEnd: sub.currentBillingPeriod?.endsAt
+            ? new Date(sub.currentBillingPeriod.endsAt).toISOString()
+            : null,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        });
 
-      case EventName.SubscriptionCanceled:
-        /**
-         * TODO: Subscription was cancelled.
-         * - Mark the subscription as cancelled in your DB.
-         * - Revoke premium feature access (optionally after the current period ends).
-         */
-        console.log("Subscription cancelled:", event.data.id);
+        console.log("Subscription created and saved:", sub.id);
         break;
+      }
+
+      case EventName.SubscriptionUpdated: {
+        const sub = event.data;
+        const priceId = sub.items?.[0]?.price?.id ?? "";
+
+        await sanity
+          .patch(`subscription-${sub.id}`)
+          .set({
+            status: sub.status,
+            priceId,
+            plan: resolvePlan(priceId),
+            currentPeriodEnd: sub.currentBillingPeriod?.endsAt
+              ? new Date(sub.currentBillingPeriod.endsAt).toISOString()
+              : null,
+            updatedAt: new Date().toISOString(),
+          })
+          .commit();
+
+        console.log("Subscription updated:", sub.id, "→", sub.status);
+        break;
+      }
+
+      case EventName.SubscriptionCanceled: {
+        const sub = event.data;
+
+        await sanity
+          .patch(`subscription-${sub.id}`)
+          .set({ status: "canceled", updatedAt: new Date().toISOString() })
+          .commit();
+
+        console.log("Subscription canceled:", sub.id);
+        break;
+      }
 
       case EventName.TransactionCompleted:
-        /**
-         * TODO: A payment was successfully completed.
-         * - This fires for every successful charge (initial and renewals).
-         * - Optionally store invoice data or trigger a "payment successful" email.
-         */
         console.log("Transaction completed:", event.data.id);
         break;
 
       case EventName.TransactionPaymentFailed:
-        /**
-         * TODO: A payment attempt failed.
-         * - Notify the user so they can update their payment method.
-         * - Paddle will automatically retry; you may want to flag the account.
-         */
         console.log("Transaction payment failed:", event.data.id);
         break;
 
       default:
-        // Unhandled event type — safe to ignore
         console.log("Unhandled Paddle event type:", event.eventType);
     }
   } catch (err) {
     console.error("Error processing Paddle webhook event:", err);
-    return NextResponse.json(
-      { error: "Internal error processing event" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal error processing event" }, { status: 500 });
   }
 
   return NextResponse.json({ received: true });
