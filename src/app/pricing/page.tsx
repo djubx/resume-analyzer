@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { PaddleProvider, usePaddle } from '@/components/PaddleProvider';
 import {
   Box,
   Container,
@@ -24,6 +25,39 @@ import {
 } from '@mui/material';
 import { CheckCircle, Star } from '@mui/icons-material';
 
+/**
+ * Paddle Price IDs
+ * ----------------
+ * These are read from environment variables so they can differ across
+ * environments without a code change.
+ *
+ * WHAT YOU NEED TO DO IN THE PADDLE DASHBOARD
+ * (app.paddle.com → Catalog → Products)
+ * -------------------------------------------
+ * 1. Create a "Pro" product with two prices:
+ *      - Monthly:  $12 / month  → copy the Price ID (pri_...) to
+ *                                  NEXT_PUBLIC_PADDLE_PRO_MONTHLY_PRICE_ID
+ *      - Annual:   $96 / year   → copy the Price ID (pri_...) to
+ *                                  NEXT_PUBLIC_PADDLE_PRO_ANNUAL_PRICE_ID
+ *
+ * 2. Create an "Enterprise" product with two prices:
+ *      - Monthly:  $29 / month  → NEXT_PUBLIC_PADDLE_ENTERPRISE_MONTHLY_PRICE_ID
+ *      - Annual:   $288 / year  → NEXT_PUBLIC_PADDLE_ENTERPRISE_ANNUAL_PRICE_ID
+ *
+ * Add all four variables to your .env.local file.
+ * They are prefixed with NEXT_PUBLIC_ because they are used on the client side.
+ */
+const PRICE_IDS = {
+  pro: {
+    monthly: process.env.NEXT_PUBLIC_PADDLE_PRO_MONTHLY_PRICE_ID ?? "",
+    annually: process.env.NEXT_PUBLIC_PADDLE_PRO_ANNUAL_PRICE_ID ?? "",
+  },
+  enterprise: {
+    monthly: process.env.NEXT_PUBLIC_PADDLE_ENTERPRISE_MONTHLY_PRICE_ID ?? "",
+    annually: process.env.NEXT_PUBLIC_PADDLE_ENTERPRISE_ANNUAL_PRICE_ID ?? "",
+  },
+} as const;
+
 interface PricingTier {
   title: string;
   price: {
@@ -33,14 +67,22 @@ interface PricingTier {
   description: string;
   features: string[];
   buttonText: string;
+  /** href used when Paddle is not configured or for the Free tier */
   buttonLink: string;
+  /** Paddle Price IDs for overlay checkout (Pro/Enterprise only) */
+  priceId?: {
+    monthly: string;
+    annually: string;
+  };
   highlighted?: boolean;
   chip?: string;
 }
 
-export default function Pricing() {
+/** Inner component — must live inside <PaddleProvider> to use usePaddle() */
+function PricingContent() {
   const [annualBilling, setAnnualBilling] = useState(true);
   const theme = useTheme();
+  const paddle = usePaddle();
 
   const pricingTiers: PricingTier[] = [
     {
@@ -74,8 +116,9 @@ export default function Pricing() {
         "Priority Support",
         "Job-specific Recommendations",
       ],
-      buttonText: "Try For Free",
+      buttonText: "Subscribe Now",
       buttonLink: "/resume-analyzer",
+      priceId: PRICE_IDS.pro,
       highlighted: true,
       chip: "Most Popular",
     },
@@ -94,10 +137,40 @@ export default function Pricing() {
         "Dedicated Support",
         "Advanced Analytics",
       ],
-      buttonText: "Contact Us",
+      buttonText: "Subscribe Now",
       buttonLink: "/contact",
+      priceId: PRICE_IDS.enterprise,
     },
   ];
+
+  /**
+   * Opens the Paddle overlay checkout for the given price ID.
+   * Falls back to the tier's buttonLink if Paddle is not yet initialised
+   * or price IDs are not configured.
+   */
+  function handleCheckout(tier: PricingTier) {
+    const priceId = annualBilling
+      ? tier.priceId?.annually
+      : tier.priceId?.monthly;
+
+    if (paddle && priceId) {
+      paddle.Checkout.open({
+        items: [{ priceId, quantity: 1 }],
+      });
+      return;
+    }
+
+    // Fallback: navigate to the static link
+    window.location.href = tier.buttonLink;
+  }
+
+  /** Returns the correct MUI Button props for a given tier */
+  function getTierButtonProps(tier: PricingTier) {
+    if (tier.priceId) {
+      return { component: 'button' as const, onClick: () => handleCheckout(tier) };
+    }
+    return { component: Link, href: tier.buttonLink };
+  }
 
   return (
     <Box sx={{ 
@@ -108,6 +181,7 @@ export default function Pricing() {
       color: 'text.primary'
     }}>
       <Navbar />
+
       
       {/* Hero Section */}
       <Box 
@@ -361,8 +435,7 @@ export default function Pricing() {
                   </List>
                   
                   <Button
-                    component={Link}
-                    href={tier.buttonLink}
+                    {...getTierButtonProps(tier)}
                     variant={tier.highlighted ? "contained" : "outlined"}
                     color="primary"
                     size="large"
@@ -619,5 +692,14 @@ export default function Pricing() {
       {/* Footer */}
       <Footer />
     </Box>
+  );
+}
+
+/** Default export wraps the page with the Paddle.js provider */
+export default function Pricing() {
+  return (
+    <PaddleProvider>
+      <PricingContent />
+    </PaddleProvider>
   );
 } 
