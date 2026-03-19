@@ -156,12 +156,17 @@ function PricingContent() {
       : tier.priceId?.monthly;
 
     if (paddle && priceId) {
+      if (!user) {
+        // Redirect to login, then return to pricing page to complete checkout
+        window.location.href = `/api/auth/login?returnTo=${encodeURIComponent('/pricing')}`;
+        return;
+      }
       paddle.Checkout.open({
         items: [{ priceId, quantity: 1 }],
-        ...(user?.email ? { customer: { email: user.email } } : {}),
+        ...(user.email ? { customer: { email: user.email } } : {}),
         customData: {
-          ...(user?.email ? { email: user.email } : {}),
-          ...(user?.sub ? { userId: user.sub } : {}),
+          ...(user.email ? { email: user.email } : {}),
+          ...(user.sub ? { userId: user.sub } : {}),
         },
       });
       return;
