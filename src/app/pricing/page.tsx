@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { PaddleProvider, usePaddle } from '@/components/PaddleProvider';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import {
   Box,
   Container,
@@ -83,6 +84,7 @@ function PricingContent() {
   const [annualBilling, setAnnualBilling] = useState(true);
   const theme = useTheme();
   const paddle = usePaddle();
+  const { user } = useUser();
 
   const pricingTiers: PricingTier[] = [
     {
@@ -156,6 +158,11 @@ function PricingContent() {
     if (paddle && priceId) {
       paddle.Checkout.open({
         items: [{ priceId, quantity: 1 }],
+        ...(user?.email ? { customer: { email: user.email } } : {}),
+        customData: {
+          ...(user?.email ? { email: user.email } : {}),
+          ...(user?.sub ? { userId: user.sub } : {}),
+        },
       });
       return;
     }

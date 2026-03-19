@@ -67,9 +67,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       case EventName.SubscriptionCreated: {
         const sub = event.data;
         const priceId = sub.items?.[0]?.price?.id ?? "";
-        const email = sub.customData && typeof sub.customData === 'object' && 'email' in sub.customData
-          ? String(sub.customData.email)
-          : undefined;
+        const customData = sub.customData && typeof sub.customData === 'object' ? sub.customData as Record<string, unknown> : {};
+        const email = customData.email ? String(customData.email) : undefined;
+        const userId = customData.userId ? String(customData.userId) : undefined;
 
         await sanity.createOrReplace({
           _type: "subscription",
@@ -77,6 +77,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           paddleSubscriptionId: sub.id,
           paddleCustomerId: sub.customerId,
           customerEmail: email,
+          auth0UserId: userId,
           priceId,
           plan: resolvePlan(priceId),
           status: sub.status,

@@ -22,6 +22,11 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'auth0UserId',
+      title: 'Auth0 User ID',
+      type: 'string',
+    }),
+    defineField({
       name: 'priceId',
       title: 'Price ID',
       type: 'string',
