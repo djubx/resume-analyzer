@@ -168,6 +168,9 @@ function PricingContent() {
           ...(user.email ? { email: user.email } : {}),
           ...(user.sub ? { userId: user.sub } : {}),
         },
+        settings: {
+          successUrl: `${window.location.origin}/pricing?subscribed=true`,
+        },
       });
       return;
     }

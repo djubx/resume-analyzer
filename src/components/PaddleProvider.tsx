@@ -71,6 +71,11 @@ export function PaddleProvider({ children }: PaddleProviderProps) {
     initializePaddle({
       environment,
       token,
+      eventCallback(event) {
+        if (event.name === 'checkout.error') {
+          console.error('[Paddle] checkout.error event:', JSON.stringify(event, null, 2));
+        }
+      },
     })
       .then((instance) => {
         if (instance) setPaddle(instance);
