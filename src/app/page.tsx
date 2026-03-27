@@ -29,76 +29,14 @@ import {
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { FaFileAlt, FaChartLine, FaCheckCircle, FaListAlt } from 'react-icons/fa';
 import React from 'react';
+import HomeStructuredData from './_components/HomeStructuredData';
 
 export default function Home() {
   const theme = useTheme();
 
-  // JSON-LD Structured Data
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Resume Checkers",
-    "url": "https://resumecheckers.com",
-    "logo": "https://resumecheckers.com/logo.png",
-    "description": "AI-powered resume checker and ATS scanner helping job seekers optimize their resumes for success.",
-    "sameAs": [
-      "https://twitter.com/resumecheckers",
-      "https://www.linkedin.com/company/resumecheckers"
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "Customer Support",
-      "url": "https://resumecheckers.com/contact"
-    }
-  };
-
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Resume Checkers",
-    "url": "https://resumecheckers.com",
-    "description": "Free AI Resume Checker & ATS Scanner - Analyze your resume instantly",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://resumecheckers.com/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  };
-
-  const softwareSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Resume Checkers - AI Resume Analyzer",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "ratingCount": "1247"
-    },
-    "description": "AI-powered resume checker and ATS scanner. Analyze your resume, check ATS compatibility, and build professional resumes with 50+ templates."
-  };
-
   return (
     <Box sx={{ bgcolor: 'background.default' }}>
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
-      />
+      <HomeStructuredData />
 
       <SpeedInsights />
       <Analytics />

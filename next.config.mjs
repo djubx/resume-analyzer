@@ -23,6 +23,7 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+    trailingSlash: false,
     experimental: {
         serverComponentsExternalPackages: ['pdf-parse'],
     },
