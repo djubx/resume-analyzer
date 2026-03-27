@@ -4,12 +4,17 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import FAQ from "@/components/FAQ";
-import Services from "@/components/Services";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import CareerStages from "@/components/CareerStages";
-import Testimonials from "@/components/Testimonials";
+import dynamic from 'next/dynamic';
+
+// Below-fold sections deferred so only the hero is parsed on first paint.
+// Each chunk is fetched as the user scrolls, reducing initial JS parse time
+// and improving FCP/LCP on mobile (was 2.94s FCP / 4.3s LCP → target <1.8s / <2.5s).
+const Services     = dynamic(() => import('@/components/Services'));
+const WhyChooseUs  = dynamic(() => import('@/components/WhyChooseUs'));
+const CareerStages = dynamic(() => import('@/components/CareerStages'));
+const Testimonials = dynamic(() => import('@/components/Testimonials'));
+const FAQ          = dynamic(() => import('@/components/FAQ'));
+const Footer       = dynamic(() => import('@/components/Footer'));
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -110,6 +115,7 @@ export default function Home() {
                     alt="Resume Analysis Dashboard"
                     width={600}
                     height={400}
+                    priority
                     style={{
                       width: '100%',
                       height: 'auto',

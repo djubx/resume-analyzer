@@ -109,7 +109,6 @@ export default function WhyChooseUs({ title = "Why Choose Us?", features = defau
                         height: 'auto',
                         borderRadius: '12px',
                       }}
-                      priority
                     />
                   </Box>
                 </motion.div>

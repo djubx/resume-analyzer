@@ -13,7 +13,16 @@ function initAmplitude() {
   }
 }
 
-initAmplitude();
+// Defer Amplitude init until the browser is idle so it does not block
+// the main thread during FCP/LCP. requestIdleCallback fires after all
+// paint work is done; setTimeout(0) is the fallback for Safari.
+if (typeof window !== 'undefined') {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(initAmplitude);
+  } else {
+    setTimeout(initAmplitude, 0);
+  }
+}
 
 // Export the Amplitude component for layout
 export const Amplitude = () => null;

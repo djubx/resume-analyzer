@@ -80,6 +80,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect to third-party origins to reduce DNS+TLS setup time.
+            Saves ~200-400ms per origin on first load, improving TTFB and FCP. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api.amplitude.com" />
+        <link rel="dns-prefetch" href="https://api.producthunt.com" />
+      </head>
       <body className={inter.className}>
         <SkipNav />
         <Providers>
