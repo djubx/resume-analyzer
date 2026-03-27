@@ -3,6 +3,7 @@
 import { ComponentType, useState, createElement } from 'react';
 import { ResumeData } from '../types';
 import { generatePDF, generateAllPDFs, PDFConfig } from '../utils/pdfConverter';
+import Link from 'next/link';
 import {
   Box,
   Typography,
@@ -19,10 +20,44 @@ import {
   Paper,
   Alert,
   CircularProgress,
+  Dialog,
+  DialogContent,
+  Card,
   useTheme,
   alpha,
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import { Close as CloseIcon, CheckCircle as CheckCircleIcon } from '@mui/icons-material';
+
+const SITE_FEATURES = [
+  {
+    emoji: '🔍',
+    title: 'AI Resume Checker',
+    description: 'Get a detailed score and AI-powered feedback on your resume.',
+    href: '/resume-analyzer',
+    cta: 'Check My Resume',
+  },
+  {
+    emoji: '🎯',
+    title: 'ATS Scanner',
+    description: 'See if your resume passes applicant tracking systems.',
+    href: '/ats-score',
+    cta: 'Check ATS Score',
+  },
+  {
+    emoji: '✅',
+    title: 'Resume Checklist',
+    description: 'Make sure you haven\'t missed anything important.',
+    href: '/resume-checklist',
+    cta: 'View Checklist',
+  },
+  {
+    emoji: '💰',
+    title: 'Pricing',
+    description: 'All features are currently free — no credit card needed.',
+    href: '/pricing',
+    cta: 'See Plans',
+  },
+];
 
 interface ReviewProps {
   data: ResumeData;
@@ -40,6 +75,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPdfSettings, setShowPdfSettings] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [pdfConfig, setPdfConfig] = useState<PDFConfig>({
     format: 'A4',
     margin: {
@@ -68,6 +104,7 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
         `${data.contactInformation.fullName.toLowerCase().replace(/\s+/g, '-')}-resume.pdf`,
         pdfConfig
       );
+      setShowSuccessModal(true);
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Failed to generate PDF');
       console.error('Failed to generate PDF:', error);
@@ -287,6 +324,87 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
       </Box>
 
       <PDFSettingsPanel />
+
+      {/* Post-download success modal */}
+      <Dialog
+        open={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{ sx: { borderRadius: 3, p: 1 } }}
+      >
+        <DialogContent>
+          <IconButton
+            onClick={() => setShowSuccessModal(false)}
+            size="small"
+            sx={{ position: 'absolute', top: 12, right: 12 }}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+
+          {/* Header */}
+          <Box sx={{ textAlign: 'center', mb: 3 }}>
+            <CheckCircleIcon sx={{ fontSize: 48, color: 'success.main', mb: 1 }} />
+            <Typography variant="h4" sx={{ fontWeight: 700, color: 'text.primary' }}>
+              Resume Downloaded! 🎉
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
+              Your PDF is on its way. While you're here, here's what else you can do on Resume Checkers:
+            </Typography>
+          </Box>
+
+          {/* Feature cards */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            {SITE_FEATURES.map((feature) => (
+              <Card
+                key={feature.href}
+                variant="outlined"
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderRadius: 2,
+                  borderColor: 'divider',
+                  '&:hover': { borderColor: 'primary.main', bgcolor: alpha(theme.palette.primary.main, 0.04) },
+                  transition: 'border-color 0.2s, background-color 0.2s',
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                  <Typography sx={{ fontSize: '1.5rem', lineHeight: 1 }}>{feature.emoji}</Typography>
+                  <Box>
+                    <Typography variant="body1" sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.2 }}>
+                      {feature.title}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                      {feature.description}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Button
+                  component={Link}
+                  href={feature.href}
+                  variant="outlined"
+                  size="small"
+                  sx={{ ml: 2, whiteSpace: 'nowrap', flexShrink: 0 }}
+                  onClick={() => setShowSuccessModal(false)}
+                >
+                  {feature.cta}
+                </Button>
+              </Card>
+            ))}
+          </Box>
+
+          <Button
+            fullWidth
+            variant="text"
+            sx={{ mt: 2, color: 'text.secondary' }}
+            onClick={() => setShowSuccessModal(false)}
+          >
+            Close
+          </Button>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 } 

@@ -90,7 +90,7 @@ export default function Home() {
 
                 <Button
                   component={Link}
-                  href="/resume-analyzer"
+                  href="/create-resume"
                   variant="contained"
                   size="large"
                   sx={{
@@ -99,7 +99,7 @@ export default function Home() {
                     fontSize: '1.1rem',
                   }}
                 >
-                  Get Started
+                  Build My Resume
                 </Button>
               </motion.div>
             </Grid>
@@ -157,7 +157,7 @@ export default function Home() {
             </Typography>
             <Button
               component={Link}
-              href="/resume-analyzer"
+              href="/create-resume"
               variant="contained"
               size="large"
               sx={{
@@ -171,7 +171,7 @@ export default function Home() {
                 fontSize: '1.1rem',
               }}
             >
-              Get Started Now
+              Build My Resume
             </Button>
           </Box>
         </Container>
