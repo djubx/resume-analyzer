@@ -134,29 +134,12 @@ export default function SharedProfilePage() {
 
           {/* Resume render */}
           {!loading && !error && profileData?.resumeData && (
-            <Paper
-              elevation={4}
-              sx={{
-                borderRadius: 3,
-                overflow: 'hidden',
-                bgcolor: 'white',
-                // A4-like shadow treatment so it feels like a real document
-                boxShadow: '0 8px 40px rgba(0,0,0,0.12)',
-              }}
-            >
-              {/* Thin accent bar */}
-              <Box
-                sx={{
-                  height: 4,
-                  background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                }}
-              />
-
-              {/* The actual resume template */}
+            <Box>
+              {/* The actual resume template — renders its own background */}
               <Box id="shared-resume-content">
                 {createElement(templateComponent, { data: profileData.resumeData })}
               </Box>
-            </Paper>
+            </Box>
           )}
 
           {/* Fallback: no resumeData stored (older ATS-only profiles) */}
