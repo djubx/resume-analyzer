@@ -47,8 +47,36 @@ import {
   CheckCircle as CheckCircleIcon,
   Share as ShareIcon,
   ContentCopy as ContentCopyIcon,
+  RateReview as RateReviewIcon,
+  TrackChanges as TrackChangesIcon,
+  Checklist as ChecklistIcon,
 } from '@mui/icons-material';
 import { Twitter, LinkedIn } from '@mui/icons-material';
+import NextLink from 'next/link';
+
+const SITE_FEATURES = [
+  {
+    icon: <RateReviewIcon fontSize="small" />,
+    title: 'AI Resume Checker',
+    description: 'Get a score and AI-powered feedback on your resume.',
+    href: '/resume-analyzer',
+    cta: 'Check My Resume',
+  },
+  {
+    icon: <TrackChangesIcon fontSize="small" />,
+    title: 'ATS Scanner',
+    description: 'See if your resume passes applicant tracking systems.',
+    href: '/ats-score',
+    cta: 'Check ATS Score',
+  },
+  {
+    icon: <ChecklistIcon fontSize="small" />,
+    title: 'Resume Checklist',
+    description: "Make sure you haven't missed anything important.",
+    href: '/resume-checklist',
+    cta: 'View Checklist',
+  },
+];
 
 export default function CreateResumeV2() {
   const [formData, setFormData] = useState<ResumeData>(softwareEngineerData);
@@ -887,14 +915,56 @@ export default function CreateResumeV2() {
               )}
             </Paper>
 
-            <Divider sx={{ my: 2 }}>
-              <Chip label="OR" />
-            </Divider>
+            {/* What else you can do */}
+            <Divider sx={{ my: 3 }} />
+            <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
+              What else can you do here?
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+              {SITE_FEATURES.map((feature) => (
+                <Paper
+                  key={feature.href}
+                  variant="outlined"
+                  sx={{
+                    p: 1.5,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    borderRadius: 2,
+                    '&:hover': { borderColor: 'primary.main', bgcolor: alpha(theme.palette.primary.main, 0.04) },
+                    transition: 'border-color 0.2s, background-color 0.2s',
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    <Box sx={{ color: 'primary.main', display: 'flex' }}>{feature.icon}</Box>
+                    <Box>
+                      <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.2 }}>
+                        {feature.title}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                        {feature.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Button
+                    component={NextLink}
+                    href={feature.href}
+                    variant="outlined"
+                    size="small"
+                    sx={{ ml: 2, whiteSpace: 'nowrap', flexShrink: 0 }}
+                    onClick={() => setShareDialogOpen(false)}
+                  >
+                    {feature.cta}
+                  </Button>
+                </Paper>
+              ))}
+            </Box>
 
+            {/* Share on social */}
+            <Divider sx={{ my: 3 }} />
             <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
               Share on social:
             </Typography>
-
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <Button
