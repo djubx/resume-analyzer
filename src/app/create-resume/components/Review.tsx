@@ -52,7 +52,8 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
     landscape: false,
     printBackground: true,
     preferCSSPageSize: false,
-    displayHeaderFooter: false
+    displayHeaderFooter: false,
+    pageless: false,
   });
   const theme = useTheme();
 
@@ -222,6 +223,20 @@ export default function Review({ data, selectedTemplate, templates, onTemplateSe
                 label={
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     Prefer CSS page size
+                  </Typography>
+                }
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={!!pdfConfig.pageless}
+                    onChange={(e) => setPdfConfig(prev => ({ ...prev, pageless: e.target.checked }))}
+                    size="small"
+                  />
+                }
+                label={
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Pageless (single tall page, no breaks)
                   </Typography>
                 }
               />

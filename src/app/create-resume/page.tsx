@@ -35,6 +35,8 @@ import {
   alpha,
   Drawer,
   Snackbar,
+  Switch,
+  FormControlLabel,
 } from '@mui/material';
 import {
   ExpandMore as ExpandMoreIcon,
@@ -94,6 +96,7 @@ export default function CreateResumeV2() {
   const [downloadStartTime, setDownloadStartTime] = useState<number | null>(null);
   const [shareableLink, setShareableLink] = useState<string | null>(null);
   const [isGeneratingLink, setIsGeneratingLink] = useState(false);
+  const [pageless, setPageless] = useState(false);
   const theme = useTheme();
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -234,6 +237,32 @@ export default function CreateResumeV2() {
       setTimeout(() => setShareDialogOpen(true), 500);
     } catch (error) {
       console.error('Failed to generate PDF:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleDownloadPagelessPDF = async () => {
+    setIsGenerating(true);
+    const startTime = Date.now();
+    setDownloadStartTime(startTime);
+    trackEvent('Resume Builder - Download Started', { template: selectedTemplate, mode: 'pageless' });
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      await generatePDF(
+        'resume-preview',
+        `${formData.contactInformation.fullName?.toLowerCase().replace(/\s+/g, '-') || 'resume'}-pageless.pdf`,
+        { pageless: true, printBackground: true, scale: 1.0, displayHeaderFooter: false }
+      );
+
+      const timeToDownload = Date.now() - pageLoadTime;
+      const downloadDuration = Date.now() - startTime;
+      trackEvent('Resume Builder - Download Completed', { template: selectedTemplate, mode: 'pageless', timeToDownload, downloadDuration });
+
+      setTimeout(() => setShareDialogOpen(true), 500);
+    } catch (error) {
+      console.error('Failed to generate pageless PDF:', error);
     } finally {
       setIsGenerating(false);
     }
@@ -685,14 +714,30 @@ export default function CreateResumeV2() {
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
                 Live Preview
               </Typography>
-              <Button
-                variant="contained"
-                startIcon={isGenerating ? <CircularProgress size={20} color="inherit" /> : <DownloadIcon />}
-                onClick={handleDownloadPDF}
-                disabled={isGenerating}
-              >
-                {isGenerating ? 'Generating...' : 'Download PDF'}
-              </Button>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Tooltip title={pageless ? 'Single tall page, no breaks — great for digital sharing' : 'Standard A4 pages'}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={pageless}
+                        onChange={(e) => setPageless(e.target.checked)}
+                        size="small"
+                        disabled={isGenerating}
+                      />
+                    }
+                    label={<Typography variant="caption" sx={{ color: 'text.secondary' }}>Pageless</Typography>}
+                    sx={{ mr: 0 }}
+                  />
+                </Tooltip>
+                <Button
+                  variant="contained"
+                  startIcon={isGenerating ? <CircularProgress size={20} color="inherit" /> : <DownloadIcon />}
+                  onClick={pageless ? handleDownloadPagelessPDF : handleDownloadPDF}
+                  disabled={isGenerating}
+                >
+                  {isGenerating ? 'Generating...' : pageless ? 'Download Pageless' : 'Download PDF'}
+                </Button>
+              </Box>
             </Box>
 
             <Paper
@@ -851,13 +896,27 @@ export default function CreateResumeV2() {
       </Drawer>
 
       {/* Floating Download Button (Mobile) */}
-      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+      <Box sx={{ display: { xs: 'flex', md: 'none' }, flexDirection: 'column', gap: 1, position: 'fixed', bottom: 16, right: 16 }}>
+        <Tooltip title={pageless ? 'Pageless ON — tap to switch to A4' : 'A4 mode — tap to switch to pageless'} placement="left">
+          <Fab
+            size="small"
+            color={pageless ? 'secondary' : 'default'}
+            onClick={() => setPageless(prev => !prev)}
+            disabled={isGenerating}
+            aria-label="Toggle pageless mode"
+          >
+            <Typography variant="caption" sx={{ fontWeight: 700, fontSize: 10 }}>
+              {pageless ? 'PL' : 'A4'}
+            </Typography>
+          </Fab>
+        </Tooltip>
         <Fab
           color="primary"
-          sx={{ position: 'fixed', bottom: 16, right: 16 }}
-          onClick={handleDownloadPDF}
+          onClick={pageless ? handleDownloadPagelessPDF : handleDownloadPDF}
+          disabled={isGenerating}
+          aria-label="Download PDF"
         >
-          <DownloadIcon />
+          {isGenerating ? <CircularProgress size={24} color="inherit" /> : <DownloadIcon />}
         </Fab>
       </Box>
 

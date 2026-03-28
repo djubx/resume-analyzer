@@ -17,6 +17,21 @@ export interface PDFConfig {
     headerTemplate?: string;
     footerTemplate?: string;
     pageRanges?: string;
+    pageless?: boolean;
+    width?: string;
+}
+
+function buildApiConfig(merged: PDFConfig): Record<string, unknown> {
+    if (merged.pageless) {
+        const { format, height, ...rest } = merged as PDFConfig & { height?: string };
+        return {
+            ...rest,
+            margin: { top: '0px', right: '0px', bottom: '0px', left: '0px' },
+            pageless: true,
+            ...(merged.width ? { width: merged.width } : {}),
+        };
+    }
+    return { ...merged };
 }
 
 const defaultConfig: PDFConfig = {
@@ -88,10 +103,7 @@ export const generatePDF = async (elementId: string, fileName: string, config: P
             },
             body: JSON.stringify({
                 html,
-                config: {
-                    ...defaultConfig,
-                    ...config
-                }
+                config: buildApiConfig({ ...defaultConfig, ...config })
             }),
         });
 
@@ -194,10 +206,7 @@ export const generateAllPDFs = async (elementId: string, data: any, templates: a
                         },
                         body: JSON.stringify({
                             html,
-                            config: {
-                                ...defaultConfig,
-                                ...config
-                            }
+                            config: buildApiConfig({ ...defaultConfig, ...config })
                         }),
                     });
 
