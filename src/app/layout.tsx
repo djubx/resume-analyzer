@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description: 'Free AI Resume Checker & ATS Scanner - Analyze your resume instantly with our AI-powered tool. Get your resume score, ATS compatibility check, and expert feedback in 60 seconds.',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/dashboard-preview.png',
         width: 1200,
         height: 630,
         alt: 'Resume Checkers - AI-Powered Resume Analysis',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     creator: '@resumecheckers',
     title: 'Resume Checkers | Free AI Resume Checker & ATS Scanner',
     description: 'Free AI Resume Checker & ATS Scanner - Analyze your resume instantly with our AI-powered tool.',
-    images: ['/og-image.jpg'],
+    images: ['/dashboard-preview.png'],
   },
   robots: {
     index: true,
