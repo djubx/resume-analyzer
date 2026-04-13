@@ -79,7 +79,8 @@ export async function POST(req: NextRequest) {
     let analysisResult;
     try {
       console.log("ATS Analysis result:", text);
-      analysisResult = JSON.parse(text);
+      const cleanedText = text.replace(/^```json\s*\n?|\n?```\s*$/g, '').trim();
+      analysisResult = JSON.parse(cleanedText);
     } catch (parseError) {
       console.error("Error parsing OpenAI API response:", parseError);
       return NextResponse.json({ error: "Invalid response from AI model", aiResponse: text }, { status: 500 });
