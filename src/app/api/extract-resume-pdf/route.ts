@@ -2,10 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { ResumeData } from "@/app/create-resume/types";
 import openai, { createChatCompletion } from "@/utils/openai";
 
-// Helper function to clean markdown JSON response
+// Extract the JSON payload from an AI response that may contain markdown fences
+// or trailing prose after the closing fence.
 function cleanJsonResponse(text: string): string {
-  // Remove markdown code block syntax if present
-  return text.replace(/^```json\n|\n```$/g, '');
+  const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (fenceMatch) return fenceMatch[1].trim();
+  const objMatch = text.match(/\{[\s\S]*\}/);
+  if (objMatch) return objMatch[0];
+  return text.trim();
 }
 
 interface Education {

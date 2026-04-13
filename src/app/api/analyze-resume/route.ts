@@ -31,8 +31,16 @@ export async function POST(req: NextRequest) {
     let analysisResult;
     try {
       console.log("Analysis result:", text);
-      const cleanedText = text.replace(/^```json\s*\n?|\n?```\s*$/g, '').trim();
-      analysisResult = JSON.parse(cleanedText);
+      // Extract JSON — handle fenced blocks (```json...```) and trailing prose
+      let jsonText = text;
+      const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (fenceMatch) {
+        jsonText = fenceMatch[1].trim();
+      } else {
+        const objMatch = text.match(/\{[\s\S]*\}/);
+        if (objMatch) jsonText = objMatch[0];
+      }
+      analysisResult = JSON.parse(jsonText);
     } catch (parseError) {
       console.error("Error parsing OpenAI API response:", parseError);
       return NextResponse.json({ error: "Invalid response from AI model", aiResponse: text }, { status: 500 });
