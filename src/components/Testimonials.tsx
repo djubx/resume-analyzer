@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Box, Container, Typography, useTheme, useMediaQuery, Chip } from '@mui/material';
 import { Star, Verified, FormatQuote } from '@mui/icons-material';
+import { trackEvent } from '@/lib/amplitude';
 
 interface Testimonial {
   name: string;
@@ -227,6 +228,7 @@ export default function Testimonials() {
     setActiveIndex(i);
     if (intervalRef.current) clearInterval(intervalRef.current);
     startAutoPlay();
+    trackEvent('Testimonials - Dot Clicked', { index: i, name: testimonials[i].name });
   };
 
   // Show 3 visible on desktop in a rolling window
@@ -247,6 +249,7 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          onViewportEnter={() => trackEvent('Testimonials - Section Viewed')}
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             {/* Social proof bar */}

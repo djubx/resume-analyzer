@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { Add, Remove, ArrowForward } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import { trackEvent } from '@/lib/amplitude';
 
 interface FAQItem {
   question: string;
@@ -71,6 +72,7 @@ export default function FAQ() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          onViewportEnter={() => trackEvent('FAQ - Section Viewed')}
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography
@@ -104,7 +106,15 @@ export default function FAQ() {
                 >
                   {/* Question row */}
                   <Box
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    onClick={() => {
+                    const opening = !isOpen;
+                    setOpenIndex(opening ? index : null);
+                    trackEvent('FAQ - Question Toggled', {
+                      question: faq.question,
+                      index,
+                      action: opening ? 'open' : 'close',
+                    });
+                  }}
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
@@ -165,6 +175,12 @@ export default function FAQ() {
                       <Button
                         component={Link}
                         href={faq.cta.href}
+                        onClick={() => trackEvent('FAQ - CTA Clicked', {
+                          question: faq.question,
+                          cta_label: faq.cta.label,
+                          cta_href: faq.cta.href,
+                          index,
+                        })}
                         variant="contained"
                         endIcon={<ArrowForward sx={{ fontSize: 16 }} />}
                         sx={{
