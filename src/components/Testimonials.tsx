@@ -154,7 +154,7 @@ export default function Testimonials() {
                 width: index === activeIndex ? 24 : 12,
                 height: 12,
                 borderRadius: '50px',
-                bgcolor: index === activeIndex ? '#009688' : '#e0e0e0',
+                bgcolor: index === activeIndex ? '#00E5FF' : 'rgba(245, 247, 250, 0.2)',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
               }}
@@ -186,15 +186,16 @@ function TestimonialCard({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: '12px',
-        bgcolor: '#f8f8f8',
+        borderRadius: '16px',
+        bgcolor: 'background.paper',
         position: 'relative',
         overflow: 'hidden',
-        borderLeft: '4px solid #1976d2',
+        borderLeft: '4px solid',
+        borderLeftColor: 'info.main',
         boxShadow: 'none',
         transition: 'all 0.3s ease',
         '&:hover': {
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 10px 40px -10px rgba(0, 229, 255, 0.25)',
           transform: 'translateY(-4px)',
         }
       }}
@@ -205,8 +206,8 @@ function TestimonialCard({
             width: 56, 
             height: 56, 
             mr: 2,
-            bgcolor: '#009688',
-            color: 'white',
+            background: 'linear-gradient(135deg, #3F51B5 0%, #00E5FF 100%)',
+            color: '#0B0D10',
           }}
         >
           {imageErrors[index] ? (
@@ -249,7 +250,7 @@ function TestimonialCard({
           <Typography
             component="span"
             sx={{
-              color: '#009688',
+              color: 'info.main',
               fontStyle: 'italic',
               fontSize: '1.5rem',
               lineHeight: 1,
@@ -262,7 +263,7 @@ function TestimonialCard({
           <Typography
             component="span"
             sx={{
-              color: '#666',
+              color: 'text.secondary',
               lineHeight: 1.7,
               fontStyle: 'italic',
               fontSize: '1rem',
@@ -274,7 +275,7 @@ function TestimonialCard({
           <Typography
             component="span"
             sx={{
-              color: '#009688',
+              color: 'info.main',
               fontStyle: 'italic',
               fontSize: '1.5rem',
               lineHeight: 1,

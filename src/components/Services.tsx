@@ -27,31 +27,31 @@ interface ServicesProps {
   services?: ServiceItem[];
 }
 
-// Default services data
+// Priority-ordered services: Builder → Analyzer → ATS → Checklist
 const defaultServices = [
-  {
-    icon: <FaFileAlt />,
-    title: "AI Resume Analyzer",
-    description: "Insights to make your resume stand out",
-    href: "/resume-analyzer"
-  },
   {
     icon: <FaWrench />,
     title: "Resume Builder",
-    description: "Craft your resume with tools tailored to your career goals.",
+    description: "Craft a standout resume from 50+ expert-designed templates, powered by AI suggestions.",
     href: "/create-resume"
   },
   {
-    icon: <FaListAlt />,
-    title: "Resume Checklist",
-    description: "Ensure your resume covers all essential elements",
-    href: "/resume-checklist"
+    icon: <FaFileAlt />,
+    title: "AI Resume Analyzer",
+    description: "Instant, deep-dive insights that show you exactly what to improve — line by line.",
+    href: "/resume-analyzer"
   },
   {
     icon: <FaChartLine />,
     title: "ATS Score",
-    description: "Optimize your resume to pass 95% of ATS filters",
+    description: "Check how your resume scores against Applicant Tracking Systems used by 95% of recruiters.",
     href: "/ats-score"
+  },
+  {
+    icon: <FaListAlt />,
+    title: "Resume Checklist",
+    description: "A smart, personalized checklist that ensures nothing essential is missing.",
+    href: "/resume-checklist"
   }
 ];
 
@@ -72,16 +72,16 @@ export default function Services({ title = "Our Services", services = defaultSer
                 flexDirection: 'column',
                 borderRadius: '20px',
                 border: '1px solid',
-                borderColor: 'rgba(0, 168, 150, 0.4)',
+                borderColor: 'divider',
                 boxShadow: 'none',
                 overflow: 'hidden',
-                backgroundColor: 'rgba(240, 248, 245, 0.5)',
+                backgroundColor: 'background.paper',
                 position: 'relative',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
                 '&:hover': {
                   transform: 'translateY(-8px)',
-                  boxShadow: '0 10px 20px rgba(0, 168, 150, 0.1)',
-                  borderColor: 'rgba(0, 168, 150, 0.6)',
+                  boxShadow: '0 18px 40px -18px rgba(0, 229, 255, 0.25)',
+                  borderColor: 'rgba(0, 229, 255, 0.4)',
                 }
               }}
             >
@@ -94,7 +94,7 @@ export default function Services({ title = "Our Services", services = defaultSer
                   width: '70%',
                   height: '35%',
                   borderBottomRightRadius: '100%',
-                  backgroundColor: 'rgba(0, 168, 150, 0.08)',
+                  background: 'radial-gradient(circle at top left, rgba(63, 81, 181, 0.22), transparent 70%)',
                   zIndex: 0,
                 }}
               />
@@ -105,20 +105,20 @@ export default function Services({ title = "Our Services", services = defaultSer
                   position: 'absolute',
                   top: 40,
                   left: 40,
-                  width: 80,
-                  height: 80,
-                  borderRadius: '50%',
+                  width: 72,
+                  height: 72,
+                  borderRadius: '18px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: 'rgba(0, 168, 150, 0.15)',
-                  color: 'primary.main',
-                  fontSize: '2rem',
+                  background: 'linear-gradient(135deg, rgba(63, 81, 181, 0.25), rgba(0, 229, 255, 0.15))',
+                  border: '1px solid rgba(0, 229, 255, 0.25)',
+                  color: 'info.main',
+                  fontSize: '1.75rem',
                   zIndex: 1,
                   transition: 'transform 0.3s ease, background-color 0.3s ease',
                   '.MuiCard-root:hover &': {
                     transform: 'scale(1.05)',
-                    backgroundColor: 'rgba(0, 168, 150, 0.2)',
                   }
                 }}
               >

@@ -24,14 +24,8 @@ interface WhyChooseUsProps {
   features?: FeatureItem[];
 }
 
-// Default features data
+// Priority-ordered features: Builder → Analyzer → ATS → Checklist
 const defaultFeatures = [
-  {
-    title: "AI Resume Analyzer",
-    description: "Gain AI-Powered Insights to Perfect Your Resume\n\nUpload your resume to receive a comprehensive analysis powered by AI. Discover your strengths, identify areas for improvement, and receive an overall resume score. Plus, get actionable next steps tailored to help you create a standout resume that boosts your chances of landing your dream job.",
-    image: "/analyzer-preview.png",
-    alt: "AI Resume Analyzer Preview"
-  },
   {
     title: "Resume Builder",
     description: "Craft Your Resume with AI and Modern Templates\n\nWhether you want to start fresh or improve your existing resume, our Resume Builder has you covered. Upload your current resume or manually input your details. Choose from a variety of professional and modern templates. Our AI assistant also helps rewrite or re-frame content based on insights from your resume analysis, ensuring your resume is polished and impactful.",
@@ -39,16 +33,22 @@ const defaultFeatures = [
     alt: "Resume Builder Preview"
   },
   {
-    title: "Resume Checklist",
-    description: "Your Guide to a Complete and Refined Resume\n\nStay organized and ensure nothing is missed with our two types of checklists. First, track changes based on recommendations from your analysis report. Second, use our general checklist to include essentials like contact information, a compelling summary, relevant work experience and many more. Simplify the process of refining your resume with our user-friendly checklist tools.",
+    title: "AI Resume Analyzer",
+    description: "Gain AI-Powered Insights to Perfect Your Resume\n\nUpload your resume to receive a comprehensive analysis powered by AI. Discover your strengths, identify areas for improvement, and receive an overall resume score. Plus, get actionable next steps tailored to help you create a standout resume that boosts your chances of landing your dream job.",
     image: "/analyzer-preview.png",
-    alt: "Resume Checklist Preview"
+    alt: "AI Resume Analyzer Preview"
   },
   {
     title: "ATS Score",
     description: "Optimize Your Resume for Applicant Tracking Systems\n\nUpload your resume and get an instant ATS compatibility score. See how well your resume aligns with ATS requirements used by recruiters. Use our insights to optimize your resume and increase its chances of getting noticed in automated screenings.",
     image: "/builder-preview.png",
     alt: "ATS Score Preview"
+  },
+  {
+    title: "Resume Checklist",
+    description: "Your Guide to a Complete and Refined Resume\n\nStay organized and ensure nothing is missed with our two types of checklists. First, track changes based on recommendations from your analysis report. Second, use our general checklist to include essentials like contact information, a compelling summary, relevant work experience and many more. Simplify the process of refining your resume with our user-friendly checklist tools.",
+    image: "/analyzer-preview.png",
+    alt: "Resume Checklist Preview"
   }
 ];
 
@@ -91,11 +91,12 @@ export default function WhyChooseUs({ title = "Why Choose Us?", features = defau
                       position: 'relative',
                       borderRadius: '20px',
                       overflow: 'hidden',
-                      boxShadow: '0 10px 30px rgba(0, 168, 150, 0.1)',
-                      border: '1px solid rgba(0, 168, 150, 0.2)',
+                      boxShadow: '0 20px 50px -20px rgba(0, 229, 255, 0.2)',
+                      border: '1px solid',
+                      borderColor: 'divider',
                       background: index % 2 === 0 
-                        ? 'linear-gradient(135deg, rgba(180, 180, 255, 0.2) 0%, rgba(0, 168, 150, 0.2) 100%)'
-                        : 'linear-gradient(135deg, rgba(0, 168, 150, 0.2) 0%, rgba(180, 180, 255, 0.2) 100%)',
+                        ? 'linear-gradient(135deg, rgba(63, 81, 181, 0.22) 0%, rgba(0, 229, 255, 0.18) 100%)'
+                        : 'linear-gradient(135deg, rgba(0, 229, 255, 0.18) 0%, rgba(63, 81, 181, 0.22) 100%)',
                       p: 2,
                     }}
                   >
@@ -127,9 +128,12 @@ export default function WhyChooseUs({ title = "Why Choose Us?", features = defau
                     variant="h3" 
                     sx={{ 
                       mb: 3, 
-                      color: 'primary.main',
                       fontSize: '2rem',
-                      fontWeight: 600,
+                      fontWeight: 700,
+                      background: 'linear-gradient(135deg, #6573C3 0%, #00E5FF 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
                     }}
                   >
                     {feature.title}

@@ -27,17 +27,17 @@ const defaultCareerStages: CareerStage[] = [
   {
     title: "New Graduates",
     description: "Stand out in entry-level job applications and highlight your skills",
-    icon: <School sx={{ fontSize: 40, color: 'primary.main' }} />
+    icon: <School sx={{ fontSize: 40, color: 'info.main' }} />
   },
   {
     title: "Mid-Career Professionals",
     description: "Highlight your growing expertise and achievements",
-    icon: <Work sx={{ fontSize: 40, color: 'primary.main' }} />
+    icon: <Work sx={{ fontSize: 40, color: 'info.main' }} />
   },
   {
     title: "Executives",
     description: "Showcase your leadership and industry impact",
-    icon: <Business sx={{ fontSize: 40, color: 'primary.main' }} />
+    icon: <Business sx={{ fontSize: 40, color: 'info.main' }} />
   }
 ];
 
@@ -203,7 +203,7 @@ export default function CareerStages() {
                         left: 0,
                         right: 0,
                         height: '100px',
-                        background: 'radial-gradient(circle at center top, rgba(0, 168, 150, 0.1) 0%, rgba(255, 255, 255, 0) 70%)',
+                        background: 'radial-gradient(circle at center top, rgba(0, 229, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
                         zIndex: 0,
                       }
                     }}
@@ -213,7 +213,8 @@ export default function CareerStages() {
                         mb: 2,
                         p: 2,
                         borderRadius: '50%',
-                        bgcolor: 'rgba(0, 168, 150, 0.1)',
+                        bgcolor: 'rgba(63, 81, 181, 0.15)',
+                        border: '1px solid rgba(0, 229, 255, 0.25)',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -227,7 +228,7 @@ export default function CareerStages() {
                       sx={{
                         mb: 2,
                         fontWeight: 600,
-                        color: 'primary.main',
+                        color: 'info.main',
                         zIndex: 1,
                       }}
                     >
@@ -254,7 +255,9 @@ export default function CareerStages() {
       <Box
         sx={{
           py: 10,
-          background: 'linear-gradient(135deg, #1976d2 0%, #0288d1 100%)',
+          background: 'linear-gradient(135deg, #1F2557 0%, #0A2A36 100%)',
+          borderTop: '1px solid rgba(0, 229, 255, 0.15)',
+          borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
           color: 'white',
         }}
       >
@@ -316,7 +319,7 @@ export default function CareerStages() {
                       sx={{
                         p: 2,
                         borderRadius: '50%',
-                        bgcolor: 'rgba(0, 168, 150, 0.1)',
+                        bgcolor: 'rgba(0, 229, 255, 0.15)',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
