@@ -1,10 +1,8 @@
 'use client';
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { motion } from "framer-motion";
 import {
   AppBar,
   Toolbar,
@@ -19,6 +17,7 @@ import {
   Container,
   Menu,
   MenuItem,
+  Typography,
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AuthButtons from './AuthButtons';
@@ -36,44 +35,79 @@ export default function Navbar() {
     setServicesAnchorEl(null);
   };
 
+  // Priority order: Resume Builder → Resume Analyzer → ATS Score → Resume Checklist
   const navItems = [
     { href: "/", label: "Home" },
-    { 
-      label: "Services",
+    {
+      label: "Products",
       children: [
+        { href: "/create-resume", label: "Resume Builder" },
         { href: "/resume-analyzer", label: "Resume Analyzer" },
         { href: "/ats-score", label: "ATS Score" },
         { href: "/resume-checklist", label: "Resume Checklist" },
-        { href: "/create-resume", label: "Create Resume" },
       ]
     },
     { href: "/pricing", label: "Pricing" },
-    { href: "/about", label: "About us" },
+    { href: "/about", label: "About" },
   ];
 
+  const Logo = (
+    <Box
+      component={Link}
+      href="/"
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1.2,
+        textDecoration: 'none',
+      }}
+    >
+      <Box
+        sx={{
+          width: 36,
+          height: 36,
+          borderRadius: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #3F51B5 0%, #00E5FF 100%)',
+          color: '#0B0D10',
+          fontFamily: '"Space Grotesk", sans-serif',
+          fontWeight: 800,
+          fontSize: 18,
+          letterSpacing: '-0.02em',
+          boxShadow: '0 6px 18px -6px rgba(0, 229, 255, 0.55)',
+        }}
+      >
+        R
+      </Box>
+      <Typography
+        component="span"
+        sx={{
+          fontFamily: '"Space Grotesk", sans-serif',
+          fontSize: 22,
+          fontWeight: 700,
+          color: 'text.primary',
+          letterSpacing: '-0.02em',
+        }}
+      >
+        Resu<Box component="span" sx={{ color: 'info.main' }}>AI</Box>
+      </Typography>
+    </Box>
+  );
+
   return (
-    <AppBar 
-      position="static" 
-      elevation={3} 
-      sx={{ 
+    <AppBar
+      position="sticky"
+      elevation={0}
+      sx={{
         borderBottom: '1px solid',
         borderColor: 'divider',
-        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       }}
     >
       <Container maxWidth="lg">
-        <Toolbar sx={{ justifyContent: 'space-between', py: 1.5, minHeight: '64px' }}>
-          {/* Logo */}
-          <Box component={Link} href="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <Image
-              src="/logo.png"
-              alt="Resume Checkers Logo"
-              width={180}
-              height={40}
-              priority
-              style={{ height: 'auto' }}
-            />
-          </Box>
+        <Toolbar sx={{ justifyContent: 'space-between', py: 1.5, minHeight: '72px' }}>
+          {Logo}
 
           {/* Desktop Navigation */}
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4, alignItems: 'center' }}>
@@ -162,8 +196,18 @@ export default function Navbar() {
               </Box>
             ))}
             
-            {/* Auth Buttons */}
-            <Box sx={{ display: 'flex', gap: 2, ml: 2 }}>
+            {/* Primary CTA + Auth Buttons */}
+            <Box sx={{ display: 'flex', gap: 1.5, ml: 2, alignItems: 'center' }}>
+              <Button
+                component={Link}
+                href="/create-resume"
+                variant="contained"
+                color="primary"
+                size="small"
+                sx={{ py: 1, px: 2.5 }}
+              >
+                Build my resume
+              </Button>
               <AuthButtons />
             </Box>
           </Box>
@@ -260,6 +304,17 @@ export default function Navbar() {
               </Box>
             ))}
             <Box sx={{ mt: 3, px: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <Button
+                component={Link}
+                href="/create-resume"
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => setIsOpen(false)}
+                sx={{ py: 1.2 }}
+              >
+                Build my resume
+              </Button>
               <AuthButtons />
             </Box>
           </List>
