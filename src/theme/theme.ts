@@ -26,106 +26,168 @@ declare module '@mui/material/Typography' {
   }
 }
 
+// ResuAI Design System
+// Primary: #3F51B5 (Indigo)
+// Secondary: #70778B (Slate)
+// Tertiary: #00E5FF (Cyan — accent)
+// Neutral / Surface: #1A1C1E (Near-black)
+// Fonts: Space Grotesk (headlines), Manrope (body + labels)
+
+const HEADLINE_FONT = '"Space Grotesk", "Inter", system-ui, sans-serif';
+const BODY_FONT = '"Manrope", "Inter", system-ui, sans-serif';
+
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
-      main: '#009688', // Teal - Primary Color
-      light: '#33ab9f',
-      dark: '#00796B', // Hover State
+      main: '#3F51B5',
+      light: '#6573C3',
+      dark: '#2C387E',
+      contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#003366', // Navy Blue - Secondary Color
-      light: '#336699',
-      dark: '#002244',
+      main: '#70778B',
+      light: '#8F95A6',
+      dark: '#4E5362',
+      contrastText: '#FFFFFF',
     },
     info: {
-      main: '#66CCFF', // Light Blue - Accent Color
-      light: '#99ddff',
-      dark: '#33bbff',
+      // Tertiary accent
+      main: '#00E5FF',
+      light: '#6EFFFF',
+      dark: '#00B2CC',
+      contrastText: '#0B0D10',
+    },
+    success: {
+      main: '#22D3A4',
+      contrastText: '#0B0D10',
+    },
+    warning: {
+      main: '#F5B544',
+      contrastText: '#0B0D10',
+    },
+    error: {
+      main: '#EF4F6B',
     },
     background: {
-      default: '#FFFFFF', // White background
-      paper: '#F7F7F7', // Light Gray for backgrounds
+      default: '#1A1C1E',
+      paper: '#22262B',
     },
     text: {
-      primary: '#333333', // Dark Gray for text
-      secondary: '#666666',
+      primary: '#F5F7FA',
+      secondary: '#B4BAC7',
+      disabled: '#70778B',
     },
+    divider: 'rgba(245, 247, 250, 0.08)',
+  },
+  shape: {
+    borderRadius: 14,
   },
   typography: {
-    fontFamily: '"Roboto", "Arial", sans-serif',
+    fontFamily: BODY_FONT,
     h0: {
-      fontFamily: '"Poppins", sans-serif',
-      fontSize: '44px',
+      fontFamily: HEADLINE_FONT,
+      fontSize: '56px',
       fontWeight: 700,
-      lineHeight: 1.2,
+      lineHeight: 1.08,
+      letterSpacing: '-0.03em',
     },
     h1: {
-      fontFamily: '"Poppins", sans-serif',
-      fontSize: '32px',
+      fontFamily: HEADLINE_FONT,
+      fontSize: '40px',
       fontWeight: 700,
-      lineHeight: 1.2,
+      lineHeight: 1.1,
+      letterSpacing: '-0.02em',
     },
     h2: {
-      fontFamily: '"Poppins", sans-serif',
-      fontSize: '28px',
+      fontFamily: HEADLINE_FONT,
+      fontSize: '32px',
       fontWeight: 600,
-      lineHeight: 1.3,
+      lineHeight: 1.2,
+      letterSpacing: '-0.015em',
     },
     h3: {
-      fontFamily: '"Poppins", sans-serif',
+      fontFamily: HEADLINE_FONT,
       fontSize: '24px',
-      fontWeight: 400,
+      fontWeight: 600,
       lineHeight: 1.3,
+      letterSpacing: '-0.01em',
     },
     h4: {
-      fontFamily: '"Poppins", sans-serif',
-      fontSize: '18px',
-      fontWeight: 400,
+      fontFamily: HEADLINE_FONT,
+      fontSize: '20px',
+      fontWeight: 600,
       lineHeight: 1.4,
     },
     body0: {
-      fontFamily: '"Roboto", sans-serif',
+      fontFamily: BODY_FONT,
       fontSize: '18px',
-      fontWeight: 700,
+      fontWeight: 600,
       lineHeight: 1.5,
     },
     body1: {
-      fontFamily: '"Roboto", sans-serif',
+      fontFamily: BODY_FONT,
       fontSize: '16px',
       fontWeight: 400,
-      lineHeight: 1.5,
+      lineHeight: 1.6,
     },
     body2: {
-      fontFamily: '"Roboto", sans-serif',
+      fontFamily: BODY_FONT,
       fontSize: '14px',
       fontWeight: 400,
       lineHeight: 1.6,
     },
     accent: {
-      fontFamily: '"Source Sans Pro", sans-serif',
+      fontFamily: BODY_FONT,
+      fontWeight: 600,
+      letterSpacing: '0.08em',
+      textTransform: 'uppercase',
     },
     button: {
       textTransform: 'none',
       fontWeight: 600,
-      fontFamily: '"Roboto", sans-serif',
+      fontFamily: BODY_FONT,
+      letterSpacing: '0.01em',
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: '#1A1C1E',
+          color: '#F5F7FA',
+        },
+        '::selection': {
+          backgroundColor: '#00E5FF',
+          color: '#0B0D10',
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '9999px', // Rounded-full equivalent
+          borderRadius: '9999px',
+          fontWeight: 600,
+          paddingInline: '20px',
         },
         containedPrimary: {
+          background: 'linear-gradient(135deg, #3F51B5 0%, #5468D6 100%)',
+          boxShadow: '0 10px 30px -12px rgba(63, 81, 181, 0.65)',
           '&:hover': {
-            backgroundColor: '#00796B',
+            background: 'linear-gradient(135deg, #2C387E 0%, #3F51B5 100%)',
+            boxShadow: '0 12px 34px -10px rgba(63, 81, 181, 0.85)',
           },
         },
         containedSecondary: {
           '&:hover': {
-            backgroundColor: '#002244',
+            backgroundColor: '#4E5362',
+          },
+        },
+        outlinedPrimary: {
+          borderColor: 'rgba(63, 81, 181, 0.6)',
+          '&:hover': {
+            borderColor: '#3F51B5',
+            backgroundColor: 'rgba(63, 81, 181, 0.08)',
           },
         },
       },
@@ -134,14 +196,34 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
-          backgroundColor: '#F7F7F7',
+          backgroundColor: '#22262B',
+          border: '1px solid rgba(245, 247, 250, 0.06)',
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'rgba(26, 28, 30, 0.85)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          backgroundImage: 'none',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#22262B',
+          backgroundImage: 'none',
+          border: '1px solid rgba(245, 247, 250, 0.06)',
+        },
+      },
+    },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
         },
       },
     },

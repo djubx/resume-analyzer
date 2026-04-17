@@ -3,31 +3,88 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --resuai-bg: 26, 28, 30;          /* #1A1C1E */
+  --resuai-surface: 34, 38, 43;     /* #22262B */
+  --resuai-text: 245, 247, 250;     /* #F5F7FA */
+  --resuai-muted: 180, 186, 199;    /* #B4BAC7 */
+  --resuai-primary: 63, 81, 181;    /* #3F51B5 */
+  --resuai-secondary: 112, 119, 139;/* #70778B */
+  --resuai-tertiary: 0, 229, 255;   /* #00E5FF */
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html, body {
+  background-color: rgb(var(--resuai-bg));
+  color: rgb(var(--resuai-text));
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background-color: rgb(var(--resuai-tertiary));
+  color: #0B0D10;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--resuai-bg));
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(112, 119, 139, 0.4);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(112, 119, 139, 0.7);
+}
+
+@keyframes resuai-blob {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%      { transform: translate(30px, -50px) scale(1.12); }
+  66%      { transform: translate(-20px, 20px) scale(0.92); }
+}
+
+@keyframes resuai-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes resuai-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .animate-blob {
+    animation: resuai-blob 14s ease-in-out infinite;
+  }
+  .animate-float {
+    animation: resuai-float 4s ease-in-out infinite;
+  }
+  .text-gradient-resuai {
+    background: linear-gradient(135deg, #6573C3 0%, #00E5FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .shimmer {
+    background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.15), transparent);
+    background-size: 200% 100%;
+    animation: resuai-shimmer 3s linear infinite;
   }
 }

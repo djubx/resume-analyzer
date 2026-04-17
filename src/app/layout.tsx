@@ -1,54 +1,66 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk, Manrope } from "next/font/google";
 import "./globals.css";
 import Providers from '@/components/Providers';
 
-const inter = Inter({ subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-manrope",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://resumecheckers.com'),
   title: {
-    default: 'Resume Checkers | Free AI Resume Checker & ATS Scanner',
-    template: '%s | Resume Checkers'
+    default: 'ResuAI | AI Resume Builder, Analyzer & ATS Scanner',
+    template: '%s | ResuAI'
   },
-  description: 'Free AI Resume Checker & ATS Scanner - Analyze your resume instantly with our AI-powered tool. Get your resume score, ATS compatibility check, and expert feedback in 60 seconds. 100% free resume analysis.',
+  description: 'ResuAI is your AI co-pilot for resumes. Build, analyze, and optimize your resume with an ATS score checker and smart checklist — all in under 60 seconds.',
   keywords: [
-    'AI resume checker',
-    'resume ATS checker',
-    'free resume analysis',
-    'resume builder',
+    'ResuAI',
+    'AI resume builder',
+    'AI resume analyzer',
     'ATS resume scanner',
-    'resume score checker',
+    'resume checklist',
+    'AI resume checker',
     'resume optimization tool',
     'ATS friendly resume',
     'resume templates',
-    'resume analyzer'
+    'resume score'
   ],
-  authors: [{ name: 'Resume Checkers' }],
-  creator: 'Resume Checkers',
-  publisher: 'Resume Checkers',
+  authors: [{ name: 'ResuAI' }],
+  creator: 'ResuAI',
+  publisher: 'ResuAI',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://resumecheckers.com',
-    siteName: 'Resume Checkers',
-    title: 'Resume Checkers | Free AI Resume Checker & ATS Scanner',
-    description: 'Free AI Resume Checker & ATS Scanner - Analyze your resume instantly with our AI-powered tool. Get your resume score, ATS compatibility check, and expert feedback in 60 seconds.',
+    siteName: 'ResuAI',
+    title: 'ResuAI | AI Resume Builder, Analyzer & ATS Scanner',
+    description: 'Build, analyze, and optimize your resume with AI. Get an instant ATS score and a personalized checklist — in 60 seconds.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Resume Checkers - AI-Powered Resume Analysis',
+        alt: 'ResuAI — AI-Powered Resume Platform',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@resumecheckers',
-    creator: '@resumecheckers',
-    title: 'Resume Checkers | Free AI Resume Checker & ATS Scanner',
-    description: 'Free AI Resume Checker & ATS Scanner - Analyze your resume instantly with our AI-powered tool.',
+    site: '@resuai',
+    creator: '@resuai',
+    title: 'ResuAI | AI Resume Builder, Analyzer & ATS Scanner',
+    description: 'Build, analyze, and optimize your resume with AI. Get an instant ATS score — in 60 seconds.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -66,7 +78,7 @@ export const metadata: Metadata = {
     canonical: 'https://resumecheckers.com',
   },
   verification: {
-    google: 'your-google-verification-code', // Add your Google Search Console verification code
+    google: 'your-google-verification-code',
   },
 };
 
@@ -76,8 +88,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${manrope.variable}`}>
+      <body className={manrope.className}>
         <Providers>
           {children}
         </Providers>
