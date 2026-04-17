@@ -101,6 +101,7 @@ const iconColors = {
 export default function ResumeChecklist() {
   const [generalChecklist, setGeneralChecklist] = useState<ChecklistItem[]>(generalChecklistItems);
   const [personalizedFeedback, setPersonalizedFeedback] = useState<ChecklistItem[]>([]);
+  const [removedItems, setRemovedItems] = useState<Set<string>>(new Set());
   const theme = useTheme();
 
   useEffect(() => {
@@ -134,9 +135,14 @@ export default function ResumeChecklist() {
       }));
       setPersonalizedFeedback(reconstructedFeedback);
     }
+
+    const savedRemovedItems = Cookies.get('removedItems');
+    if (savedRemovedItems) {
+      setRemovedItems(new Set(JSON.parse(savedRemovedItems)));
+    }
   }, []);
 
-  const handleCheckboxChange = (index: number, isPersonalized: boolean) => {
+  const handleCheckboxChange = async (index: number, isPersonalized: boolean) => {
     if (isPersonalized) {
       const newPersonalizedFeedback = [...personalizedFeedback];
       const wasChecked = newPersonalizedFeedback[index].checked;
@@ -152,7 +158,7 @@ export default function ResumeChecklist() {
         totalItems: personalizedFeedback.length,
         completedItems: newPersonalizedFeedback.filter(item => item.checked).length
       });
-      
+
       // Store only serializable data
       const storedFeedback: StoredChecklistItem[] = newPersonalizedFeedback.map((item, idx) => ({
         text: item.text,
@@ -160,6 +166,14 @@ export default function ResumeChecklist() {
         iconType: getIconType(idx)
       }));
       Cookies.set('personalizedFeedback', JSON.stringify(storedFeedback), { expires: 30 });
+
+      if (newPersonalizedFeedback[index].checked) {
+        await new Promise(resolve => setTimeout(resolve, 500)); // Wait for animation
+        const newRemovedItems = new Set(removedItems);
+        newRemovedItems.add(`personalized-${index}`);
+        setRemovedItems(newRemovedItems);
+        Cookies.set('removedItems', JSON.stringify(Array.from(newRemovedItems)), { expires: 30 });
+      }
     } else {
       const newGeneralChecklist = [...generalChecklist];
       const wasChecked = newGeneralChecklist[index].checked;
@@ -175,7 +189,7 @@ export default function ResumeChecklist() {
         totalItems: generalChecklist.length,
         completedItems: newGeneralChecklist.filter(item => item.checked).length
       });
-      
+
       // Store only serializable data
       const storedChecklist: StoredChecklistItem[] = newGeneralChecklist.map((item, idx) => ({
         text: item.text,
@@ -183,22 +197,55 @@ export default function ResumeChecklist() {
         iconType: getIconType(idx)
       }));
       Cookies.set('resumeChecklist', JSON.stringify(storedChecklist), { expires: 30 });
+
+      if (newGeneralChecklist[index].checked) {
+        await new Promise(resolve => setTimeout(resolve, 500)); // Wait for animation
+        const newRemovedItems = new Set(removedItems);
+        newRemovedItems.add(`general-${index}`);
+        setRemovedItems(newRemovedItems);
+        Cookies.set('removedItems', JSON.stringify(Array.from(newRemovedItems)), { expires: 30 });
+      }
     }
+  };
+
+  const handleReanalyze = () => {
+    // Reset all local state + cookies so the user starts fresh
+    setGeneralChecklist(generalChecklistItems);
+    setPersonalizedFeedback([]);
+    setRemovedItems(new Set());
+    Cookies.remove('resumeChecklist');
+    Cookies.remove('personalizedFeedback');
+    Cookies.remove('removedItems');
+  };
+
+  const isItemRemoved = (index: number, isPersonalized: boolean) => {
+    return removedItems.has(`${isPersonalized ? 'personalized' : 'general'}-${index}`);
+  };
+
+  const allItemsChecked = () => {
+    const generalAllChecked = generalChecklist.every((item, index) =>
+      item.checked || isItemRemoved(index, false)
+    );
+    const personalizedAllChecked = personalizedFeedback.length === 0 ||
+      personalizedFeedback.every((item, index) =>
+        item.checked || isItemRemoved(index, true)
+      );
+    return generalAllChecked && personalizedAllChecked;
   };
 
   const renderChecklist = (items: ChecklistItem[], isPersonalized: boolean) => (
     <List sx={{ '& > *': { mb: 2 } }}>
-      {items.map((item, index) => (
+      {items.map((item, index) => isItemRemoved(index, isPersonalized) ? null : (
         <motion.div
           key={index}
           initial={{ opacity: 1, x: 0 }}
-          animate={{ 
+          animate={{
             opacity: item.checked ? 0 : 1,
             x: item.checked ? 500 : 0,
             height: item.checked ? 0 : 'auto',
             marginBottom: item.checked ? 0 : 16
           }}
-          transition={{ 
+          transition={{
             duration: 0.5,
             ease: "easeInOut"
           }}
@@ -361,8 +408,13 @@ export default function ResumeChecklist() {
             }}
           >
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{
+                opacity: 1,
+                // Floats the CTA upward when every item is either checked or
+                // already removed, surfacing it into view as the list empties.
+                y: allItemsChecked() ? -200 : 0,
+              }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
               <Button
@@ -375,8 +427,11 @@ export default function ResumeChecklist() {
                   track('Reanalyze Resume Button Clicked', {
                     fromPage: 'resume-checklist',
                     personalizedItemsRemaining: personalizedFeedback.filter(item => !item.checked).length,
-                    generalItemsRemaining: generalChecklist.filter(item => !item.checked).length
+                    generalItemsRemaining: generalChecklist.filter(item => !item.checked).length,
+                    allItemsChecked: allItemsChecked(),
                   });
+                  // Clear local state so the next analysis starts fresh.
+                  handleReanalyze();
                 }}
                 sx={{
                   borderRadius: '50px',
