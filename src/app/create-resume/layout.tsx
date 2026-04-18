@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Free Resume Builder | 50+ Professional Resume Templates',
-  description: 'Create a professional resume in minutes with our free resume builder. Choose from 50+ ATS-friendly templates, AI-powered suggestions, and instant PDF download. Build your perfect resume today.',
+  title: 'Resume Builder | ResuAI — 50+ Professional Templates',
+  description: 'Create a professional resume in minutes with ResuAI’s AI-powered builder. 50+ ATS-friendly templates, real-time preview, inline AI rewrites, and instant PDF download. Free during our launch.',
   keywords: [
     'free resume builder',
     'resume templates',
@@ -15,8 +15,8 @@ export const metadata: Metadata = {
     'resume builder free download',
   ],
   openGraph: {
-    title: 'Free Resume Builder | 50+ Professional Resume Templates',
-    description: 'Create a professional resume in minutes. 50+ templates, AI-powered suggestions, instant PDF download. 100% free.',
+    title: 'Resume Builder | ResuAI',
+    description: 'Create a professional resume in minutes. 50+ templates, AI-powered suggestions, instant PDF download. Free during launch.',
     url: 'https://resumecheckers.com/create-resume',
     type: 'website',
     images: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Free Resume Builder | 50+ Professional Resume Templates',
+    title: 'Resume Builder | ResuAI',
     description: 'Create a professional resume in minutes. 50+ templates, AI-powered suggestions, instant PDF download.',
     images: ['/builder-preview.png'],
   },
