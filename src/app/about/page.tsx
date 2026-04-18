@@ -1,607 +1,661 @@
 "use client";
 
-import { Container, Typography, Grid, Paper, Box, Button, useTheme, alpha } from '@mui/material';
-import { RocketLaunch, Lightbulb, People, Handshake } from '@mui/icons-material';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Image from 'next/image';
+import Footer from '@/components/Footer';
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Button,
+} from '@mui/material';
+import {
+  RocketLaunch,
+  Lightbulb,
+  People,
+  Handshake,
+  ArrowForward,
+} from '@mui/icons-material';
 
-interface Feature {
+interface ValueCard {
   title: string;
   description: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
 }
 
-const features: Feature[] = [
+interface RoadmapCard {
+  title: string;
+  eta: string;
+  description: string;
+  icon: React.ReactNode;
+}
+
+const values: ValueCard[] = [
   {
-    title: "Innovation",
-    description: "Leveraging cutting-edge AI technology to revolutionize resume optimization.",
-    icon: <RocketLaunch sx={{ fontSize: 48, color: 'primary.main' }} />,
+    title: 'Innovation',
+    description:
+      'Cutting-edge AI, thoughtfully applied. We don\u2019t ship hype — we ship tools that measurably improve your resume.',
+    icon: <RocketLaunch sx={{ fontSize: 28 }} />,
   },
   {
-    title: "Smart Analysis",
-    description: "Advanced algorithms that understand what recruiters and ATS systems look for.",
-    icon: <Lightbulb sx={{ fontSize: 48, color: 'warning.main' }} />,
+    title: 'Smart analysis',
+    description:
+      'Our models read your resume the way modern ATS parsers and recruiters do — line by line, keyword by keyword.',
+    icon: <Lightbulb sx={{ fontSize: 28 }} />,
   },
   {
-    title: "User-Focused",
-    description: "Designed with real job seekers needs in mind.",
-    icon: <People sx={{ fontSize: 48, color: 'success.main' }} />,
+    title: 'User-first',
+    description:
+      'Every feature exists because a job seeker needed it. No dark patterns, no upsells disguised as advice.',
+    icon: <People sx={{ fontSize: 28 }} />,
   },
   {
-    title: "Results-Driven",
-    description: "Committed to helping you land your dream job.",
-    icon: <Handshake sx={{ fontSize: 48, color: 'secondary.main' }} />,
+    title: 'Results-driven',
+    description:
+      'Our north star is simple: more interviews, faster. If a feature doesn\u2019t push that number, we cut it.',
+    icon: <Handshake sx={{ fontSize: 28 }} />,
   },
 ];
 
-export default function About() {
-  const theme = useTheme();
-  
+const roadmap: RoadmapCard[] = [
+  {
+    title: 'AI Interview Coach',
+    eta: 'Coming Q1 2026',
+    description:
+      'Practice interviews with an AI coach that simulates real scenarios and gives you personalized, specific feedback.',
+    icon: <RocketLaunch sx={{ fontSize: 28 }} />,
+  },
+  {
+    title: 'Job Match AI',
+    eta: 'Coming Q2 2026',
+    description:
+      'AI-powered job matching that surfaces the roles most aligned with your resume, skills, and career goals.',
+    icon: <Handshake sx={{ fontSize: 28 }} />,
+  },
+  {
+    title: 'Career Path Planner',
+    eta: 'Coming Q3 2026',
+    description:
+      'Map the path from where you are to where you want to be — with the exact skills and milestones to hit next.',
+    icon: <Lightbulb sx={{ fontSize: 28 }} />,
+  },
+];
+
+export default function AboutPage() {
   return (
-    <Box sx={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      flexDirection: 'column',
-      bgcolor: 'background.default',
-      color: 'text.primary'
-    }}>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: 'background.default',
+        color: 'text.primary',
+      }}
+    >
       <Navbar />
-      
-      {/* Hero Section */}
-      <Box 
-        sx={{ 
-          pt: 12, 
-          pb: 10, 
-          textAlign: 'center',
-          background: 'linear-gradient(180deg, rgba(240, 248, 245, 0.8) 0%, rgba(255, 255, 255, 0) 100%)',
+
+      {/* ========= HERO ========= */}
+      <Box
+        sx={{
           position: 'relative',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          pt: { xs: 8, md: 12 },
+          pb: { xs: 10, md: 14 },
+          borderBottom: '1px solid',
+          borderColor: 'divider',
         }}
       >
-        {/* Background Elements */}
-        <Box 
-          sx={{ 
-            position: 'absolute', 
-            top: 0, 
-            left: 0, 
-            width: '100%', 
-            height: '100%', 
-            opacity: 0.05,
-            zIndex: 0,
-            background: 'radial-gradient(circle at 20% 30%, rgba(0, 168, 150, 0.4) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0, 168, 150, 0.4) 0%, transparent 40%)'
-          }} 
+        {/* Ambient blobs */}
+        <Box
+          aria-hidden
+          sx={{
+            position: 'absolute',
+            top: -140,
+            right: -140,
+            width: 540,
+            height: 540,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(63, 81, 181, 0.3), transparent 70%)',
+            filter: 'blur(90px)',
+            pointerEvents: 'none',
+          }}
         />
-        
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        <Box
+          aria-hidden
+          sx={{
+            position: 'absolute',
+            bottom: -160,
+            left: -160,
+            width: 520,
+            height: 520,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(0, 229, 255, 0.28), transparent 70%)',
+            filter: 'blur(80px)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.6 }}
           >
-            <Typography 
-              variant="h1" 
-              component="h1"
-              sx={{ 
-                mb: 3, 
-                color: 'primary.main', 
-                fontWeight: 700,
-                fontSize: { xs: '2.5rem', md: '3.5rem' }
+            <Typography
+              sx={{
+                display: 'inline-block',
+                textTransform: 'uppercase',
+                letterSpacing: '0.18em',
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                color: 'info.main',
+                mb: 2,
               }}
             >
-              About Resume Checkers
+              About ResuAI
             </Typography>
-            <Typography 
-              component="p"
-              sx={{ 
-                maxWidth: '800px',
+            <Typography
+              variant="h1"
+              sx={{
+                fontFamily: '"Space Grotesk", sans-serif',
+                fontWeight: 700,
+                fontSize: { xs: '2.5rem', sm: '3rem', md: '3.75rem' },
+                letterSpacing: '-0.02em',
+                lineHeight: 1.05,
+                color: 'text.primary',
+                mb: 3,
+                maxWidth: 880,
                 mx: 'auto',
-                mb: 6,
-                color: 'text.secondary',
-                fontSize: '1.25rem',
-                lineHeight: 1.6
               }}
             >
-              We're on a mission to revolutionize how job seekers approach their career journey, 
-              providing cutting-edge AI tools that make resume optimization accessible to everyone.
+              Better resumes, <Box component="span" sx={{ color: 'info.main' }}>fewer guesses.</Box>
+            </Typography>
+            <Typography
+              sx={{
+                maxWidth: 720,
+                mx: 'auto',
+                color: 'text.secondary',
+                fontSize: { xs: '1rem', md: '1.2rem' },
+                lineHeight: 1.6,
+              }}
+            >
+              We built ResuAI for the 10,000+ job seekers who told us the same thing: <Box component="em" sx={{ color: 'text.primary', fontStyle: 'normal', fontWeight: 500 }}>&ldquo;I don&apos;t
+              know what to fix&rdquo;</Box>. Our AI answers that question in 60 seconds, with specifics you can action today.
             </Typography>
           </motion.div>
         </Container>
       </Box>
 
-      <Container maxWidth="lg">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          {/* Mission Section */}
-          <Box sx={{ textAlign: 'center', mb: 10, mt: 4 }}>
-            <Typography 
-              variant="h2" 
-              component="h2" 
-              sx={{ 
-                mb: 4, 
-                color: 'primary.main', 
-                fontWeight: 600,
-                position: 'relative',
-                display: 'inline-block',
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: -10,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: 80,
-                  height: 4,
-                  bgcolor: 'primary.main',
-                  borderRadius: 2
-                }
-              }}
-            >
-              Our Mission
-            </Typography>
-            <Typography 
-              component="p" 
-              sx={{ 
-                maxWidth: '800px',
-                mx: 'auto',
-                mb: 6,
-                color: 'text.secondary',
-                textAlign: 'center',
-                fontSize: { xs: '1.5rem', md: '1.75rem' },
-                lineHeight: 1.5,
-                fontWeight: 500
-              }}
-            >
-              To empower job seekers with AI-driven tools that transform their resumes into powerful assets for career success.
-            </Typography>
-          </Box>
-
-          {/* Values Grid */}
-          <Box sx={{ mb: 12 }}>
-            <Typography 
-              variant="h2" 
-              component="h2" 
-              sx={{ 
-                mb: 6, 
-                textAlign: 'center',
-                color: 'text.primary', 
-                fontWeight: 600
-              }}
-            >
-              Our Core Values
-            </Typography>
-            <Grid container spacing={4}>
-              {features.map((feature, index) => (
-                <Grid item xs={12} sm={6} md={3} key={index}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.2, duration: 0.5 }}
-                  >
-                    <Paper
-                      elevation={0}
-                      sx={{
-                        p: 4,
-                        height: 320,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        textAlign: 'center',
-                        bgcolor: 'background.paper',
-                        borderRadius: '16px',
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                        '&:hover': {
-                          transform: 'translateY(-8px)',
-                          boxShadow: '0 10px 20px rgba(0, 168, 150, 0.1)',
-                          borderColor: 'primary.main',
-                        }
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          mb: 3,
-                          p: 2,
-                          borderRadius: '50%',
-                          bgcolor: alpha(theme.palette.primary.main, 0.1),
-                          display: 'inline-flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          width: 80,
-                          height: 80
-                        }}
-                      >
-                        {feature.icon}
-                      </Box>
-                      <Typography 
-                        variant="h4" 
-                        component="h3" 
-                        sx={{ 
-                          mb: 2, 
-                          color: 'text.primary',
-                          fontWeight: 600,
-                          fontSize: '1.5rem'
-                        }}
-                      >
-                        {feature.title}
-                      </Typography>
-                      <Typography 
-                        component="p" 
-                        sx={{ 
-                          color: 'text.secondary',
-                          fontSize: '1rem',
-                          lineHeight: 1.6,
-                          flexGrow: 1,
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}
-                      >
-                        {feature.description}
-                      </Typography>
-                    </Paper>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-
-          {/* Team Section */}
-          <Box sx={{ textAlign: 'center', mb: 12 }}>
-            <Typography 
-              variant="h2" 
-              component="h2" 
-              sx={{ 
-                mb: 4, 
-                color: 'text.primary',
-                fontWeight: 600
-              }}
-            >
-              Future Roadmap
-            </Typography>
-            <Typography 
-              component="p" 
-              sx={{ 
-                mb: 6, 
-                color: 'text.secondary',
-                maxWidth: '700px',
-                mx: 'auto',
-                fontSize: '1.1rem',
-                lineHeight: 1.6
-              }}
-            >
-              Our vision is to create the ultimate platform for all your job hunting needs. Here's what we're building towards:
-            </Typography>
-            <Grid container spacing={4} justifyContent="center">
-              <Grid item xs={12} md={4}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0 }}
-                >
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      p: 4,
-                      height: 350,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      bgcolor: 'background.paper',
-                      borderRadius: '16px',
-                      border: '1px solid',
-                      borderColor: 'divider',
-                      overflow: 'hidden',
-                      position: 'relative'
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '6px',
-                        background: 'linear-gradient(90deg, #00A896 0%, #02C39A 100%)'
-                      }}
-                    />
-                    <Box
-                      sx={{
-                        width: 120,
-                        height: 120,
-                        borderRadius: '50%',
-                        bgcolor: alpha(theme.palette.primary.main, 0.1),
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        mx: 'auto',
-                        mb: 3,
-                        border: '4px solid',
-                        borderColor: alpha(theme.palette.primary.main, 0.2)
-                      }}
-                    >
-                      <RocketLaunch sx={{ fontSize: 48, color: 'primary.main' }} />
-                    </Box>
-                    <Typography 
-                      variant="h4" 
-                      component="h3" 
-                      sx={{ 
-                        mb: 1,
-                        fontWeight: 600,
-                        fontSize: '1.5rem'
-                      }}
-                    >
-                      AI Interview Coach
-                    </Typography>
-                    <Typography 
-                      component="p" 
-                      sx={{ 
-                        mb: 2,
-                        color: 'primary.main',
-                        fontWeight: 500,
-                        fontSize: '1.125rem'
-                      }}
-                    >
-                      Coming Q1 2025
-                    </Typography>
-                    <Typography 
-                      component="p" 
-                      sx={{ 
-                        color: 'text.secondary',
-                        fontSize: '1rem',
-                        lineHeight: 1.6
-                      }}
-                    >
-                      Practice interviews with our AI coach that simulates real interview scenarios and provides personalized feedback.
-                    </Typography>
-                  </Paper>
-                </motion.div>
-              </Grid>
-              
-              <Grid item xs={12} md={4}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      p: 4,
-                      height: 350,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      bgcolor: 'background.paper',
-                      borderRadius: '16px',
-                      border: '1px solid',
-                      borderColor: 'divider',
-                      overflow: 'hidden',
-                      position: 'relative'
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '6px',
-                        background: 'linear-gradient(90deg, #00A896 0%, #02C39A 100%)'
-                      }}
-                    />
-                    <Box
-                      sx={{
-                        width: 120,
-                        height: 120,
-                        borderRadius: '50%',
-                        bgcolor: alpha(theme.palette.secondary.main, 0.1),
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        mx: 'auto',
-                        mb: 3,
-                        border: '4px solid',
-                        borderColor: alpha(theme.palette.secondary.main, 0.2)
-                      }}
-                    >
-                      <Handshake sx={{ fontSize: 48, color: 'secondary.main' }} />
-                    </Box>
-                    <Typography 
-                      variant="h4" 
-                      component="h3" 
-                      sx={{ 
-                        mb: 1,
-                        fontWeight: 600,
-                        fontSize: '1.5rem'
-                      }}
-                    >
-                      Job Match AI
-                    </Typography>
-                    <Typography 
-                      component="p" 
-                      sx={{ 
-                        mb: 2,
-                        color: 'secondary.main',
-                        fontWeight: 500,
-                        fontSize: '1.125rem'
-                      }}
-                    >
-                      Coming Q2 2025
-                    </Typography>
-                    <Typography 
-                      component="p" 
-                      sx={{ 
-                        color: 'text.secondary',
-                        fontSize: '1rem',
-                        lineHeight: 1.6
-                      }}
-                    >
-                      AI-powered job matching that finds the perfect opportunities based on your skills, experience, and career goals.
-                    </Typography>
-                  </Paper>
-                </motion.div>
-              </Grid>
-              
-              <Grid item xs={12} md={4}>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      p: 4,
-                      height: 350,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      bgcolor: 'background.paper',
-                      borderRadius: '16px',
-                      border: '1px solid',
-                      borderColor: 'divider',
-                      overflow: 'hidden',
-                      position: 'relative'
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '6px',
-                        background: 'linear-gradient(90deg, #00A896 0%, #02C39A 100%)'
-                      }}
-                    />
-                    <Box
-                      sx={{
-                        width: 120,
-                        height: 120,
-                        borderRadius: '50%',
-                        bgcolor: alpha(theme.palette.warning.main, 0.1),
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        mx: 'auto',
-                        mb: 3,
-                        border: '4px solid',
-                        borderColor: alpha(theme.palette.warning.main, 0.2)
-                      }}
-                    >
-                      <Lightbulb sx={{ fontSize: 48, color: 'warning.main' }} />
-                    </Box>
-                    <Typography 
-                      variant="h4" 
-                      component="h3" 
-                      sx={{ 
-                        mb: 1,
-                        fontWeight: 600,
-                        fontSize: '1.5rem'
-                      }}
-                    >
-                      Career Path Planner
-                    </Typography>
-                    <Typography 
-                      component="p" 
-                      sx={{ 
-                        mb: 2,
-                        color: 'warning.main',
-                        fontWeight: 500,
-                        fontSize: '1.125rem'
-                      }}
-                    >
-                      Coming Q3 2025
-                    </Typography>
-                    <Typography 
-                      component="p" 
-                      sx={{ 
-                        color: 'text.secondary',
-                        fontSize: '1rem',
-                        lineHeight: 1.6
-                      }}
-                    >
-                      Strategic tools to map your career journey and identify essential skills for growth.
-                    </Typography>
-                  </Paper>
-                </motion.div>
-              </Grid>
-            </Grid>
-          </Box>
-
-          {/* Call to Action */}
-          <Box 
-            sx={{ 
-              textAlign: 'center', 
-              mb: 10,
-              py: 8,
-              px: 4,
-              borderRadius: '24px',
-              background: 'linear-gradient(135deg, rgba(0, 168, 150, 0.1) 0%, rgba(2, 195, 154, 0.05) 100%)',
-              border: '1px solid',
-              borderColor: alpha(theme.palette.primary.main, 0.2)
-            }}
+      {/* ========= MISSION ========= */}
+      <Box sx={{ py: { xs: 10, md: 14 }, bgcolor: 'background.paper' }}>
+        <Container maxWidth="md">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6 }}
           >
-            <Typography 
-              variant="h3" 
-              component="h2" 
-              sx={{ 
-                mb: 3, 
-                color: 'text.primary',
+            <Box sx={{ textAlign: 'center', maxWidth: 720, mx: 'auto' }}>
+              <Typography
+                sx={{
+                  display: 'inline-block',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.18em',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  color: 'info.main',
+                  mb: 2,
+                }}
+              >
+                Our mission
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontFamily: '"Space Grotesk", sans-serif',
+                  fontWeight: 700,
+                  fontSize: { xs: '1.75rem', sm: '2.25rem', md: '2.75rem' },
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1.15,
+                  color: 'text.primary',
+                  mb: 2,
+                }}
+              >
+                To make resume-writing the least stressful part of your job search.
+              </Typography>
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontSize: { xs: '1rem', md: '1.125rem' },
+                  lineHeight: 1.7,
+                }}
+              >
+                We&apos;re small, opinionated, and relentlessly focused on one thing: turning your resume into
+                something that opens doors. Every bullet, every keyword, every layout choice — backed by AI that
+                reads resumes the way recruiters and ATS tools actually do.
+              </Typography>
+            </Box>
+          </motion.div>
+        </Container>
+      </Box>
+
+      {/* ========= CORE VALUES ========= */}
+      <Box sx={{ py: { xs: 10, md: 14 }, bgcolor: 'background.default' }}>
+        <Container maxWidth="lg">
+          {/* Section header */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <Box sx={{ textAlign: 'center', mb: { xs: 8, md: 10 }, maxWidth: 680, mx: 'auto' }}>
+              <Typography
+                sx={{
+                  display: 'inline-block',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.18em',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  color: 'info.main',
+                  mb: 2,
+                }}
+              >
+                Core values
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontFamily: '"Space Grotesk", sans-serif',
+                  fontWeight: 700,
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1.1,
+                  color: 'text.primary',
+                  mb: 2.5,
+                }}
+              >
+                How we build, every day.
+              </Typography>
+              <Typography sx={{ color: 'text.secondary', fontSize: { xs: '1rem', md: '1.1rem' }, lineHeight: 1.6 }}>
+                These aren&apos;t wall posters — they&apos;re the filter every feature passes through before it ships.
+              </Typography>
+            </Box>
+          </motion.div>
+
+          <Grid container spacing={{ xs: 3, md: 3.5 }}>
+            {values.map((value, index) => (
+              <Grid item xs={12} sm={6} md={3} key={value.title}>
+                <motion.div
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
+                  style={{ height: '100%' }}
+                >
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      height: '100%',
+                      minHeight: 280,
+                      p: { xs: 3, md: 3.5 },
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      backgroundColor: 'rgba(245, 247, 250, 0.04)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(245, 247, 250, 0.08)',
+                      boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                      transition:
+                        'transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.15), ' +
+                        'border-color 0.4s ease, ' +
+                        'box-shadow 0.4s ease',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        borderColor: 'rgba(0, 229, 255, 0.35)',
+                        boxShadow:
+                          '0 18px 44px -22px rgba(0, 229, 255, 0.3), ' +
+                          'inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                      },
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: 140,
+                        height: 140,
+                        borderBottomRightRadius: '100%',
+                        background:
+                          'radial-gradient(circle at top left, rgba(63, 81, 181, 0.22), transparent 65%)',
+                        pointerEvents: 'none',
+                      },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 52,
+                        height: 52,
+                        borderRadius: '12px',
+                        mb: 2.5,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background:
+                          'linear-gradient(135deg, rgba(63, 81, 181, 0.25), rgba(0, 229, 255, 0.18))',
+                        border: '1px solid rgba(0, 229, 255, 0.28)',
+                        color: 'info.main',
+                        position: 'relative',
+                        zIndex: 1,
+                      }}
+                    >
+                      {value.icon}
+                    </Box>
+                    <Typography
+                      sx={{
+                        fontFamily: '"Space Grotesk", sans-serif',
+                        fontWeight: 700,
+                        fontSize: '1.15rem',
+                        letterSpacing: '-0.01em',
+                        color: 'text.primary',
+                        mb: 1,
+                        position: 'relative',
+                        zIndex: 1,
+                      }}
+                    >
+                      {value.title}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: 'text.secondary',
+                        fontSize: '0.95rem',
+                        lineHeight: 1.6,
+                        position: 'relative',
+                        zIndex: 1,
+                      }}
+                    >
+                      {value.description}
+                    </Typography>
+                  </Box>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* ========= ROADMAP ========= */}
+      <Box sx={{ py: { xs: 10, md: 14 }, bgcolor: 'background.paper' }}>
+        <Container maxWidth="lg">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <Box sx={{ textAlign: 'center', mb: { xs: 8, md: 10 }, maxWidth: 680, mx: 'auto' }}>
+              <Typography
+                sx={{
+                  display: 'inline-block',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.18em',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  color: 'info.main',
+                  mb: 2,
+                }}
+              >
+                What&apos;s next
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontFamily: '"Space Grotesk", sans-serif',
+                  fontWeight: 700,
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1.1,
+                  color: 'text.primary',
+                  mb: 2.5,
+                }}
+              >
+                The roadmap beyond the resume.
+              </Typography>
+              <Typography sx={{ color: 'text.secondary', fontSize: { xs: '1rem', md: '1.1rem' }, lineHeight: 1.6 }}>
+                A resume is just the first step. Here&apos;s what we&apos;re building to carry you the rest of the way.
+              </Typography>
+            </Box>
+          </motion.div>
+
+          <Grid container spacing={{ xs: 3, md: 3.5 }} justifyContent="center">
+            {roadmap.map((item, index) => (
+              <Grid item xs={12} md={4} key={item.title}>
+                <motion.div
+                  initial={{ opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.55, delay: index * 0.12 }}
+                  style={{ height: '100%' }}
+                >
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      height: '100%',
+                      minHeight: 320,
+                      p: { xs: 3.5, md: 4 },
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      textAlign: 'center',
+                      backgroundColor: 'rgba(245, 247, 250, 0.04)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(245, 247, 250, 0.08)',
+                      boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                      transition:
+                        'transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.15), ' +
+                        'border-color 0.4s ease, ' +
+                        'box-shadow 0.4s ease',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        borderColor: 'rgba(0, 229, 255, 0.35)',
+                        boxShadow:
+                          '0 18px 44px -22px rgba(0, 229, 255, 0.3), ' +
+                          'inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                      },
+                      // Top accent strip
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 3,
+                        background:
+                          'linear-gradient(90deg, transparent, rgba(63, 81, 181, 0.65), rgba(0, 229, 255, 0.65), transparent)',
+                      },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 64,
+                        height: 64,
+                        borderRadius: '16px',
+                        mx: 'auto',
+                        mb: 3,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background:
+                          'linear-gradient(135deg, rgba(63, 81, 181, 0.25), rgba(0, 229, 255, 0.18))',
+                        border: '1px solid rgba(0, 229, 255, 0.28)',
+                        color: 'info.main',
+                      }}
+                    >
+                      {item.icon}
+                    </Box>
+                    <Typography
+                      sx={{
+                        fontFamily: '"Space Grotesk", sans-serif',
+                        fontWeight: 700,
+                        fontSize: '1.35rem',
+                        letterSpacing: '-0.01em',
+                        color: 'text.primary',
+                        mb: 1,
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: 'info.main',
+                        fontFamily: '"Space Grotesk", sans-serif',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        mb: 2.5,
+                      }}
+                    >
+                      {item.eta}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: 'text.secondary',
+                        fontSize: '0.95rem',
+                        lineHeight: 1.65,
+                      }}
+                    >
+                      {item.description}
+                    </Typography>
+                  </Box>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* ========= FINAL CTA ========= */}
+      <Box
+        sx={{
+          position: 'relative',
+          overflow: 'hidden',
+          py: { xs: 10, md: 14 },
+          borderTop: '1px solid',
+          borderColor: 'divider',
+        }}
+      >
+        <Box
+          aria-hidden
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 680,
+            height: 680,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(0, 229, 255, 0.16), transparent 65%)',
+            filter: 'blur(80px)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <Typography
+              sx={{
+                display: 'inline-block',
+                textTransform: 'uppercase',
+                letterSpacing: '0.18em',
+                fontSize: '0.72rem',
                 fontWeight: 600,
-                fontSize: { xs: '1.75rem', md: '2.25rem' }
+                color: 'info.main',
+                mb: 2,
               }}
             >
-              Ready to Transform Your Resume?
+              Join us
             </Typography>
-            <Typography 
-              component="p" 
-              sx={{ 
-                mb: 4, 
-                color: 'text.secondary',
-                maxWidth: '700px',
-                mx: 'auto',
-                fontSize: '1.1rem',
-                lineHeight: 1.6
+            <Typography
+              variant="h2"
+              sx={{
+                fontFamily: '"Space Grotesk", sans-serif',
+                fontWeight: 700,
+                fontSize: { xs: '2rem', md: '2.75rem' },
+                letterSpacing: '-0.02em',
+                lineHeight: 1.1,
+                color: 'text.primary',
+                mb: 2.5,
               }}
             >
-              Join thousands of successful job seekers who've improved their resumes with our AI-powered tools.
+              Ready to transform your resume?
+            </Typography>
+            <Typography
+              sx={{
+                color: 'text.secondary',
+                fontSize: { xs: '1rem', md: '1.1rem' },
+                lineHeight: 1.6,
+                mb: 5,
+                maxWidth: 540,
+                mx: 'auto',
+              }}
+            >
+              Join 10,000+ job seekers who&apos;ve already used ResuAI to turn their resumes into interview invites.
             </Typography>
             <Button
               component={Link}
-              href="/resume-analyzer"
+              href="/create-resume"
+              className="hero-cta-orbit"
               variant="contained"
-              color="primary"
               size="large"
-              sx={{ 
-                px: 5, 
-                py: 1.5, 
-                borderRadius: '100px',
-                fontSize: '1.1rem',
-                fontWeight: 500,
-                boxShadow: '0 4px 14px rgba(0, 168, 150, 0.4)',
+              endIcon={<ArrowForward />}
+              sx={{
+                py: 1.6,
+                px: 3.5,
+                fontSize: '1rem',
+                fontWeight: 600,
+                borderRadius: '10px',
+                letterSpacing: '0.01em',
+                textTransform: 'none',
+                backgroundImage:
+                  'linear-gradient(135deg, #3F51B5 0%, #1E2A78 100%)',
+                boxShadow:
+                  '0 10px 24px -12px rgba(0, 229, 255, 0.18), ' +
+                  'inset 0 1px 0 0 rgba(255, 255, 255, 0.12)',
+                transition:
+                  'transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15), ' +
+                  'box-shadow 0.28s ease, ' +
+                  'background-image 0.28s ease',
+                '& .MuiButton-endIcon': {
+                  transition: 'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3)',
+                },
                 '&:hover': {
-                  boxShadow: '0 6px 20px rgba(0, 168, 150, 0.6)',
-                }
+                  backgroundImage:
+                    'linear-gradient(135deg, #4A5CC5 0%, #2A3890 100%)',
+                  boxShadow:
+                    '0 14px 38px -10px rgba(0, 229, 255, 0.38), ' +
+                    'inset 0 1px 0 0 rgba(255, 255, 255, 0.16)',
+                  transform: 'translateY(-2px)',
+                  '& .MuiButton-endIcon': {
+                    transform: 'translateX(4px)',
+                  },
+                },
               }}
             >
-              Get Started Now
+              Get started now
             </Button>
-          </Box>
-        </motion.div>
-      </Container>
+          </motion.div>
+        </Container>
+      </Box>
+
+      <Footer />
     </Box>
   );
 }

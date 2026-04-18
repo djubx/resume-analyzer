@@ -27,7 +27,10 @@ import {
   FiberManualRecord,
 } from '@mui/icons-material';
 import { FaWrench, FaFileAlt, FaChartLine, FaListAlt } from 'react-icons/fa';
-import React from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
+
+const HERO_GRID_COLS = 22;
+const HERO_GRID_ROWS = 12;
 
 // Priority-ordered pillars: Builder → Analyzer → ATS → Checklist
 const pillars = [
@@ -81,6 +84,51 @@ const trustStats = [
 ];
 
 export default function Home() {
+  // The interactive hero grid is driven by two CSS custom properties
+  // (`--mx` / `--my`) on the hero container. Children read them via
+  // inheritance and compute per-cell transforms in pure CSS.
+  // We keep the listeners as refs + rAF so React never re-renders on move.
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number>(0);
+  const pendingRef = useRef<{ x: number; y: number }>({ x: -999, y: -999 });
+
+  const flushHeroVars = () => {
+    rafRef.current = 0;
+    const el = heroRef.current;
+    if (!el) return;
+    el.style.setProperty('--mx', String(pendingRef.current.x));
+    el.style.setProperty('--my', String(pendingRef.current.y));
+  };
+
+  const handleHeroMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = heroRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    pendingRef.current.x = ((e.clientX - rect.left) / rect.width) * HERO_GRID_COLS;
+    pendingRef.current.y = ((e.clientY - rect.top) / rect.height) * HERO_GRID_ROWS;
+    if (!rafRef.current) rafRef.current = requestAnimationFrame(flushHeroVars);
+  };
+
+  const handleHeroLeave = () => {
+    pendingRef.current.x = -999;
+    pendingRef.current.y = -999;
+    if (!rafRef.current) rafRef.current = requestAnimationFrame(flushHeroVars);
+  };
+
+  useEffect(() => () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  // The cell array is static — memoize so it's allocated once.
+  const heroGridCells = useMemo(
+    () =>
+      Array.from({ length: HERO_GRID_COLS * HERO_GRID_ROWS }, (_, idx) => ({
+        i: idx % HERO_GRID_COLS,
+        j: Math.floor(idx / HERO_GRID_COLS),
+      })),
+    [],
+  );
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -131,10 +179,13 @@ export default function Home() {
 
       {/* ========= HERO ========= */}
       <Box
+        ref={heroRef}
+        onPointerMove={handleHeroMove}
+        onPointerLeave={handleHeroLeave}
         sx={{
           position: 'relative',
           overflow: 'hidden',
-          pt: { xs: 8, md: 14 },
+          pt: { xs: 4, md: 7 },
           pb: { xs: 10, md: 16 },
           borderBottom: '1px solid',
           borderColor: 'divider',
@@ -172,19 +223,27 @@ export default function Home() {
             zIndex: 0,
           }}
         />
-        {/* Grid pattern overlay */}
+        {/* Interactive grid — cells scale + glow in a radial halo around the cursor */}
         <Box
           aria-hidden
+          className="hero-grid"
           sx={{
             position: 'absolute',
             inset: 0,
-            backgroundImage:
-              'linear-gradient(rgba(245,247,250,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(245,247,250,0.035) 1px, transparent 1px)',
-            backgroundSize: '48px 48px',
-            maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, transparent 80%)',
             zIndex: 0,
+            display: 'grid',
+            gridTemplateColumns: `repeat(${HERO_GRID_COLS}, 1fr)`,
+            gridTemplateRows: `repeat(${HERO_GRID_ROWS}, 1fr)`,
           }}
-        />
+        >
+          {heroGridCells.map(({ i, j }) => (
+            <div
+              key={`${i}-${j}`}
+              className="hero-grid-cell"
+              style={{ ['--i' as string]: i, ['--j' as string]: j } as React.CSSProperties}
+            />
+          ))}
+        </Box>
 
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           <Grid container spacing={6} alignItems="center">
@@ -255,33 +314,116 @@ export default function Home() {
                 </Typography>
 
                 {/* CTA row */}
+                {/* Shared CTA vocabulary — both buttons match on geometry,
+                    rhythm, and motion; only fill intensity differs.
+                    Primary = filled hero. Secondary = frosted sibling. */}
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 4 }}>
                   <Button
+                    className="hero-cta-orbit"
                     component={Link}
                     href="/create-resume"
                     variant="contained"
                     size="large"
                     endIcon={<ArrowForward />}
-                    sx={{ py: 1.6, px: 3.5, fontSize: '1rem' }}
+                    sx={{
+                      // ---- shared CTA vocabulary ----
+                      py: 1.6,
+                      px: 3.5,
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      borderRadius: '10px',
+                      letterSpacing: '0.01em',
+                      textTransform: 'none',
+                      // ---- primary-specific ----
+                      backgroundImage:
+                        'linear-gradient(135deg, #3F51B5 0%, #1E2A78 100%)',
+                      // Ambient cyan glow + inset top rim light ("lit from above").
+                      boxShadow:
+                        '0 10px 24px -12px rgba(0, 229, 255, 0.18), ' +
+                        'inset 0 1px 0 0 rgba(255, 255, 255, 0.12)',
+                      transition:
+                        'transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15), ' +
+                        'box-shadow 0.28s ease, ' +
+                        'letter-spacing 0.28s ease, ' +
+                        'background-image 0.28s ease',
+                      '& .MuiButton-endIcon': {
+                        transition:
+                          'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3)',
+                      },
+                      '&:hover': {
+                        backgroundImage:
+                          'linear-gradient(135deg, #4A5CC5 0%, #2A3890 100%)',
+                        boxShadow:
+                          '0 14px 38px -10px rgba(0, 229, 255, 0.38), ' +
+                          'inset 0 1px 0 0 rgba(255, 255, 255, 0.16)',
+                        transform: 'translateY(-2px)',
+                        letterSpacing: '0.02em',
+                        '& .MuiButton-endIcon': {
+                          transform: 'translateX(4px)',
+                        },
+                      },
+                      '&:active': {
+                        transform: 'translateY(0)',
+                        boxShadow:
+                          '0 6px 18px -12px rgba(0, 229, 255, 0.28), ' +
+                          'inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
+                        transitionDuration: '0.12s',
+                      },
+                    }}
                   >
                     Build my resume — it's free
                   </Button>
                   <Button
+                    className="hero-cta-orbit"
                     component={Link}
                     href="/resume-analyzer"
                     variant="outlined"
-                    color="primary"
                     size="large"
-                    startIcon={<Bolt sx={{ color: 'info.main' }} />}
+                    startIcon={<Bolt sx={{ color: 'info.main', opacity: 0.8 }} />}
                     sx={{
+                      // ---- shared CTA vocabulary ----
                       py: 1.6,
                       px: 3.5,
                       fontSize: '1rem',
-                      borderColor: 'divider',
+                      fontWeight: 600,
+                      borderRadius: '10px',
+                      letterSpacing: '0.01em',
+                      textTransform: 'none',
                       color: 'text.primary',
+                      // ---- frosted-glass ghost secondary (Linear / Raycast style) ----
+                      backgroundColor: 'rgba(245, 247, 250, 0.04)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(245, 247, 250, 0.10)',
+                      boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                      transition:
+                        'transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15), ' +
+                        'box-shadow 0.28s ease, ' +
+                        'letter-spacing 0.28s ease, ' +
+                        'background-color 0.28s ease, ' +
+                        'border-color 0.28s ease',
+                      '& .MuiButton-startIcon': {
+                        transition:
+                          'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3)',
+                      },
                       '&:hover': {
-                        borderColor: 'info.main',
-                        backgroundColor: 'rgba(0, 229, 255, 0.06)',
+                        backgroundColor: 'rgba(245, 247, 250, 0.08)',
+                        borderColor: 'rgba(0, 229, 255, 0.4)',
+                        boxShadow:
+                          '0 10px 28px -14px rgba(0, 229, 255, 0.22), ' +
+                          'inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                        transform: 'translateY(-2px)',
+                        letterSpacing: '0.02em',
+                        '& .MuiButton-startIcon': {
+                          transform: 'translateX(-2px) scale(1.05)',
+                        },
+                      },
+                      '&:active': {
+                        transform: 'translateY(0)',
+                        boxShadow:
+                          '0 4px 14px -12px rgba(0, 229, 255, 0.18), ' +
+                          'inset 0 1px 0 0 rgba(255, 255, 255, 0.04)',
+                        transitionDuration: '0.12s',
                       },
                     }}
                   >

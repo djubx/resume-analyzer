@@ -10,7 +10,6 @@ import {
   Container,
   Typography,
   Grid,
-  Paper,
   Button,
   useTheme,
   alpha,
@@ -150,100 +149,147 @@ export default function CareerStages() {
 
   return (
     <>
-      {/* Career Stages Section */}
-      <Box sx={{ py: 10, bgcolor: 'background.default' }}>
+      {/* ========= Career Stages Section ========= */}
+      <Box sx={{ py: { xs: 10, md: 14 }, bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
+          {/* Section header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6 }}
           >
-            <Typography 
-              variant="h2" 
-              align="center" 
-              sx={{ 
-                mb: 8, 
-                color: 'text.primary', 
-                fontWeight: 600 
-              }}
-            >
-              Tailored For Every Career Stage
-            </Typography>
+            <Box sx={{ textAlign: 'center', mb: { xs: 8, md: 10 }, maxWidth: 680, mx: 'auto' }}>
+              <Typography
+                sx={{
+                  display: 'inline-block',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.18em',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  color: 'info.main',
+                  mb: 2,
+                }}
+              >
+                For every career stage
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontFamily: '"Space Grotesk", sans-serif',
+                  fontWeight: 700,
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1.1,
+                  color: 'text.primary',
+                  mb: 2.5,
+                }}
+              >
+                Tailored advice, wherever you are.
+              </Typography>
+              <Typography sx={{ color: 'text.secondary', fontSize: { xs: '1rem', md: '1.1rem' }, lineHeight: 1.6 }}>
+                From fresh grads to executives, ResuAI adapts its feedback, templates, and scoring to match your
+                level and target role.
+              </Typography>
+            </Box>
           </motion.div>
 
-          <Grid container spacing={4} justifyContent="center">
+          <Grid container spacing={{ xs: 3, md: 3.5 }} justifyContent="center">
             {defaultCareerStages.map((stage, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
+              <Grid item xs={12} sm={6} md={4} key={stage.title}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 32 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.55, delay: index * 0.12 }}
+                  style={{ height: '100%' }}
                 >
-                  <Paper
-                    elevation={0}
+                  <Box
                     sx={{
-                      p: 4,
+                      p: { xs: 3.5, md: 4 },
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       textAlign: 'center',
                       borderRadius: '16px',
-                      border: '1px solid',
-                      borderColor: 'divider',
-                      bgcolor: 'background.paper',
                       position: 'relative',
                       overflow: 'hidden',
+                      backgroundColor: 'rgba(245, 247, 250, 0.04)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(245, 247, 250, 0.08)',
+                      boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                      transition:
+                        'transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.15), ' +
+                        'border-color 0.4s ease, ' +
+                        'box-shadow 0.4s ease',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        borderColor: 'rgba(0, 229, 255, 0.35)',
+                        boxShadow:
+                          '0 18px 44px -22px rgba(0, 229, 255, 0.3), ' +
+                          'inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                      },
+                      // Top radial bloom
                       '&::before': {
                         content: '""',
                         position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '100px',
-                        background: 'radial-gradient(circle at center top, rgba(0, 229, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
-                        zIndex: 0,
-                      }
+                        top: -40,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: 240,
+                        height: 160,
+                        background:
+                          'radial-gradient(ellipse at center, rgba(0, 229, 255, 0.18), transparent 65%)',
+                        pointerEvents: 'none',
+                      },
                     }}
                   >
                     <Box
                       sx={{
-                        mb: 2,
-                        p: 2,
-                        borderRadius: '50%',
-                        bgcolor: 'rgba(63, 81, 181, 0.15)',
-                        border: '1px solid rgba(0, 229, 255, 0.25)',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        position: 'relative',
                         zIndex: 1,
+                        width: 72,
+                        height: 72,
+                        borderRadius: '18px',
+                        mb: 3,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background:
+                          'linear-gradient(135deg, rgba(63, 81, 181, 0.25), rgba(0, 229, 255, 0.18))',
+                        border: '1px solid rgba(0, 229, 255, 0.28)',
                       }}
                     >
                       {stage.icon}
                     </Box>
                     <Typography
-                      variant="h4"
                       sx={{
-                        mb: 2,
-                        fontWeight: 600,
-                        color: 'info.main',
+                        position: 'relative',
                         zIndex: 1,
+                        fontFamily: '"Space Grotesk", sans-serif',
+                        fontWeight: 700,
+                        fontSize: { xs: '1.35rem', md: '1.5rem' },
+                        letterSpacing: '-0.01em',
+                        color: 'text.primary',
+                        mb: 1.5,
                       }}
                     >
                       {stage.title}
                     </Typography>
                     <Typography
-                      variant="body1"
                       sx={{
-                        color: 'text.secondary',
+                        position: 'relative',
                         zIndex: 1,
+                        color: 'text.secondary',
+                        fontSize: '1rem',
+                        lineHeight: 1.6,
                       }}
                     >
                       {stage.description}
                     </Typography>
-                  </Paper>
+                  </Box>
                 </motion.div>
               </Grid>
             ))}
@@ -251,75 +297,125 @@ export default function CareerStages() {
         </Container>
       </Box>
 
-      {/* Resume Upload Section */}
+      {/* ========= Resume Upload Section ========= */}
       <Box
         sx={{
-          py: 10,
-          background: 'linear-gradient(135deg, #1F2557 0%, #0A2A36 100%)',
-          borderTop: '1px solid rgba(0, 229, 255, 0.15)',
-          borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
-          color: 'white',
+          position: 'relative',
+          py: { xs: 10, md: 14 },
+          overflow: 'hidden',
+          bgcolor: 'background.paper',
+          borderTop: '1px solid',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
         }}
       >
-        <Container maxWidth="lg">
-          <Grid container spacing={6} alignItems="center">
+        {/* Ambient background blobs */}
+        <Box
+          aria-hidden
+          sx={{
+            position: 'absolute',
+            top: -120,
+            left: -120,
+            width: 520,
+            height: 520,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(63, 81, 181, 0.32), transparent 70%)',
+            filter: 'blur(80px)',
+            pointerEvents: 'none',
+          }}
+        />
+        <Box
+          aria-hidden
+          sx={{
+            position: 'absolute',
+            bottom: -140,
+            right: -140,
+            width: 540,
+            height: 540,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(0, 229, 255, 0.28), transparent 70%)',
+            filter: 'blur(90px)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+          <Grid container spacing={{ xs: 6, md: 8 }} alignItems="center">
             <Grid item xs={12} md={7}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.6 }}
               >
                 <Typography
+                  sx={{
+                    display: 'inline-block',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.18em',
+                    fontSize: '0.72rem',
+                    fontWeight: 600,
+                    color: 'info.main',
+                    mb: 2,
+                  }}
+                >
+                  60-second analysis
+                </Typography>
+                <Typography
                   variant="h2"
                   sx={{
-                    mb: 3,
-                    fontWeight: 600,
-                    color: 'white',
+                    fontFamily: '"Space Grotesk", sans-serif',
+                    fontWeight: 700,
+                    fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+                    letterSpacing: '-0.02em',
+                    lineHeight: 1.1,
+                    color: 'text.primary',
+                    mb: 2.5,
                   }}
                 >
                   Ready to supercharge your job search?
                 </Typography>
                 <Typography
-                  variant="body1"
                   sx={{
-                    mb: 4,
-                    fontWeight: 400,
-                    color: 'rgba(255, 255, 255, 0.9)',
+                    color: 'text.secondary',
+                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    lineHeight: 1.6,
+                    maxWidth: 520,
                   }}
                 >
-                  Be among the first to supercharge your job search with our AI-powered tools—your dream job is just a click away.
+                  Drop in your resume and we'll show you exactly what to sharpen — with AI-powered scoring, fixes,
+                  and a tailored action plan. Your dream job is one upload away.
                 </Typography>
               </motion.div>
             </Grid>
             <Grid item xs={12} md={5}>
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.96 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, delay: 0.15 }}
               >
-                <Paper
-                  elevation={6}
+                <Box
                   sx={{
-                    p: 4,
-                    borderRadius: '16px',
+                    p: { xs: 3.5, md: 4 },
+                    borderRadius: '18px',
                     textAlign: 'center',
-                    bgcolor: 'background.paper',
+                    backgroundColor: 'rgba(245, 247, 250, 0.04)',
+                    backdropFilter: 'blur(14px)',
+                    WebkitBackdropFilter: 'blur(14px)',
+                    border: '1px solid rgba(245, 247, 250, 0.1)',
+                    boxShadow:
+                      '0 22px 60px -28px rgba(0, 229, 255, 0.28), ' +
+                      'inset 0 1px 0 0 rgba(255, 255, 255, 0.07)',
                   }}
                 >
-                  <Box
-                    sx={{
-                      mb: 3,
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
-                  >
+                  <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center' }}>
                     <Box
                       sx={{
                         p: 2,
-                        borderRadius: '50%',
-                        bgcolor: 'rgba(0, 229, 255, 0.15)',
+                        borderRadius: '14px',
+                        bgcolor: 'rgba(0, 229, 255, 0.1)',
+                        border: '1px solid rgba(0, 229, 255, 0.25)',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -327,45 +423,42 @@ export default function CareerStages() {
                     >
                       <Image
                         src="/resume-icon.svg"
-                        alt="Resume Icon"
+                        alt=""
                         width={40}
                         height={40}
-                        style={{ opacity: 0.8 }}
+                        style={{ opacity: 0.9 }}
                       />
                     </Box>
                   </Box>
-                  
+
                   <Box
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                     sx={{
-                      border: `2px dashed ${isDragging ? theme.palette.primary.main : 'transparent'}`,
-                      borderRadius: '8px',
-                      p: 2,
-                      transition: 'all 0.2s ease',
-                      bgcolor: isDragging ? alpha(theme.palette.primary.main, 0.05) : 'transparent',
+                      border: '2px dashed',
+                      borderColor: isDragging ? 'info.main' : 'rgba(245, 247, 250, 0.14)',
+                      borderRadius: '12px',
+                      p: { xs: 2.5, md: 3 },
+                      transition: 'all 0.25s ease',
+                      bgcolor: isDragging ? alpha(theme.palette.info.main, 0.08) : 'transparent',
                     }}
                   >
                     <Typography
-                      variant="body1"
                       sx={{
-                        mb: 2,
+                        fontFamily: '"Space Grotesk", sans-serif',
+                        fontWeight: 600,
+                        fontSize: '1.05rem',
                         color: 'text.primary',
+                        mb: 0.75,
                       }}
                     >
-                      Drop your resume here or choose file
+                      Drop your resume or choose file
                     </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        mb: 3,
-                        color: 'text.secondary',
-                      }}
-                    >
-                      PDF (Max 5MB)
+                    <Typography sx={{ mb: 3, color: 'text.secondary', fontSize: '0.875rem' }}>
+                      PDF · max 5 MB
                     </Typography>
-                    
+
                     <input
                       type="file"
                       accept=".pdf"
@@ -373,28 +466,46 @@ export default function CareerStages() {
                       style={{ display: 'none' }}
                       ref={fileInputRef}
                     />
-                    
+
                     <Button
                       variant="contained"
                       onClick={handleButtonClick}
-                      sx={{
-                        py: 1.5,
-                        px: 4,
-                        borderRadius: '8px',
-                        fontWeight: 500,
-                      }}
                       startIcon={<FaUpload />}
+                      sx={{
+                        py: 1.4,
+                        px: 3.5,
+                        borderRadius: '10px',
+                        fontWeight: 600,
+                        textTransform: 'none',
+                        letterSpacing: '0.01em',
+                        backgroundImage:
+                          'linear-gradient(135deg, #3F51B5 0%, #1E2A78 100%)',
+                        boxShadow:
+                          '0 10px 24px -12px rgba(0, 229, 255, 0.22), ' +
+                          'inset 0 1px 0 0 rgba(255, 255, 255, 0.12)',
+                        transition:
+                          'transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15), ' +
+                          'box-shadow 0.28s ease',
+                        '&:hover': {
+                          backgroundImage:
+                            'linear-gradient(135deg, #4A5CC5 0%, #2A3890 100%)',
+                          transform: 'translateY(-2px)',
+                          boxShadow:
+                            '0 14px 38px -10px rgba(0, 229, 255, 0.4), ' +
+                            'inset 0 1px 0 0 rgba(255, 255, 255, 0.16)',
+                        },
+                      }}
                     >
                       Upload Resume
                     </Button>
-                    
+
                     {file && (
-                      <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
-                        Selected: {file.name} ({formatFileSize(file.size)})
+                      <Typography sx={{ mt: 2, color: 'text.secondary', fontSize: '0.875rem' }}>
+                        Selected: {file.name} · {formatFileSize(file.size)}
                       </Typography>
                     )}
                   </Box>
-                </Paper>
+                </Box>
               </motion.div>
             </Grid>
           </Grid>
@@ -402,4 +513,4 @@ export default function CareerStages() {
       </Box>
     </>
   );
-} 
+}

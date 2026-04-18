@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import {
@@ -17,7 +18,6 @@ import {
   Container,
   Menu,
   MenuItem,
-  Typography,
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AuthButtons from './AuthButtons';
@@ -51,48 +51,34 @@ export default function Navbar() {
     { href: "/about", label: "About" },
   ];
 
+  // Combined mark + wordmark. Source asset is 969x429 (~2.26:1); rendered
+  // at a navbar-appropriate height and scaled by intrinsic aspect ratio.
   const Logo = (
     <Box
       component={Link}
       href="/"
+      aria-label="ResuAI — Home"
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: 1.2,
         textDecoration: 'none',
+        // Keep a fixed display height; width auto-scales from aspect ratio.
+        height: 44,
+        position: 'relative',
       }}
     >
-      <Box
-        sx={{
-          width: 36,
-          height: 36,
-          borderRadius: '10px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'linear-gradient(135deg, #3F51B5 0%, #00E5FF 100%)',
-          color: '#0B0D10',
-          fontFamily: '"Space Grotesk", sans-serif',
-          fontWeight: 800,
-          fontSize: 18,
-          letterSpacing: '-0.02em',
-          boxShadow: '0 6px 18px -6px rgba(0, 229, 255, 0.55)',
+      <Image
+        src="/resuai-logo.png"
+        alt="ResuAI"
+        width={969}
+        height={429}
+        priority
+        style={{
+          height: '100%',
+          width: 'auto',
+          display: 'block',
         }}
-      >
-        R
-      </Box>
-      <Typography
-        component="span"
-        sx={{
-          fontFamily: '"Space Grotesk", sans-serif',
-          fontSize: 22,
-          fontWeight: 700,
-          color: 'text.primary',
-          letterSpacing: '-0.02em',
-        }}
-      >
-        Resu<Box component="span" sx={{ color: 'info.main' }}>AI</Box>
-      </Typography>
+      />
     </Box>
   );
 

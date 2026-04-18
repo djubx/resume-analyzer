@@ -2,17 +2,15 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import {
   Box,
   Container,
   Typography,
   Grid,
-  Button,
-  Card,
-  CardContent,
+  Stack,
 } from '@mui/material';
-
-// Define service icons
+import { ArrowForward } from '@mui/icons-material';
 import { FaFileAlt, FaWrench, FaListAlt, FaChartLine } from 'react-icons/fa';
 
 interface ServiceItem {
@@ -20,174 +18,238 @@ interface ServiceItem {
   title: string;
   description: string;
   href: string;
+  /** Optional CTA label; falls back to "Get started" if omitted. */
+  cta?: string;
 }
 
 interface ServicesProps {
+  eyebrow?: string;
   title?: string;
+  subtitle?: string;
   services?: ServiceItem[];
 }
 
 // Priority-ordered services: Builder → Analyzer → ATS → Checklist
-const defaultServices = [
+const defaultServices: ServiceItem[] = [
   {
     icon: <FaWrench />,
     title: "Resume Builder",
-    description: "Craft a standout resume from 50+ expert-designed templates, powered by AI suggestions.",
-    href: "/create-resume"
+    description:
+      "Craft a standout resume from 50+ expert-designed templates, powered by AI suggestions for every bullet.",
+    href: "/create-resume",
+    cta: "Build a resume",
   },
   {
     icon: <FaFileAlt />,
     title: "AI Resume Analyzer",
-    description: "Instant, deep-dive insights that show you exactly what to improve — line by line.",
-    href: "/resume-analyzer"
+    description:
+      "Instant, deep-dive insights that show exactly what to improve — line by line, with before/after rewrites.",
+    href: "/resume-analyzer",
+    cta: "Analyze my resume",
   },
   {
     icon: <FaChartLine />,
     title: "ATS Score",
-    description: "Check how your resume scores against Applicant Tracking Systems used by 95% of recruiters.",
-    href: "/ats-score"
+    description:
+      "See how your resume scores against the Applicant Tracking Systems used by 95% of modern recruiters.",
+    href: "/ats-score",
+    cta: "Get my ATS score",
   },
   {
     icon: <FaListAlt />,
     title: "Resume Checklist",
-    description: "A smart, personalized checklist that ensures nothing essential is missing.",
-    href: "/resume-checklist"
-  }
+    description:
+      "A smart, personalized checklist that ensures nothing essential is missing before you hit send.",
+    href: "/resume-checklist",
+    cta: "Open checklist",
+  },
 ];
 
-export default function Services({ title = "Our Services", services = defaultServices }: ServicesProps) {
+export default function Services({
+  eyebrow = "Our toolkit",
+  title = "Four tools, one momentum.",
+  subtitle = "Pick the stage of your job search, drop in your resume, and move forward. Each tool sharpens the next.",
+  services = defaultServices,
+}: ServicesProps) {
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Typography variant="h2" align="center" sx={{ mb: 8, color: 'text.primary', fontWeight: 600 }}>
-        {title}
-      </Typography>
-      
-      <Grid container spacing={4} justifyContent="center">
-        {services.map((service, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <Card
+    <Box sx={{ py: { xs: 10, md: 14 }, bgcolor: 'background.default' }}>
+      <Container maxWidth="lg">
+        {/* Section header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+        >
+          <Box sx={{ textAlign: 'center', mb: { xs: 8, md: 10 }, maxWidth: 680, mx: 'auto' }}>
+            <Typography
               sx={{
-                height: 400,
-                display: 'flex',
-                flexDirection: 'column',
-                borderRadius: '20px',
-                border: '1px solid',
-                borderColor: 'divider',
-                boxShadow: 'none',
-                overflow: 'hidden',
-                backgroundColor: 'background.paper',
-                position: 'relative',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: '0 18px 40px -18px rgba(0, 229, 255, 0.25)',
-                  borderColor: 'rgba(0, 229, 255, 0.4)',
-                }
+                display: 'inline-block',
+                textTransform: 'uppercase',
+                letterSpacing: '0.18em',
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                color: 'info.main',
+                mb: 2,
               }}
             >
-              {/* Background Shape */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '70%',
-                  height: '35%',
-                  borderBottomRightRadius: '100%',
-                  background: 'radial-gradient(circle at top left, rgba(63, 81, 181, 0.22), transparent 70%)',
-                  zIndex: 0,
-                }}
-              />
-              
-              {/* Icon Circle */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: 40,
-                  left: 40,
-                  width: 72,
-                  height: 72,
-                  borderRadius: '18px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'linear-gradient(135deg, rgba(63, 81, 181, 0.25), rgba(0, 229, 255, 0.15))',
-                  border: '1px solid rgba(0, 229, 255, 0.25)',
-                  color: 'info.main',
-                  fontSize: '1.75rem',
-                  zIndex: 1,
-                  transition: 'transform 0.3s ease, background-color 0.3s ease',
-                  '.MuiCard-root:hover &': {
-                    transform: 'scale(1.05)',
-                  }
-                }}
+              {eyebrow}
+            </Typography>
+            <Typography
+              variant="h2"
+              sx={{
+                fontFamily: '"Space Grotesk", sans-serif',
+                fontWeight: 700,
+                fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+                letterSpacing: '-0.02em',
+                lineHeight: 1.1,
+                color: 'text.primary',
+                mb: 2.5,
+              }}
+            >
+              {title}
+            </Typography>
+            <Typography sx={{ color: 'text.secondary', fontSize: { xs: '1rem', md: '1.1rem' }, lineHeight: 1.6 }}>
+              {subtitle}
+            </Typography>
+          </Box>
+        </motion.div>
+
+        <Grid container spacing={{ xs: 3, md: 3.5 }} justifyContent="center">
+          {services.map((service, index) => (
+            <Grid item xs={12} sm={6} md={3} key={service.title}>
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.55, delay: index * 0.08 }}
+                style={{ height: '100%' }}
               >
-                {service.icon}
-              </Box>
-              
-              <CardContent sx={{ 
-                p: 4, 
-                pt: '160px', 
-                pb: 5,
-                flexGrow: 1, 
-                display: 'flex', 
-                flexDirection: 'column',
-                zIndex: 1,
-                position: 'relative',
-              }}>
-                <Typography 
-                  variant="h3" 
-                  sx={{ 
-                    mb: 2, 
-                    fontWeight: 600,
-                    fontSize: '1.75rem',
-                    color: 'text.primary',
-                  }}
-                >
-                  {service.title}
-                </Typography>
-                
-                <Typography 
-                  variant="body1" 
-                  color="text.secondary" 
-                  sx={{ 
-                    mb: 3,
-                    flexGrow: 1,
-                    fontSize: '1rem',
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {service.description}
-                </Typography>
-                
-                <Button
+                <Box
                   component={Link}
                   href={service.href}
-                  variant="contained"
-                  fullWidth
                   sx={{
-                    mt: 'auto',
-                    py: 1.5,
-                    borderRadius: '100px',
-                    backgroundColor: 'primary.main',
-                    color: 'white',
-                    textTransform: 'none',
-                    fontWeight: 500,
-                    fontSize: '1rem',
-                    transition: 'transform 0.2s ease',
+                    position: 'relative',
+                    height: '100%',
+                    minHeight: 320,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    p: { xs: 3, md: 3.5 },
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    textDecoration: 'none',
+                    backgroundColor: 'rgba(245, 247, 250, 0.04)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(245, 247, 250, 0.08)',
+                    boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                    transition:
+                      'transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.15), ' +
+                      'border-color 0.4s ease, ' +
+                      'box-shadow 0.4s ease',
                     '&:hover': {
-                      backgroundColor: 'primary.dark',
-                      transform: 'scale(1.02)',
+                      transform: 'translateY(-4px)',
+                      borderColor: 'rgba(0, 229, 255, 0.35)',
+                      boxShadow:
+                        '0 18px 44px -22px rgba(0, 229, 255, 0.3), ' +
+                        'inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
+                      '& .service-arrow': {
+                        transform: 'translateX(4px)',
+                      },
+                    },
+                    // Corner gradient wash
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: 160,
+                      height: 160,
+                      borderBottomRightRadius: '100%',
+                      background:
+                        'radial-gradient(circle at top left, rgba(63, 81, 181, 0.22), transparent 65%)',
+                      pointerEvents: 'none',
                     },
                   }}
                 >
-                  Get Started
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+                  {/* Icon tile */}
+                  <Box
+                    sx={{
+                      width: 56,
+                      height: 56,
+                      borderRadius: '12px',
+                      mb: 3,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background:
+                        'linear-gradient(135deg, rgba(63, 81, 181, 0.25), rgba(0, 229, 255, 0.18))',
+                      border: '1px solid rgba(0, 229, 255, 0.28)',
+                      color: 'info.main',
+                      fontSize: '1.4rem',
+                      position: 'relative',
+                      zIndex: 1,
+                    }}
+                  >
+                    {service.icon}
+                  </Box>
+
+                  <Typography
+                    sx={{
+                      fontFamily: '"Space Grotesk", sans-serif',
+                      fontWeight: 700,
+                      fontSize: '1.25rem',
+                      letterSpacing: '-0.01em',
+                      color: 'text.primary',
+                      mb: 1.25,
+                      position: 'relative',
+                      zIndex: 1,
+                    }}
+                  >
+                    {service.title}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      color: 'text.secondary',
+                      fontSize: '0.95rem',
+                      lineHeight: 1.6,
+                      flex: 1,
+                      mb: 2.5,
+                      position: 'relative',
+                      zIndex: 1,
+                    }}
+                  >
+                    {service.description}
+                  </Typography>
+
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={0.75}
+                    sx={{
+                      color: 'info.main',
+                      fontWeight: 600,
+                      fontSize: '0.9rem',
+                      position: 'relative',
+                      zIndex: 1,
+                    }}
+                  >
+                    <Box>{service.cta ?? 'Get started'}</Box>
+                    <ArrowForward
+                      className="service-arrow"
+                      sx={{
+                        fontSize: 16,
+                        transition: 'transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.3)',
+                      }}
+                    />
+                  </Stack>
+                </Box>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </Box>
   );
-} 
+}

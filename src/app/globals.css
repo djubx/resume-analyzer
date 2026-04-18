@@ -66,6 +66,106 @@ h1, h2, h3, h4, h5, h6 {
   50%      { transform: translateY(-8px); }
 }
 
+/* ======= Interactive hero grid =======
+   Each cell scales up and glows cyan based on its Euclidean distance
+   to the cursor. Container sets --mx/--my in "cell units" (0..cols/rows);
+   cells carry their own position via --i/--j (inline style). */
+.hero-grid {
+  /* Tuning knobs only — never override --mx/--my here, or inheritance
+     from a JS-set parent value would be shadowed. */
+  --grid-radius: 2.5;     /* cells of influence (tight halo)    */
+  --grid-max-scale: 0.6;  /* extra scale at cursor center       */
+  --grid-max-glow: 0.02;  /* glow alpha at cursor center (whisper) */
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 95%);
+          mask-image: radial-gradient(ellipse at center, #000 55%, transparent 95%);
+}
+.hero-grid-cell {
+  /* Fallback (-999) parks cells outside the influence radius when
+     the pointer is off-hero, keeping proximity clamped to 0.
+     Using squared distance (no sqrt/hypot dependency) gives a
+     quadratic circular falloff with maximum browser support. */
+  --dx: calc(var(--mx, -999) - var(--i, 0) - 0.5);
+  --dy: calc(var(--my, -999) - var(--j, 0) - 0.5);
+  --dist-sq: calc(var(--dx) * var(--dx) + var(--dy) * var(--dy));
+  --radius-sq: calc(var(--grid-radius) * var(--grid-radius));
+  --proximity: max(0, calc(1 - var(--dist-sq) / var(--radius-sq)));
+  position: relative;
+  border-right: 1px solid rgba(245, 247, 250, 0.05);
+  border-bottom: 1px solid rgba(245, 247, 250, 0.05);
+  transform-origin: center;
+  transform: scale(calc(1 + var(--grid-max-scale) * var(--proximity)));
+  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  will-change: transform;
+}
+.hero-grid-cell::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 4px;
+  background: rgba(0, 229, 255, calc(var(--grid-max-glow) * var(--proximity)));
+  box-shadow: 0 0 calc(3px * var(--proximity)) rgba(0, 229, 255, calc(0.03 * var(--proximity)));
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid-cell { transition: none; transform: none; }
+  .hero-grid-cell::before { background: transparent; box-shadow: none; }
+}
+
+/* ======= Hero CTA rotating-orbit border =======
+   On hover, a short indigo→cyan arc travels around the button's
+   border via an animated conic-gradient whose start angle is the
+   custom property `--orbit-angle`. `@property` makes that property
+   interpolatable; mask-composite carves the conic down to just the
+   border ring so the center stays clean. */
+@property --orbit-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+.hero-cta-orbit {
+  position: relative;
+  isolation: isolate;              /* keep pseudo's z-index local    */
+  overflow: visible !important;    /* ensure glow isn't clipped      */
+}
+.hero-cta-orbit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;                    /* thickness of the glowing ring  */
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--orbit-angle),
+    transparent 0deg,
+    transparent 270deg,
+    #3F51B5 305deg,                /* indigo leading edge            */
+    #00E5FF 345deg,                /* cyan head                      */
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box,
+                linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box,
+                linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude; /* keep only the border band      */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;                     /* behind text, above button bg   */
+}
+.hero-cta-orbit:hover::before,
+.hero-cta-orbit:focus-visible::before {
+  opacity: 1;
+  animation: hero-cta-orbit 2.4s linear infinite;
+}
+@keyframes hero-cta-orbit {
+  to { --orbit-angle: 360deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta-orbit:hover::before,
+  .hero-cta-orbit:focus-visible::before { animation: none; }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
